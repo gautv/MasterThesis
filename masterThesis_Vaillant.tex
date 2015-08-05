@@ -94,7 +94,7 @@ The coulombic interaction between two charged particles can be written the follo
 	\label{coulombComplete}
 \end{equation}
 
-where $q_A $ and $q_B$ are respectively the charges of A and B, and $R_{AB}$ is the distance between $A$ and $B$.
+where $q_A $ and $q_B$ are respectively the charges of A and B, ansection{Possible improvements}d $R_{AB}$ is the distance between $A$ and $B$.
 
 In the thesis we will simplify the units of ~\eqref{coulombComplete} for computational reasons by just writing :
 
@@ -176,7 +176,7 @@ However, one of the problems of this optimisation, especially for long-range int
  \centering
  
 \caption{Radial distribution function (RDF) $g(r)$ between the two
-central atoms in the headgroup of a molecule: Cutoff distances are indicated by arrows. from ...}
+central atoms in the headgroup of a molecule: Cutoff distances are indicated by arrows. from [ADD REFERENCE]}
 
 \label{fig:artefact}
 
@@ -299,8 +299,8 @@ where $S(\textbf{n}^* )$ is defined as the Structure factor:
 \end{equation}
 
 
-The idea of the method is the following : In order to apply a FFT to the system, it is needed to "map" the positions of the charges on a grid of size $ p \times p $ . We will define $p$ as the order of the PME scheme. Let also define $\mathcal{F}(Q)$ the 3D FFT of $Q$. The charges $q_i$ are mapped to the grid using interpolation. 
-Originally, lagrange interpolation was used, but now a b-spline interpolation is used.
+The idea of the method is the following : In order to apply a FFT to the system, it is needed to "map" the positions of the charges on a grid of size $ p \times p $ . We will define the size of the Grid as the \textit{Fourier Spacing}. Let also define $\mathcal{F}(Q)$ the 3D FFT of $Q$. The charges $q_i$ are mapped to the grid using interpolation. 
+Originally, lagrange interpolation was used, but now a b-spline interpolation is used. The order of interpolation is called the \textit{PME Order}\\
 
 then the Structure factor can be approximated as its FFT :
 
@@ -413,7 +413,9 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 	
 	\subsubsection{Spliting the Space}
 	
-	The first step of the scheme is to split the space in order to generate different groups. The idea is to recursively split the spqce in eight octant, created the so-called structure of an \textit{octree}. 
+	The first step of the scheme is to split the space in order to generate different groups. The idea is to recursively split the space in eight octants, created the so-called structure of an \textit{octree}. So the number of boxes is $8^{D-1}$, where $D$ is the depth of the oct-tree.
+	
+		
 	
 	\begin{figure}[H]
 	
@@ -447,6 +449,17 @@ Then each multipole order can be moved to the Center of the box using the so-cal
     \end{equation}
 
    $O_{l-j,m-k}(\textbf{b})$ is called the $M2M$ operator
+   
+   \begin{figure}[H]
+   \includegraphics[scale=0.4]{ShiftMultipole}
+    \centering 
+    \caption{Example in 1-D showing the shifting of the multipole moments using the M2M operator. }
+    \label{fig:ShiftMultipole}
+   \end{figure}
+   
+   	\subsubsection{Transforming distant expansions into multipoles}
+   	
+   	
 
 
 
@@ -477,7 +490,36 @@ Then each multipole order can be moved to the Center of the box using the so-cal
 	\end{itemize}
 		
 	\subsection{PME parameters}
+	
+	In this paragraph I will explain the parameters it is possible to play with:
+	
+	\begin{enumerate}
+	
+
+	\item[\textbf{CutOff}] The first parameter is the CutOff : It allows to set the Cut-Off radius for the Cut-Off method, but it also sets the difference between the direct part and the reciprocal part in the PME method
+	
+	\item[\textbf{Fourier Spacing}] The other important parameter is the fourier spacing. I remind that in the PME method a 3D FFT is done in order to compute the energies and the forces of the system. The FFT is so computed on a grid : The dimension of the grid is given by the \textit{Fourier Spacing} parameter.
+	
+	\item[\textbf{PME Order}] The PME order gives the order of the interpolation. For instance, PMEorder$= 4$ corresponds to a cubic interpolation. 		
+	
+	\end{enumerate}
+	
+\section{Presentation of fmsolvr}	
+
+
+
+
+	
+\section{Making GROMACS and fmsolvr comparable}	
+
+\subsection{File manipulation}
+\subsection{Adding Dipole correction to }
+
+
+
 \section{Error plots}
+
+\chapter*{Conclusion}
 
 \nocite{*}
 \bibliographystyle{plain}
