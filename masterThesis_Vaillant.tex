@@ -460,6 +460,8 @@ Then each multipole order can be moved to the Center of the box using the so-cal
    	\subsubsection{Transforming distant expansions into multipoles}
    	
    	
+   	
+   	
 
 
 
@@ -503,6 +505,32 @@ Then each multipole order can be moved to the Center of the box using the so-cal
 	\item[\textbf{PME Order}] The PME order gives the order of the interpolation. For instance, PMEorder$= 4$ corresponds to a cubic interpolation. 		
 	
 	\end{enumerate}
+	
+	\subsection{Command to launch a GROMACS simulation }	
+	
+The workflow to laumch a GROMACS Simulation is the following : 
+
+\begin{enumerate}
+
+\item Generate a .tpr binary file conaining all the information about the simulation. The file is processed using the \textit{grompp} (Gromacs Preprocessor). The command is :
+
+
+{\centering\tt {grompp -f mdpfile \\
+	 -p topFile.top \\
+	 -c pdbFile.pdb \\
+	 -o tprFile.tpr \\ 
+ }}
+
+\vspace{5mm}
+where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the opsition of the Atoms). The *.tpr file ris the output file.
+
+It is then possible to run the simulation using the program mdrun, which as its name stands, runs the md simulation.
+
+
+
+\end{enumerate}	
+	
+	
 	
 \section{Presentation of fmsolvr}	
 
