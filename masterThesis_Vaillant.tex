@@ -12,6 +12,7 @@
 \usepackage[usenames, dvipsnames]{color}
 \usepackage{fancyhdr}
 \usepackage[toc,page]{appendix}
+\usepackage{subfig}
 
 
 \title{Title to find ...}
@@ -23,6 +24,8 @@
 \fancyfoot[R]{\thepage} % except the center
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
+
+\setcounter{secnumdepth}{5}
 
 \pagestyle{newstyle}
 
@@ -53,6 +56,10 @@ La simulation de larges systemes de particules en interaction est tres important
 \tableofcontents
 
 \chapter*{Presentation of the Lab}
+\section*{Max Planck Institute for Biophysical Chemistry}
+\section*{Department of Theoretical and Computational Biophysics}
+
+
 \chapter*{Context of the Internship}
 
 The Context of this Internship is driven by the "SPPEXA (Software for exascale computing) / GromEx" project funded by the DFG (Deutsche Forschungsgeimeinschaft).
@@ -61,14 +68,10 @@ The Idea of this project is to create a flexible and fast solver for computing f
 A poster\footnote{from http://www.mpibpc.mpg.de/grubmueller/sppexa}   of the project can be found below :
 
 \begin{figure}[H]
-
 \includegraphics[scale=2]{sppexa-poster}
- \centering
- 
+ \centering 
 \caption{Poster for the SPEXXA project}
-
 \label{fig:poster}
-
 \end{figure}
 
 
@@ -333,6 +336,15 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 	Let two particles $A(a,\alpha,\beta)$ and $B(r,\theta,\phi)$, separated by a certain distance $d$: The distance between the particles is $d = |a - r|$.
 	We would like to achieve is to "factorize the addition", having a product of one function depending only on $a$ and one depending only on $r$.
 	
+	
+\begin{figure}[H]
+\includegraphics[scale=0.4]{distance}
+ \centering 
+\caption{Figure representing two particles $A(a,\alpha,\beta)$ and $B(r,\theta,\phi)$, separated by a certain distance $d$}
+\label{fig:poster}
+\end{figure}	
+	
+	
 	The inverse distance can be written as :
 	
 	\begin{equation*}
@@ -418,14 +430,9 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 		
 	
 	\begin{figure}[H]
-	
-
-    \includegraphics[scale=0.9]{BoxDepth}
-    
-    \centering
- 
-    \caption{Example of a division of the space in boxes. The following example is in 2D so the structure of the space is a \textit{quadtree}.}
-    
+    \includegraphics[scale=0.9]{BoxDepth}    
+    \centering 
+    \caption{Example of a division of the space in boxes. The following example is in 2D so the structure of the space is a \textit{quadtree}.}    
     \label{fig:depth}
      \end{figure}
 	
@@ -434,7 +441,26 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
     
     It is then possible to assign each particle of the simulation to the boxes of lowest depth.
     
-    \subsubsection{Computing the Multipole moments}
+	\subsubsection{Defining a Separation Criterion}
+	
+	For the further Computations it is needed to define a separation criterion $ws$: It is the $ws^{th}$ next neighbours of a given box. Two boxes A and B are called \textit{next neighbors} is they are at the same level and box B is enclosed by a box of size $(2 ws + 1)^3$ arround the center of A 
+	
+	
+	
+	
+	\begin{figure}[H]
+    \includegraphics[scale=0.7]{separation}    
+    \centering 
+    \caption{Example of the influence of the separation criterion $ws$ for a given box $A$, from left to right, $ws = 1,2,3$.}    
+    \label{fig:depth}
+     \end{figure}
+	
+		This separation criterion divides the space into two parts. If two particles are close so they are in the same grey space as defined figure (\ref{fig:multipole}), then, they will interact via a direct $\mathcal{O}(N^2)$ coulombic interaction ; else they will interact via using the FMM Method.
+	
+	It is most of the tijme not possible to set the separation criterion $ws$ to 0, as the multipole expansion might overlap. Using a bigger ws means that the order of the multipole expansions need to be less important for the same precision, however this will increase the number of direct $\mathcal{O}(N^2)$ operation, which are  more computationally expensive.       
+    
+    
+    \subsubsection{PASS 1 : Computing the Multipole moments}
     
     Once every particle is assigned to its box, we will compute the multipole moment $\omega_{lm}^j$ of each box.
     
@@ -454,16 +480,107 @@ Then each multipole order can be moved to the Center of the box using the so-cal
    \includegraphics[scale=0.4]{ShiftMultipole}
     \centering 
     \caption{Example in 1-D showing the shifting of the multipole moments using the M2M operator. }
-    \label{fig:ShiftMultipole}
+    \label{fig:multipole}
    \end{figure}
    
-   	\subsubsection{Transforming distant expansions into multipoles}
+   
+   	\subsubsection{PASS 2 : Transforming distant expansions into multipoles}
+   	
+   	Now it is possible to transform distant expansions (above the separation criterion) $\omega_{lm}$ into a taylor-like moment $\mu_{lm}$. This transformation is done over at most 189 boxes. This transformation is applied for each depth of the tree.  
    	
    	
-   	
-   	
+ \begin{figure}[H]
+ 	\label{fig:M2L}
+   \includegraphics[scale=0.8]{transformExpansions1}
+    \centering 
+    \caption{Example in 1-D showing the transformation of distant expansions into multipoles}
+    
+   \end{figure}
+   
+	In order to compute this tranformation, two different rules have to be applied:
+	
+	\begin{itemize}
+	
+	\item The first rule is to take the non-separted parent boxes, as shoed subfigure (a) below.
+	\item Then the children of the parent box are selected, taking into account the separation criterion for the child boxes.
+	
+	\end{itemize}	   
+   
+	 
+ \begin{figure}[H]
+   \subfloat[First, the parents of the box are chosen] {\label{fig:parentBox} \includegraphics[scale=0.6]{transformExpansions2}}   
+   \subfloat[Then, then children of the parents are chosen. Then the separation criterion can apply] {\includegraphics[scale=0.6]{transformExpansions3}}
+    \centering 
+    \caption{Interation Rules for the transformation of the multipole expansions}
+    \label{fig:multipole}
+   \end{figure}   
+   
+	  Mathematically speaking, the transformation from multipole expansions to multipole moments is given using the  M2L (Multipole to Local) Operator
+	  
+	  \begin{equation}
+	  \mu_{lm}(\textbf{b} - \textbf{a}) = \sum\limits_{j = 0}^{+\infty} \sum\limits_{k=-j}^{j}
+	  M_{j+l,k+m}(\textbf{b}) \cdot \omega_{jk}(\textbf{(a)})
+	  \end{equation}
+   
+   	where $M_{j+l,k+m}(\textbf{b})$ is the M2L operator : It allows to exchange, as figure (\ref{fig:M2L}) shows, information between boxes of the same level.
 
+\subsubsection{PASS 3 : Shift Taylor-Like expansions down the tree}
 
+Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted to the lowest level of the tree using the L2L (Local to Local) operator.
+
+	\begin{figure}[H]
+	\label{fig:L2L}
+   \includegraphics[scale=0.4]{L2L_1}
+    \centering 
+    \caption{Example in 1-D showing the shifting of the local moments using the L2L operator. }
+    
+   \end{figure}
+    
+ 	This shift operation is done by the following formula :
+ 	
+ 	  \begin{equation}
+	  \mu_{lm}(\textbf{r} - \textbf{b}) = \sum\limits_{j = l}^{p} \sum\limits_{k=-j}^{j}
+	  O_{j-l,k-m}(\textbf{b}) \cdot \mu_{jk}(\textbf{(a)})
+	  \end{equation}
+ 
+ 		where $O_{j-l,k-m}(\textbf{b})$ is the L2L operator : It allows to exchange, as figure (\ref{fig:M2L}) shows, information between levels downwards.
+ 		
+ \subsubsection{PASS 4 : Computing forces and Energies}
+ 
+ 
+ After PASS 3, we have at the lowest level both the multipole expansion as well as the local expansion. 
+ 
+\begin{figure}[H]
+	\label{fig:farfield}
+   \includegraphics[scale=0.5]{farfield}
+    \centering 
+    \caption{Situation after PASS 3 }
+    
+   \end{figure} 
+   
+   Then we have everything to compute the far-field contribution for the forces or the portentials of the system.\\
+   
+   So we have for the Electric Field :
+      
+   \begin{equation}
+   E_{FF} = \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \omega_{lm}(\textbf{a})
+   \end{equation}
+   
+   For the Potential :
+ 
+ 	\begin{equation}
+   \Phi_{FF} = - \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \nabla_{\textbf{a}_i}[a_i^l \widetilde{P}_{lm}(\cos\alpha_i)e^{-im\beta_i}]
+   \end{equation}
+   
+   and for the Force :
+   
+   \begin{equation}
+   \textbf{F}_{FF} = - \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \nabla_{\textbf{a}_i}[a_i^l \widetilde{P}_{lm}(\cos\alpha_i)e^{-im\beta_i}]
+   \end{equation}
+   
+ 
+
+ 
 
 \chapter{Comparing FMM and PME accuracy}
 
@@ -524,14 +641,22 @@ The workflow to laumch a GROMACS Simulation is the following :
 \vspace{5mm}
 where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the opsition of the Atoms). The *.tpr file ris the output file.
 
-It is then possible to run the simulation using the program mdrun, which as its name stands, runs the md simulation.
+\item It is then possible to run the simulation using the program mdrun, which as its name stands, runs the md simulation. A possible example is :
 
+{\centering\tt { mdrun -s tprfile.tpr \\
+				 -ntomp = 4  			\\		
+				 -ntmpi = 4				 \\
+				 -nsteps= 0     		  \\  
+ }}
+ 
+\vspace{5mm}
 
+Where the .tpr File is now the input file, containing everything about the simulation, -nsteps is the number of time steps needed (In the case of this Intership, no time intergration is needed as just the forces are required). It is also possible to choose the number of CPU cores needed for the simulation (Using MPI and OpenMP).
 
 \end{enumerate}	
 	
 	
-	
+	1
 \section{Presentation of fmsolvr}	
 
 
@@ -554,6 +679,7 @@ It is then possible to run the simulation using the program mdrun, which as its 
 \bibliography{biblio} 
 
 \begin{appendices}
+\chapter{Glossary}
 \chapter{Structure of Gromacs files}
 The contents...
 \end{appendices}
