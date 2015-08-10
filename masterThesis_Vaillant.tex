@@ -578,7 +578,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted
    \textbf{F}_{FF} = - \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \nabla_{\textbf{a}_i}[a_i^l \widetilde{P}_{lm}(\cos\alpha_i)e^{-im\beta_i}]
    \end{equation}
    
- 
+ Then the near-field contribution can be easiliy computed : 
 
  
 
@@ -627,9 +627,9 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted
 	
 The workflow to laumch a GROMACS Simulation is the following : 
 
-\begin{enumerate}
 
-\item Generate a .tpr binary file conaining all the information about the simulation. The file is processed using the \textit{grompp} (Gromacs Preprocessor). The command is :
+
+First generate a .tpr binary file conaining all the information about the simulation. The file is processed using the \textit{grompp} (Gromacs Preprocessor). The command is :
 
 
 {\centering\tt {grompp -f mdpfile \\
@@ -639,9 +639,9 @@ The workflow to laumch a GROMACS Simulation is the following :
  }}
 
 \vspace{5mm}
-where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the opsition of the Atoms). The *.tpr file ris the output file.
+where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the opsition of the At and contains arroundoms). The *.tpr file ris the output file.
 
-\item It is then possible to run the simulation using the program mdrun, which as its name stands, runs the md simulation. A possible example is :
+It is then possible to run the simulation using the program mdrun, which as its name stands, runs the md simulation. A possible example is :
 
 {\centering\tt { mdrun -s tprfile.tpr \\
 				 -ntomp = 4  			\\		
@@ -653,24 +653,58 @@ where the input files are the *.mdp , *.top and *.pdb (Respectively properties o
 
 Where the .tpr File is now the input file, containing everything about the simulation, -nsteps is the number of time steps needed (In the case of this Intership, no time intergration is needed as just the forces are required). It is also possible to choose the number of CPU cores needed for the simulation (Using MPI and OpenMP).
 
-\end{enumerate}	
-	
-	
-	1
 \section{Presentation of fmsolvr}	
 
-
-
-
+	The software used to compute the electrostatic forces with the FMM is not gromacs (at least not for the moment). It is develloped by both the Max-Planck Institut for Biophysical Chemistry and the Jülich Forschungszentrum . In the following chapters, we will call this code \textit{fmsolvr}. 
 	
+	The codebase is mostly written in C++.  There exists several git branches for the program, allowing different versions of the system.	
+The First version is a sequential version, which is the "basic" version of the FMM code . There also exists a version which allows periodic boundary conditions : We will use this version a lot as we need to campare it to the PME, which, by construction, uses periodic boundary conditions.	
+
+The input file, is a *.hpp file containing 4 arrays of size $N$, where $N$ is the number of atoms in the simulation : one charge array $q$ , and three array $x,y,z$ for the positions of the atoms.
+
+\subsection{FMM Parameters}
+
+The simulation can be launched using the following command : 
+
+{\centering\tt { DEPTH=\${DEPTH}  MULTIPOLEORDER=\${MULTIPOLEORDER}  WS=\${WS} \\ 
+OPENBOUNDARY=0 UNITBOX=\${UNITBOX} CENTER=c \\
+./fmmtest \$inputFile.qxyz \$outputFile.dat \\					
+ }}
+
+The environment variables are the following :
+
+\begin{description}
+\item[DEPTH] The maximal subdivision of the space : if DEPTH=n the space will be divided in $8^{n}$ boxes.
+
+\item[MULTIPOLEORDER] The Order of truncation in a the series, for instance :
+\begin{equation*}
+	\frac{1}{|r - a|} \simeq \sum\limits_{l=0}^{\textcolor{red}{p}} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \alpha)}
+	\end{equation*}
+	
+	where the multipole order is the red \textcolor{red}{p} in the first summation.
+	
+	
+\item[WS] This gives the separation criterion $ws \geq 1$, which separates the far-field computation from the near space.
+
+\item[OPENBOUDARY] if OPENBOUNDARY = 0, periodic boundary conditions will be used, if OPENBOUNDARY=1, then openbondaries will be used.
+
+\item[UNITBOX] Gives the size of the simulation box (in nm.
+
+\end{description}
+ 	
 \section{Making GROMACS and fmsolvr comparable}	
 
+The first part, if we want to make the PME and the FMM comparable, is to use the same simulation for both programs, hence requiring coding some tools transforming a GROMACS-compatible file to fmsolvr-compatible one. Then, we saw that the results we obtained weren't good enough as one system was using some dipole correction, so we needed to implements the dipole correction to the FMM system.
+
 \subsection{File manipulation}
-\subsection{Adding Dipole correction to }
+
+\subsubsection{Making GROMACS omly compute electrostatics forces}
+\subsubsection{Assure compatibility between *.qxyz and *.pdb files}
 
 
+\subsection{Adding Dipole correction to fmsolvr}
 
-\section{Error plots}
+\section{Discussion}
 
 \chapter*{Conclusion}
 
