@@ -15,7 +15,7 @@
 \usepackage{subfig}
 
 
-\title{Title to find ...}
+\title{A super cool scientific Title ...}
 \author{Gautier VAILLANT}
 
 \fancypagestyle{newstyle}{
@@ -90,14 +90,14 @@ In this section, we will explain the most basic method to compute pairwise inter
 
 \subsection{Naive Method}
 
-The coulombic interaction between two charged particles can be written the following way:
+The coulombian interaction between two charged particles can be written the following way:
 
 \begin{equation}
 	\overrightarrow{F}_{A \rightarrow B} = \frac{q_A q_B \hat{r}_{AB} }{4\pi\epsilon_0|R_{AB}|^2}
 	\label{coulombComplete}
 \end{equation}
 
-where $q_A $ and $q_B$ are respectively the charges of A and B, ansection{Possible improvements}d $R_{AB}$ is the distance between $A$ and $B$.
+where $q_A $ and $q_B$ are respectively the charges of A and B, and $R_{AB}$ is the distance between $A$ and $B$.
 
 In the thesis we will simplify the units of ~\eqref{coulombComplete} for computational reasons by just writing :
 
@@ -156,7 +156,7 @@ The complexity of such a computation limits its use to rather small systems and 
 
 \subsection{Possible improvements}
 
-A possible improvement is to limit the interaction to a certain radius : if the distance between two particles if greater tham $R_0$, then the force is set to $0$.
+A possible improvement is to limit the interaction to a certain radius : if the distance between two particles if greater than $R_0$, then the force is set to $0$.
 
 So we have the following system :
 
@@ -169,9 +169,9 @@ So we have the following system :
 	\end{cases}
 \end{equation}
 
-This technique is for example used for Lennard-Jones potentials ($V_{LJ} = 4\epsilon [(\frac{\sigma}{r})^12 - (\frac{\sigma}{r})^6] $), where the Intensity of the force is quickly decreasing. It allows to limit the number of interactions to only the close neighbours.\\
+This technique is for example used for Lennard-Jones potentials ($V_{LJ} = 4\epsilon [(\frac{\sigma}{r})^12 - (\frac{\sigma}{r})^6] $), where the Intensity of the force is quickly decreasing. It allows to limit the number of interactions to only the close neighbors.\\
 
-However, one of the problems of this optimisation, especially for long-range interactions such as coulombic interactions is that using a cut-off can lead to artefacts : A particle feels the force, then crosses the cut-off radius. Suddenly, the particle doesn't feel any force anymore, thus the artefacts as it is showed figure \ref{fig:artefact} .
+However, one of the problems of this optimisation, especially for long-range interactions such as coulombic interactions is that using a cut-off can lead to artefacts : A particle feels the force, then crosses the cut-off radius. Suddenly, the particle doesn't feel any force anymore, thus the artifacts as it is showed figure \ref{fig:artefact} .
 
 \begin{figure}[H]
 
@@ -179,16 +179,16 @@ However, one of the problems of this optimisation, especially for long-range int
  \centering
  
 \caption{Radial distribution function (RDF) $g(r)$ between the two
-central atoms in the headgroup of a molecule: Cutoff distances are indicated by arrows. from [ADD REFERENCE]}
+central atoms in the head-group of a molecule: Cutoff distances are indicated by arrows. from [ADD REFERENCE]}
 
 \label{fig:artefact}
 
 \end{figure}
 
 
-As we can see in figure \ref{fig:artefact},  the radial distribution of the distance between two atom shows a peak, corresponding to the cutoff of the system. This shows that by using a cut-off technique we might see some artefacts.\\
+As we can see in figure \ref{fig:artefact},  the radial distribution of the distance between two atom shows a peak, corresponding to the cutoff of the system. This shows that by using a cut-off technique we might see some artifacts.\\
 
-So the two reasons we don't use a $\mathcal{O}(N^2)$ method is first because of its complexity, and using some optimization techniques can also lead to artifacts.
+So the two reasons we don't use a $\mathcal{O}(N^2)$ method is first because of its algorithmic complexity, and using some optimization techniques can also lead to artifacts that are detrimental to the accuracy of the simulation.
 
 
 
@@ -211,7 +211,7 @@ Using periodic boundary conditions, the potential $V$ of one particle of the sys
 \end{equation}
 where $n_x,n_y,n_z$ are the box index vector.\\
 
-The equation \ref{periodicSum} is conditionally convergent and slow to converge. One technique discovered by Ewald is to split the potential in two absolutely convergent terms and one constant term:
+The equation (\ref{periodicSum}) is conditionally convergent and slow to converge. One technique discovered by Ewald is to split the potential in two absolutely convergent terms and one constant term:
 
 
 If the system is neutral, ie. $\sum_{i=1}^N q_i = 0$, The idea is to split the potential the following way :
@@ -227,7 +227,7 @@ If the system is neutral, ie. $\sum_{i=1}^N q_i = 0$, The idea is to split the p
 
 We want to choose $f$, so that $\frac{f(x)}{r}$ is quickly decaying and $\frac{1 - f(x)}{r}$ is as smooth as possible. In this decomposition $\frac{f(x)}{r}$  is as small as possible, even $0$ above a certain cut-off. Then, $\frac{1-f(x)}{r}$ is smooth enough so we can compute its Fourier transform with just a few $\overrightarrow{k}$ vectors. This gives a quick computation of the reciprocal space.
 
-a good choice is often $f(x) = \text{erfc}(\alpha x)$, where $\alpha$ is called the splitting parameter, and $\text{erfc}(x) = \frac{2}{\sqrt{\pi}} \int_{x}^{+\infty}{e^{-t^2}\text{dt}} $\\
+A good choice is often $f(x) = \text{erfc}(\alpha x)$, where $\alpha$ is called the splitting parameter, and $\text{erfc}(x) = \frac{2}{\sqrt{\pi}} \int_{x}^{+\infty}{e^{-t^2}\text{dt}} $\\
 
 so we obtain the following potentials :\\
 
@@ -276,7 +276,7 @@ Equations \ref{ewaldDirect} and \ref{ewaldReciprocal} can then be used to comput
 
 \subsection{PME}
 
-One way to imporve this method is to compute the fourier sum using the FFT (Fast Fourier Transform). This allows the algorithm to get a complexity of $\mathcal{O}(N\log N)$. There is different methods that are based on the Ewald summation, namely the \textbf{P3M} (Particle-Particle Particle-Mesh Method) or the \textbf{FFP} (Fast fourier poisson method). 
+One way to improve this method is to compute the Fourier sum using the FFT (Fast Fourier Transform). This allows the algorithm to get a complexity of $\mathcal{O}(N\log N)$. There is different methods that are based on the Ewald summation, namely the \textbf{P3M} (Particle-Particle Particle-Mesh Method) or the \textbf{FFP} (Fast Fourier Poisson method). 
 
 In our case, we will focus on the \textbf{PME} as it is the method currently used in GROMACS. \\
 
@@ -303,7 +303,7 @@ where $S(\textbf{n}^* )$ is defined as the Structure factor:
 
 
 The idea of the method is the following : In order to apply a FFT to the system, it is needed to "map" the positions of the charges on a grid of size $ p \times p $ . We will define the size of the Grid as the \textit{Fourier Spacing}. Let also define $\mathcal{F}(Q)$ the 3D FFT of $Q$. The charges $q_i$ are mapped to the grid using interpolation. 
-Originally, lagrange interpolation was used, but now a b-spline interpolation is used. The order of interpolation is called the \textit{PME Order}\\
+Originally, Lagrange interpolation was used, but now a b-spline interpolation is used. The order of interpolation is called the \textit{PME Order}\\
 
 then the Structure factor can be approximated as its FFT :
 
@@ -317,7 +317,7 @@ so the reciprocal energy can also be approximated by:
    V_{\text{reciprocal}} \approx \widetilde{V}_{\text{reciprocal}}   =\frac{1}{2 \pi V} \sum\limits_{\textbf{n}^* \neq 0}^{N}  \frac{\exp{-(\pi \overrightarrow{m}/\alpha)^2}}{m^2}\mathcal{F}(Q)(\textbf{m})\mathcal{F}(Q)(-\textbf{m})
 \end{equation} \\
 
-It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. However, one of its disadvantages is that it relies on a periodic sum, which is theoritically infinite.
+It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. However, one of its disadvantages is that it relies on a periodic sum, which is theoretically infinite. Furthermore, the algorithm doesn't scale well for large scale parallelism[REFERENCE ?], hence the need for a more scalable algorithm for the computations of electrostatic forces.
 
 
 
@@ -327,7 +327,7 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
     
 	\subsection{Mathematical preliminaries}
 	
-	Let's move back to the potiential created by a charged particle as in (\ref{potential}),
+	Let's move back to the potential created by a charged particle as in (\ref{potential}),
 	
 	\begin{equation*}
 	V = \frac{1}{d}
@@ -443,7 +443,7 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
     
 	\subsubsection{Defining a Separation Criterion}
 	
-	For the further Computations it is needed to define a separation criterion $ws$: It is the $ws^{th}$ next neighbours of a given box. Two boxes A and B are called \textit{next neighbors} is they are at the same level and box B is enclosed by a box of size $(2 ws + 1)^3$ arround the center of A 
+	For the further Computations it is needed to define a separation criterion $ws$: It is the $ws^{th}$ next neighbors of a given box. Two boxes A and B are called \textit{next neighbors} is they are at the same level and box B is enclosed by a box of size $(2 ws + 1)^3$ around the center of A 
 	
 	
 	
@@ -457,7 +457,7 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 	
 		This separation criterion divides the space into two parts. If two particles are close so they are in the same grey space as defined figure (\ref{fig:multipole}), then, they will interact via a direct $\mathcal{O}(N^2)$ coulombic interaction ; else they will interact via using the FMM Method.
 	
-	It is most of the tijme not possible to set the separation criterion $ws$ to 0, as the multipole expansion might overlap. Using a bigger ws means that the order of the multipole expansions need to be less important for the same precision, however this will increase the number of direct $\mathcal{O}(N^2)$ operation, which are  more computationally expensive.       
+	It is most of the time not possible to set the separation criterion $ws$ to 0, as the multipole expansion might overlap. Using a bigger ws means that the order of the multipole expansions need to be less important for the same precision, however this will increase the number of direct $\mathcal{O}(N^2)$ operation, which are  more computationally expensive.       
     
     
     \subsubsection{PASS 1 : Computing the Multipole moments}
@@ -486,7 +486,7 @@ Then each multipole order can be moved to the Center of the box using the so-cal
    
    	\subsubsection{PASS 2 : Transforming distant expansions into multipoles}
    	
-   	Now it is possible to transform distant expansions (above the separation criterion) $\omega_{lm}$ into a taylor-like moment $\mu_{lm}$. This transformation is done over at most 189 boxes. This transformation is applied for each depth of the tree.  
+   	Now it is possible to transform distant expansions (above the separation criterion) $\omega_{lm}$ into a Taylor-like moment $\mu_{lm}$. This transformation is done over at most 189 boxes. This transformation is applied for each depth of the tree.  
    	
    	
  \begin{figure}[H]
@@ -497,11 +497,11 @@ Then each multipole order can be moved to the Center of the box using the so-cal
     
    \end{figure}
    
-	In order to compute this tranformation, two different rules have to be applied:
+	In order to compute this transformation, two different rules have to be applied:
 	
 	\begin{itemize}
 	
-	\item The first rule is to take the non-separted parent boxes, as shoed subfigure (a) below.
+	\item The first rule is to take the non-separated parent boxes, as showed sub-figure (a) below.
 	\item Then the children of the parent box are selected, taking into account the separation criterion for the child boxes.
 	
 	\end{itemize}	   
@@ -558,7 +558,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted
     
    \end{figure} 
    
-   Then we have everything to compute the far-field contribution for the forces or the portentials of the system.\\
+   Then we have everything to compute the far-field contribution for the forces or the potentials of the system.\\
    
    So we have for the Electric Field :
       
@@ -578,7 +578,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted
    \textbf{F}_{FF} = - \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \nabla_{\textbf{a}_i}[a_i^l \widetilde{P}_{lm}(\cos\alpha_i)e^{-im\beta_i}]
    \end{equation}
    
- Then the near-field contribution can be easiliy computed : 
+ Then the near-field contribution can be easily computed : 
 
  
 
@@ -698,9 +698,24 @@ The first part, if we want to make the PME and the FMM comparable, is to use the
 
 \subsection{File manipulation}
 
-\subsubsection{Making GROMACS omly compute electrostatics forces}
-\subsubsection{Assure compatibility between *.qxyz and *.pdb files}
+\subsubsection{Making GROMACS only compute electrostatics forces}
 
+In this Internship we just want to compute the electrostatic forces on our system. However, what we obtain in the GROMACS output file is the sum of all forces on each atom. These forces may include forces such as for instance Lennard-Jones potentials.
+($V_{LJ} = 4\epsilon [(\frac{\sigma}{r})^12 - (\frac{\sigma}{r})^6] $). 
+
+So the first thing to do is to modify the topology file (*.top), so there is no more Lennard Jones potential at all ; this snippet is added to the *.top file:
+
+
+{\centering\tt {
+[ atomtypes ]\\
+type atnum         mass   charge ptype           sigma  epsilon\\
+  CLA    17    35.450000    0.000  A  0.000000000000  0.00000\\
+  SOD    11    22.989770    0.000  A  0.000000000000  0.00000\\
+}}
+
+In the expression of the potential, we set $\epsilon = 0$ and $\sigma = 0$, so it gives $V_{LJ} = 0$.
+
+\subsubsection{Assure compatibility between *.qxyz and *.pdb files}
 
 \subsection{Adding Dipole correction to fmsolvr}
 
