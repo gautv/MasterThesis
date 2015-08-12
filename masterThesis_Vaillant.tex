@@ -1,4 +1,4 @@
-\documentclass[12pt,twoside,a4paper]{report}
+\documentclass[11pt,twoside,a4paper]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -55,12 +55,35 @@ La simulation de larges systemes de particules en interaction est tres important
 
 \tableofcontents
 
-\chapter*{Presentation of the Lab}
+\chapter{Presentation of the Lab}
 \section*{Max Planck Institute for Biophysical Chemistry}
+
+The Max-Planck Institute for Biophysical Chemistry is part of the Max-Planck Institues, which are an ensemble of research center throughout Germany (As the CNRS in France could be).\\
+
+The Max-Planck Institute for Biophysical Chemistry, located in Göttingen, is one of the biggest research centers in the Biophysics field in Europe. Its research fields includes Molecular Dynamics Simulation, but also NMR or Biochemistry.\\
+The departments are : (from http://www.mpibpc.mpg.de/groups)
+\begin{itemize}
+\item Patrick Cramer - Molecular Biology
+\item Gregor Eichele – Genes and Behavior
+\item Dirk Görlich – Cellular Logistics
+\item Christian Griesinger – NMR-based Structural  Biology
+\item \textbf{Helmut Grubmüller – Theoretical and Computational Biophysics}
+\item Stefan W. Hell – NanoBiophotonics
+\item Herbert Jäckle – Molecular Developmental Biology
+\item Reinhard Jahn – Neurobiology
+\item Reinhard Lührmann – Cellular Biochemistry
+\item Marina V. Rodnina – Physical Biochemistry
+\item Melina Schuh – Meiosis 
+\item Alec M. Wodtke – Dynamics at Surfaces
+\end{itemize}
+
+
+
+
 \section*{Department of Theoretical and Computational Biophysics}
 
 
-\chapter*{Context of the Internship}
+\chapter{Context of the Internship}
 
 The Context of this Internship is driven by the "SPPEXA (Software for exascale computing) / GromEx" project funded by the DFG (Deutsche Forschungsgeimeinschaft).
 The Idea of this project is to create a flexible and fast solver for computing forces and potentials, which is a preliminary for molecular simulations.
@@ -679,7 +702,7 @@ The environment variables are the following :
 \item[MULTIPOLEORDER] The Order of truncation in a the series, for instance :
 \begin{equation*}
 	\frac{1}{|r - a|} \simeq \sum\limits_{l=0}^{\textcolor{red}{p}} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \alpha)}
-	\end{equation*}
+	\end{equation*}15:20 - 16:00 - Gautier VAILLANT
 	
 	where the multipole order is the red \textcolor{red}{p} in the first summation.
 	
@@ -698,6 +721,8 @@ The first part, if we want to make the PME and the FMM comparable, is to use the
 
 \subsection{File manipulation}
 
+In this section will be explained the file modifications needed in order to have the simulations comparable on both systems.
+
 \subsubsection{Making GROMACS only compute electrostatics forces}
 
 In this Internship we just want to compute the electrostatic forces on our system. However, what we obtain in the GROMACS output file is the sum of all forces on each atom. These forces may include forces such as for instance Lennard-Jones potentials.
@@ -713,15 +738,103 @@ type atnum         mass   charge ptype           sigma  epsilon\\
   SOD    11    22.989770    0.000  A  0.000000000000  0.00000\\
 }}
 
-In the expression of the potential, we set $\epsilon = 0$ and $\sigma = 0$, so it gives $V_{LJ} = 0$.
+In the expression of the potential, we set $\epsilon = 0$ and $\sigma = 0$, so it gives $V_{LJ} = 0$. So we have modified the files such that there is only the electrostatic interaction at play in the simulation.
 
 \subsubsection{Assure compatibility between *.qxyz and *.pdb files}
 
-\subsection{Adding Dipole correction to fmsolvr}
+The next thing to do is to have the same simluation system for both methods : So I needed to make a few scripts to transform a *.pdb file in a *.qxyz or a *.hpp file.
 
-\section{Discussion}
+The scripts are written in python, the workflow is the following:
 
-\chapter*{Conclusion}
+{
+	\centering 
+	{
+	
+	  *.hpp $\xleftarrow{\tt{qxyz2hpp.py}}$  *qxyz $\xrightarrow{\tt{qxyz2gromacs.py}}$ *.pdb	
+	}
+}
+
+So it is now possible to move the positions of the atoms one software to another software. (PME to FMM or FMM to PME)
+
+\subsubsection{Output positions and forces to a Text file for GROMACS}
+
+The last preliminary thing to do is to make the GROMACS Simulation print the positions and the forces in an easy and detailled way. We decided to modify the Gromacs code to add after the so-called {\tt{do\_force(...)}} function, which computes the forces for the system, a routine that prints the force as well as the positions in order to be
+ easily used afterwards. 
+
+\section{First Comparisions and Dipole Correction}
+
+\subsection{Silicamelt Simulation}
+
+The first thing we did afterwards it to take a good precision for both methods and compare the forces.
+
+The model we are using is called the "Silicamelt" system which is a system composed of $SiO_2$ atoms : It is a system compased of about 100000 atoms, the silicon atoms (Si) have a $+2.4e$ charge and the Oxygen has a charge of $-1.2e$.
+The size of the simulation box is $124.120$ nm.
+
+The parameters for the PME simulation are cutoff=1.2nm, PME order=12 and fourier spacing=0.015 nm. 
+
+The paramerters for the FMM are : Depth=4, Multipole Order=40, and WS(Separation Criterion) =4. The simulations is done with periodic boundaries \\
+
+The relative error is computed the following way, assuming the PME is more accurate than the FMM:
+
+\begin{equation}
+	error_{\text{relative}} = \frac{F_{FMM} * F_{PME}}{F_{PME}}
+\end{equation}
+
+Then the following histogram can be plotted:
+
+\begin{figure}[H]
+
+   \includegraphics[scale=0.25]{hist_nocorrection.jpeg}
+    \centering 
+    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed before any diple correction.}    
+   \end{figure}   
+
+
+	\begin{figure}[H]
+	   \includegraphics[scale=0.2]{magErr_noCorrection.jpeg}
+    \centering 
+    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. It is possible to see that the biggest errors are when the magnitude of the force is smaller.}    
+   \end{figure}  
+
+
+	Some statistical information about the distribution gives us a maximum error of about 56.35\%, this maximum error is much bigger than expected and is therefore not acceptable.\\
+	
+	If we study the distribution of errors according to the magnitude of system we can see that the biggest errors are some smaller magnitudes.
+	
+
+	
+\subsection{Dipole correction}
+\subsubsection{Study of a two-particle system}
+	In order to understand these big errors, we first decided to study how 2 particles behave. Then if the errors are small enough, it is possible to move to bigger systems.
+	
+The hypothesis is that the dipole moment may be corrected in one system and not in another system. So the idea is to take two particles, one positively charged and the other negatively charged ; the two particles will form a dipole, namely : 
+
+\begin{equation}
+	\vec{p} = q \vec{d}
+\end{equation}	
+	where $\vec{d}$ is the displacement vector pointing from the negative charge to the positive charge. 
+	
+	Then we can vary the distance between the two particles, compute the force using both the FMM method and the PME method and compare the force.
+	
+	
+	\begin{figure}[H]
+	   \includegraphics[scale=0.2]{magErr_noCorrection.jpeg}
+    \centering 
+    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. It is possible to see that the biggest errors are when the magnitude of the force is smaller.}    
+   \end{figure}  
+	
+	
+	
+	
+\subsubsection{Back to the silicamelt simulation}
+
+\section{Comparing with an analytical solution : the NaCl system}
+
+\subsection{Generating the system}
+\subsection{Error plots}
+
+
+
 
 \nocite{*}
 \bibliographystyle{plain}
