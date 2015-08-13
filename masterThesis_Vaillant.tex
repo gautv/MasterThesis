@@ -29,6 +29,37 @@
 
 \pagestyle{newstyle}
 
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+
+
+
+
+
 \begin{document}
 
 \maketitle
@@ -77,10 +108,15 @@ The departments are : (from http://www.mpibpc.mpg.de/groups)
 \item Alec M. Wodtke – Dynamics at Surfaces
 \end{itemize}
 
-
-
-
 \section*{Department of Theoretical and Computational Biophysics}
+
+This deparments led by both Helmut grubmüller and Bert de Groot aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, complex computer simulations of the atomistic dynamics are carried out.\\
+
+There is basically two main parts in the lab, one part is on really studying systems in order to know their dynamics (for example the case of the ribosome, which is studied in the lab), and another part which is more focussing on the methods, regardless of the biological system:
+
+
+
+
 
 
 \chapter{Context of the Internship}
@@ -783,10 +819,12 @@ The relative error is computed the following way, assuming the PME is more accur
 Then the following histogram can be plotted:
 
 \begin{figure}[H]
-
+  \label{hist_correction} 
    \includegraphics[scale=0.25]{hist_nocorrection.jpeg}
+   
     \centering 
-    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed before any diple correction.}    
+    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed before any diple correction.}   
+  
    \end{figure}   
 
 
@@ -807,6 +845,13 @@ Then the following histogram can be plotted:
 \subsubsection{Study of a two-particle system}
 	In order to understand these big errors, we first decided to study how 2 particles behave. Then if the errors are small enough, it is possible to move to bigger systems.
 	
+We also observed that if we set 4 particles in a square in a quadrupole, so there is no dipole here, the value of the FMM system and the PME system are matching
+
+
+
+
+ 	
+	
 The hypothesis is that the dipole moment may be corrected in one system and not in another system. So the idea is to take two particles, one positively charged and the other negatively charged ; the two particles will form a dipole, namely : 
 
 \begin{equation}
@@ -818,19 +863,124 @@ The hypothesis is that the dipole moment may be corrected in one system and not 
 	
 	
 	\begin{figure}[H]
-	   \includegraphics[scale=0.2]{magErr_noCorrection.jpeg}
+	   \includegraphics[scale=0.2]{dipoleCorrection}
     \centering 
-    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. It is possible to see that the biggest errors are when the magnitude of the force is smaller.}    
-   \end{figure}  
+    \caption{Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the  Magnitude of the force for PME (Blue Square), FMM without correction (Black point) and with correction(red star).
+     It is possible to see that the dipole correction makes the FMM magnitude much closer to the PME.}    
+   \end{figure}  	
 	
-	
-	
-	
-\subsubsection{Back to the silicamelt simulation}
+The dipole correction is done the following way :
 
+It is possible to modify the potential in the FMM code using the following equation:
+
+\begin{equation}
+\label{eq:dipoleCorrection}
+\nabla_iE_{\text{after correction}} = \nabla_iE_{text{before correction}} - \frac{4\pi}{3 \cdot V} q_i \textbf{d}
+\end{equation}	
+	
+	where V is the volume of the simulation box, $q_i$ the charge of the particle and $\textbf{d}$ is the dipole moment.
+
+The dipole moment can be computed from the multipole moments, which contains the dipole moment : The multipole moments are contained in a triangluar array (because of symmetry and memory space reasons) the following way :
+
+	\begin{figure}[H]
+	\label{fig:triArray} 
+	\includegraphics[scale=1]{triArray}
+    \centering 
+    \caption{Structure of the array containing the multipoles $\omega_{lm}\textbf{a})$ : the 'm' values are on the y-axis and the 'l'-values are on the x-axis. The dipole moment is contained in the boxes (1,1), (1,0) and (1,-1) }
+   \label{fig:triArray}     
+   \end{figure} 
+
+As showed in figure (\ref{fig:triArray}), it is possible to obtain the dipole moment from the multipole ones, using the following formula :
+
+
+%\vec{d}_x = -2 * \Re(\omega_{1,1})\\
+%\vec{d}_y =  2 * \Im(\omega_{1,1})\\
+%\vec{d}_z = -\Re(\omega_{1,0})
+
+
+\begin{equation}
+\hspace{10 mm}
+\left\lbrace
+\begin{array}{ccc}
+\vec{d}_x = & -2 * \Re(\omega_{1,1})\\
+\vec{d}_y = &  2 * \Im(\omega_{1,1})\\
+\vec{d}_z = & -\Re(\omega_{1,0})
+\end{array}\right.
+\end{equation}
+
+Then the correction can be applied using equation (\ref{eq:dipoleCorrection})\\
+
+
+The code used for this correction, in C++11, is the following :
+	
+	\begin{lstlisting}
+
+for (size_t i = 0; i < n; ++i) {
+
+	 auto cell_volume = (abc.a).x * (abc.b).y * (abc.c).z; // Only works with square Cell Unit
+	std::cout << "Periodic Vector = " <<  (abc.a).x << std::endl;
+	std::cout << "Volume " <<  cell_volume << std::endl;
+
+
+	 std::cout << Real3(ordered_particles[i]) << "\t" <<reference_center << std::endl;
+
+	 auto dr = Real3(ordered_particles[i]) - reference_center;
+	 std::cout << "dr = " << dr << std::endl;
+
+	 const auto& omega = tree_omega[0][0];
+     dipole_moment.x =  -omega.get(1,1).real()*2;
+	 dipole_moment.y = omega.get(1,1).imag()*2;
+	 dipole_moment.z =  -omega.get(1,0).real();
+
+	 // Potential Correction
+	auto correction = (4.0*PI/(3.0 * cell_volume )) *  (dr.x * dipole_moment.x) + (dr.y * dipole_moment.y) + (dr.z * dipole_moment.z);
+	std::cout << "Potential Before = " << potential[i] << std::endl;
+	std::cout << "Correction = " << correction << std::endl;
+	 potential[i] -= correction;
+	std::cout << "Potential After = " << potential[i] << std::endl;
+	 /*
+	 efield[i].x -= 4*PI/3 * dipole_moment.x;
+	 efield[i].y -= 4*PI/3 * dipole_moment.y;
+	 efield[i].z -= 4*PI/3 * dipole_moment.z;
+	 */
+
+
+
+            Real q = -(-ordered_particles[i].s);  // negative gradient
+            force[i] = efield[i] * q -  dipole_moment  * (4.*PI/(3.0*cell_volume)) * q  ;
+	    Ec2 += q * potential[i];
+        }
+        Ec += Ec2 * 0.5;
+
+
+\end{lstlisting}
+	
+\subsubsection{Back to the silicamelt simulation with dipole correction}
+
+Now we can relaunch the simulation with the same parameters as before, including the dipole correction.
+We obtain now a maximum error of 3.52\%, which is a much bigger improvement compared to the 56.35\% of the former simulation.
+
+\begin{figure}[H]
+ \includegraphics[scale=0.2]{hist_correction.eps}
+    \centering 
+    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed with the dipole correction. The scale in x-direction is the same as in figure (\ref{hist_correction})}    
+   \end{figure}   
+
+
+\begin{figure}[H]
+	   \includegraphics[scale=0.2]{magErr_Correction}
+    \centering 
+    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction}    
+   \end{figure}  
+   
 \section{Comparing with an analytical solution : the NaCl system}
 
+One other thing we want to try is to see the convergence of the scheme. The idea is to know which set of parameters for the FMM has the same accuracy than a given set of parameters for the PME method. 
+
+
+
 \subsection{Generating the system}
+\subsection{Some explainaitions on the Owl system}
 \subsection{Error plots}
 
 
@@ -841,7 +991,21 @@ The hypothesis is that the dipole moment may be corrected in one system and not 
 \bibliography{biblio} 
 
 \begin{appendices}
-\chapter{Glossary}
+\chapter{Glossary and Abbreviations}
+
+\begin{description}
+
+\item[GROMACS] GROningen MAchine for Chemical Simulations
+\item[PME] Particle Mesh Ewald
+\item[FMM] Fast Multipole Method
+\item[Owl] MPI-BPC Cluster Used to make the Simulations
+
+\item[MPI] Message Passing Interface
+\item[Omp] OpenMP
+
+\end{description}
+
+
 \chapter{Structure of Gromacs files}
 The contents...
 \end{appendices}
