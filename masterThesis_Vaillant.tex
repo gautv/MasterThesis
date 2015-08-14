@@ -1,4 +1,4 @@
-\documentclass[11pt,twoside,a4paper]{report}
+\documentclass[10pt,twoside,a4paper]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -141,11 +141,23 @@ So the Idea of the Internship is first to know if the both method method have th
 
 \chapter{Methods for computing electrostatic forces}
 
+The electrostatic potential of a group of $N$ of charge $q_i$ at position $r_i$ is defined as :
+
+\begin{equation}
+V_C = \frac{1}{4\pi\epsilon_0} \sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{r_{ij}}
+\end{equation}
+
+Computing this potential is very important in different areas of physics, such as plasma physics, or in our case molecular dynamics where the forces between charged particles need to be computed in an efficient and scalable way, the being computed using
+
+\begin{equation}
+	\vec{F}_i = - \vec{\nabla_i} V(\vec{r})
+\end{equation}
+
 
 \section{$\mathcal{O}(N^2)$ method }
 
 
-In this section, we will explain the most basic method to compute pairwise interactions and explain why the method leads to longs computation times and sometimes artifacts.
+In this section, we will explain the most basic method to compute pairwise interactions and explain why the method leads to long computation times and sometimes .
 
 \subsection{Naive Method}
 
@@ -977,13 +989,18 @@ We obtain now a maximum error of 3.52\%, which is a much bigger improvement comp
 
 One other thing we want to try is to see the convergence of the scheme. The idea is to know which set of parameters for the FMM has the same accuracy than a given set of parameters for the PME method. 
 
-
+In order to study that,
 
 \subsection{Generating the system}
 \subsection{Some explainaitions on the Owl system}
 \subsection{Error plots}
 
-
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.3]{madelung_FMM}
+     
+    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction}    
+   \end{figure}  
 
 
 \nocite{*}
