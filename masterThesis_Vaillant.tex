@@ -1,4 +1,4 @@
-\documentclass[10pt,twoside,a4paper]{report}
+\documentclass[12pt,twoside,a4paper]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -24,8 +24,6 @@
 \fancyfoot[R]{\thepage} % except the center
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
-
-\setcounter{secnumdepth}{5}
 
 \pagestyle{newstyle}
 
@@ -53,12 +51,7 @@
   tabsize=3
 }
 
-
-
-
-
-
-
+\setcounter{tocdepth}{4}
 
 \begin{document}
 
@@ -75,15 +68,14 @@ Finally I would also like to thank Ivo Kabadschow and Andreas Beckmann who welco
 
 Simulating large pairwise interactions is a very important issue for Scientific research. It plays an important role in Astrophysics to know the dynamics of galaxies, in plasma physics or in our case in biophysics. This kind of simulations is typically with a complexity of $\mathcal{O}(N^2)$ which scales badly with the size of the system.
 
-Some other techniques, such as the PME (Particle Mesh Ewald) and the FMM (Fast Multipole Method) are able to obtain a complexity of respectively $\mathcal{O}(N\log(N))$ qnd $\mathcal{O}(N)$.
+Some other techniques, such as the PME (Particle Mesh Ewald) and the FMM (Fast Multipole Method) are able to obtain a complexity of respectively $\mathcal{O}(N\log(N))$ qnd $\mathcal{O}(N)$. These techniques also allows a greter scalability of the system for parallel computations.
 \\
 \\
 \\
 \\
 
-La simulation de larges systemes de particules en interaction est tres importante pour le calcul scientifique. Elles jouent un role important en Astrophysique pour connaitre la dynamique des galaxies, en physique des plasmas ainsi que, dans notre cas, en Biophysique.
-
-
+	La simulation de larges systemes de particules en interaction est tres importante pour le calcul scientifique. Elles jouent un role important en Astrophysique pour connaitre la dynamique des galaxies, en physique des plasmas ainsi que, dans notre cas, en Biophysique pour l'etude de machines moleculaires complexes.
+	
 \tableofcontents
 
 \chapter{Presentation of the Lab}
@@ -112,7 +104,11 @@ The departments are : (from http://www.mpibpc.mpg.de/groups)
 
 This deparments led by both Helmut grubmüller and Bert de Groot aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, complex computer simulations of the atomistic dynamics are carried out.\\
 
-There is basically two main parts in the lab, one part is on really studying systems in order to know their dynamics (for example the case of the ribosome, which is studied in the lab), and another part which is more focussing on the methods, regardless of the biological system:
+There is basically two main parts in the lab, one part is on really studying systems (Proteins, membranes) and molecular machines in order to know their dynamics (for example some people are studying the molecular mechanisms of the ribosome), and another part which is more focussing on the methods, regardless of the biological system:
+
+Concerning the part of the department dedicated to methods and theory, new statistical mechanics concepts, quantum hybrid methods, and efficient parallel simulation algorithms and codes are the methodological focus of the department.
+
+Both lines of questions phrased above are closely interlinked. Progress in the understanding of the physics of proteins, on the one hand, enables improved and more realistic simulation techniques, which allow to study a growing number of biochemical processes in great detail. Through analysis of well-understood mechanisms, on the other hand, one can learn to separate relevant aspects in protein dynamics from irrelevant ones — which is prerequisite for the construction of effective protein models. In short, we find a close interplay between theory development, algorithmic progress, and application.  
 
 
 
@@ -134,9 +130,9 @@ A poster\footnote{from http://www.mpibpc.mpg.de/grubmueller/sppexa}   of the pro
 \end{figure}
 
 
-Currently the method used for computing electrostatic forces is called the PME (Particle Mesh Ewald). It works nicely but one of its problems is that the algorithms cannot br efficiently parallellised tasks as there is a lot of communication between the CPU and GPU cores. The idea would be to replace this method with a new method called the Fast-Multipole Method which is based on a tree Structure and may allow an greater parralilization of the system as wanted.\\
+Currently the method used for computing electrostatic forces is called the PME (Particle Mesh Ewald). It works nicely but one of its problems is that the algorithms cannot be efficiently parallelised tasks as there is a lot of communication between the CPU or GPU cores. The idea would be to replace this method with a new method called the Fast-Multipole Method which is based on a tree Structure and may allow an greater parallelization of the system as wanted.\\
 
-So the Idea of the Internship is first to know if the both method method have the same accuraracy and for which parameters.
+So the Idea of the Internship is first to know how to tune those systems to know how they relate to each other. Which parameters do I need to take for the FMM in order to have the same accurarcy as the PME ?
 
 
 \chapter{Methods for computing electrostatic forces}
@@ -154,39 +150,33 @@ Computing this potential is very important in different areas of physics, such a
 \end{equation}
 
 
-\section{$\mathcal{O}(N^2)$ method }
+\section{Direct summation method }
 
 
 In this section, we will explain the most basic method to compute pairwise interactions and explain why the method leads to long computation times and sometimes .
 
-\subsection{Naive Method}
+\subsection{Naive $\mathcal{O}(N^2)$ Method}
 
-The coulombian interaction between two charged particles can be written the following way:
+The sum of all electrostatic forces $\vec{F}_i$ felt by once particle can be written the following way:
 
 \begin{equation}
-	\overrightarrow{F}_{A \rightarrow B} = \frac{q_A q_B \hat{r}_{AB} }{4\pi\epsilon_0|R_{AB}|^2}
+	\vec{F}_i =  \sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{4\pi\epsilon_0 r_{ij^2}}
 	\label{coulombComplete}
 \end{equation}
 
-where $q_A $ and $q_B$ are respectively the charges of A and B, and $R_{AB}$ is the distance between $A$ and $B$.
+where $q$ is the charge of one particle, and $R_{ij}$ is the distance between particle $i$ and particle $j$.
 
-In the thesis we will simplify the units of ~\eqref{coulombComplete} for computational reasons by just writing :
+In the thesis we will simplify the equation ~\eqref{coulombComplete} by just writing:
 
 \begin{equation}
-	\overrightarrow{F}_{A \rightarrow B} = \frac{q_A q_B \hat{r}_{AB} }{|R_{AB}|^2}
+	\vec{F}_i =  f\cdot\sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{r_{ij^2}}
 	\label{coulombSimplified}
 \end{equation}
 
-The Corresponding potential for a charged particle, with a charge $q$ is :
-
-\begin{equation}
-	V = \frac{1}{r}
-	\label{potential}
-\end{equation}
+where $f$ is called the \textbf{electric conversion factor} and is equal to 138.935485(9) kJ.mol$^-1$.nm.e$^-2$\\
 
 
-
-The first, naive way to compute electrostatic forces is the following : in order to compute the force acting on one particle, it is needed to obtain the coulombic interaction for each pair of particles.
+The first, naive way to compute electrostatic forces is just to follow equation (\ref{coulombSimplified}):
 
 So if we consider a set of $N$ charged particles, $N-1$ interactions are needed to compute the force acting on one specific particle. So in order to know the forces of the set of particles, $N\cdot(N-1)$ operations are needed, hence an algorithmic complexity of $\mathcal{O}(N^2)$.
 
@@ -204,8 +194,8 @@ This gives the following algorithm:
 \SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
 \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-\Input{A set of $N$ charged Particles}
-\Output{A List of the forces
+\Input{A set of $N$ charged particles}
+\Output{A list of the forces
 for each particle}
 \BlankLine
 
@@ -223,11 +213,12 @@ for each particle}
 
 
 The complexity of such a computation limits its use to rather small systems and is not really usable for bigger systems such as proteins or astrophysical systems.
+ Moreover it is also important to say that if we want to add periodic boundary conditions the $\mathcal{O}(N^2)$ method is not sufficient as the system is infinite.
 
 
 \subsection{Possible improvements}
 
-A possible improvement is to limit the interaction to a certain radius : if the distance between two particles if greater than $R_0$, then the force is set to $0$.
+A possible method to overcome this limitation for periodic systems is to limit the interaction to a certain radius : if the distance between two particles if greater than $R_0$, then the force is set to $0$.
 
 So we have the following system :
 
@@ -240,9 +231,9 @@ So we have the following system :
 	\end{cases}
 \end{equation}
 
-This technique is for example used for Lennard-Jones potentials ($V_{LJ} = 4\epsilon [(\frac{\sigma}{r})^12 - (\frac{\sigma}{r})^6] $), where the Intensity of the force is quickly decreasing. It allows to limit the number of interactions to only the close neighbors.\\
+This technique is for example used for Lennard-Jones potentials ($V_{LJ} = 4\epsilon [(\frac{\sigma}{r})^12 - (\frac{\sigma}{r})^6] $), where the intensity of the force is quickly decreasing. It allows to limit the number of interactions to only the close neighbors.\\
 
-However, one of the problems of this optimisation, especially for long-range interactions such as coulombic interactions is that using a cut-off can lead to artefacts : A particle feels the force, then crosses the cut-off radius. Suddenly, the particle doesn't feel any force anymore, thus the artifacts as it is showed figure \ref{fig:artefact} .
+However, one of the problems of this cutoff technique, especially for long-range interactions such as coulombic interactions using a cut-off can lead to artefacts resulting from the sudden drop of the force to 0 at the cutoff. It was shown that this can lead to unphysical assemblies of particles at the cutoff distance as shown for instance in figure (\ref{fig:artefact}) .
 
 \begin{figure}[H]
 
@@ -250,16 +241,16 @@ However, one of the problems of this optimisation, especially for long-range int
  \centering
  
 \caption{Radial distribution function (RDF) $g(r)$ between the two
-central atoms in the head-group of a molecule: Cutoff distances are indicated by arrows. from [ADD REFERENCE]}
+central atoms in the head-group of lipids: Cutoff distances are indicated by arrows. from [ADD REFERENCE]}
 
 \label{fig:artefact}
 
 \end{figure}
 
 
-As we can see in figure \ref{fig:artefact},  the radial distribution of the distance between two atom shows a peak, corresponding to the cutoff of the system. This shows that by using a cut-off technique we might see some artifacts.\\
+As we can see in figure \ref{fig:artefact},  the radial distribution of the distance between two atom shows a peak, corresponding to the cutoff of the system. This shows that by using a cutoff technique we might see some artifacts.\\
 
-So the two reasons we don't use a $\mathcal{O}(N^2)$ method is first because of its algorithmic complexity, and using some optimization techniques can also lead to artifacts that are detrimental to the accuracy of the simulation.
+So we can see at least three reasons not to use the direct summation method : The first and main reason is that the method doesn't work with periodic boundary conditions. Then, is cutoff methods are used to solve the problem, artifacts might arise at cutoff distances. Finally the method is computationally inefficient.
 
 
 
@@ -268,16 +259,16 @@ So the two reasons we don't use a $\mathcal{O}(N^2)$ method is first because of 
 
 \section{Fourier Transform-Based methods}
 
-In this section, we will explain techniques using periodic boundary conditions and Fourier transformation in order to compute the potentials and the forces of the particles.
+To compute the potentials and the forces of particles,  Fourier-transform based techniques have been developed in order to overcome the problems stated above .
 
 \subsection{Ewald Summation}
 
 This subset of techniques comes from a theoretical physics technique called the Ewald summation.
 
-Using periodic boundary conditions, the potential $V$ of one particle of the system is:
+in periodic boundary conditions, the Coulomb potential $V_C$ is:
 
 \begin{equation}
-	V = \sum_{n_x,n_y,n_z} \sum_{i}^{N} \sum_{j}^{N} \frac{q_i q_j}{r_{ij}}
+	V = \sum_{n_x,n_y,n_z} \sum_{i}^{N} \sum_{j>i} \frac{q_i q_j}{r_{ij}}
 	\label{periodicSum}
 \end{equation}
 where $n_x,n_y,n_z$ are the box index vector.\\
@@ -285,46 +276,48 @@ where $n_x,n_y,n_z$ are the box index vector.\\
 The equation (\ref{periodicSum}) is conditionally convergent and slow to converge. One technique discovered by Ewald is to split the potential in two absolutely convergent terms and one constant term:
 
 
-If the system is neutral, ie. $\sum_{i=1}^N q_i = 0$, The idea is to split the potential the following way :
+If the system is neutral, ie. $\sum_{i=1}^N q_i = 0$, the $\frac{1}{r}$ can be written in the following way :
 
 \begin{equation}
-    V = \frac{1}{r} = \frac{f(x)}{r} + \frac{1 - f(x)}{r}
+   \frac{1}{r} = \frac{f(x)}{r} + \frac{1 - f(x)}{r}
 \end{equation}
 
+The idea is to choose $f$, so that $\frac{f(x)}{r}$ is quickly decaying and can be computed in real space with a cutoff at high accuracy. At the same time, we want $\frac{1 - f(x)}{r}$ is as smooth as possible and therefore be represented in reciprocal sapce with just a few $\vec{k}$ vectors This gives a quick and accurate computation of the real and the reciprocal space where $V = V_{\text{direct}} + V_{\text{reciprocal}}$\\
 
-\begin{equation}
-    V = V_{\text{direct}} + V_{\text{reciprocal}}
-\end{equation}
-
-We want to choose $f$, so that $\frac{f(x)}{r}$ is quickly decaying and $\frac{1 - f(x)}{r}$ is as smooth as possible. In this decomposition $\frac{f(x)}{r}$  is as small as possible, even $0$ above a certain cut-off. Then, $\frac{1-f(x)}{r}$ is smooth enough so we can compute its Fourier transform with just a few $\overrightarrow{k}$ vectors. This gives a quick computation of the reciprocal space.
-
-A good choice is often $f(x) = \text{erfc}(\alpha x)$, where $\alpha$ is called the splitting parameter, and $\text{erfc}(x) = \frac{2}{\sqrt{\pi}} \int_{x}^{+\infty}{e^{-t^2}\text{dt}} $\\
+A good choice is often $f(x) = \text{erfc}(\alpha x)$,the complementary error function, where $\alpha$ is called the splitting parameter, and $\text{erfc}(x) = \frac{2}{\sqrt{\pi}} \int_{x}^{+\infty}{e^{-t^2}\text{dt}} $\\
 
 so we obtain the following potentials :\\
 
 For the direct space :
 
 \begin{equation}
-   V_{\text{direct}} =  \frac{1}{2} \sum_{n_x,n_y,n_z} \sum_{i,j}^{N} q_i q_j \frac{\text{erfc}(\alpha r)}{r}
+   V_{\text{direct}} =  \frac{1}{2} \sum_{\vec{n}} \sum_{i,j}^{N} q_i q_j \frac{\text{erfc}(\alpha r)}{r}
 \end{equation}
 
 and for the reciprocal space :
 
 \begin{equation}
 \label{Vrecip}
-	V_{\text{reciprocal}} = \frac{1}{2 \pi V} \sum_{i,j}^{N} q_i q_j \sum_{n_x^*,n_y^*,n_z^*}\frac{\exp{-(\pi \overrightarrow{m}/\alpha)^2} +2\pi i \overrightarrow{m} \cdot (r_i - r_j)}{m^2}
+	V_{\text{reciprocal}} = \frac{1}{2 \pi L} \sum_{i,j}^{N} q_i q_j \sum_{\vec{m}}\frac{\exp{-(\pi \overrightarrow{m}/\alpha)^2} +2\pi i \overrightarrow{m} \cdot (r_i - r_j)}{\overrightarrow{m}^2}
 \end{equation}
 
-where $n_x^*,n_y^*,n_z^*$ are the vectors in the reciprocal space.\\
+where $\vec{m}$ are the vectors in the reciprocal space, and $L$ is the volume of the cell.\\
+
+\begin{equation*}
+\hspace{10 mm}
+\left\lbrace
+\begin{array}{ccc}
+\vec{m}_x = & 2\pi \frac{\vec{n_y}\times\vec{n_z}}   {\vec{n_x}\cdot(\vec{n_y}\times\vec{n_z})}         \\
+\vec{m}_y = &  2\pi \frac{\vec{n_z}\times\vec{n_x}}   {\vec{n_y}\cdot(\vec{n_z}\times\vec{n_x})} \\
+\vec{m}_z = & 2\pi \frac{\vec{n_x}\times\vec{n_y}}   {\vec{n_x}\cdot(\vec{n_z}\times\vec{n_y})} 
+\end{array}\right.
+\end{equation*}
 
 
-Once the electrostatic potentials are obtained, it is possible to differentiate the potentials to obtain the force on each particle.\\
-
-let $p = (x,y,z)$ a coordinate of the system, then :
-
+Once the electrostatic potentials are obtained, it is possible to differentiate the potentials with respect to the position $p=(x,y,z)$ to obtain the force on each particle.\\
 
 \begin{equation}
-   \overrightarrow{F}_p^{\text{direct}} = \overrightarrow{\nabla}_p V_{\text{direct}} 
+   \overrightarrow{F}_i^{\text{direct}} = \overrightarrow{\nabla}_i V_{\text{direct}} 
 \end{equation}
 
 
@@ -332,21 +325,20 @@ so we have:
 
 \begin{equation}
 \label{ewaldDirect}
-   \overrightarrow{F}_p^{\text{direct}} = q_i \sum\limits_{i=1,i\neq j}^N \sum\limits_{\textbf{n}} q_j \frac{(r_{ij,n})_p}{r_{ij,n}^3}
-   \{\text{erfc}(\alpha (r_{ij,n}) + \frac{2\alpha}{\sqrt{\pi}} r_{ij,n} \exp(-(\alpha r_{ij,n})^2)\}
+   \overrightarrow{F}_p^{\text{direct}} = q_i \sum\limits_{i=1,i\neq j}^N \sum\limits_{\vec{n}} q_j \frac{(r_{ij,\vec{n}})_p}{r_{ij,\vec{n}}^3}
+   \{\text{erfc}(\alpha (r_{ij,\vec{n}}) + \frac{2\alpha}{\sqrt{\pi}} r_{ij,\vec{n}} \exp(-(\alpha r_{ij,\vec{n}})^2)\}
 \end{equation}
 
 
 \begin{equation}
 \label{ewaldReciprocal}
-   \overrightarrow{F}_p^{\text{reciprocal}} = \frac{2 q_i}{L} \sum\limits_{i=1,i\neq j}^N \sum_{n^* \neq 0} \frac{n_p^*}{n^{*^2}} \exp{(-(\frac{\pi m}{\alpha L})^2)}\sin{\frac{2\pi}{L} m \cdot r_{ij} }
+   \overrightarrow{F}_p^{\text{reciprocal}} = \frac{2 q_i}{L} \sum\limits_{i=1,i\neq j}^N \sum_{\vec{m} \neq 0} \frac{\vec{m}_p^*}{\vec{m}^{*^2}} \exp{(-(\frac{\pi \vec{m}}{\alpha L})^2)}\sin{\frac{2\pi}{L} m \cdot r_{ij} }
 \end{equation}
 
 Equations \ref{ewaldDirect} and \ref{ewaldReciprocal} can then be used to compute the force on each particle by adding the direct space and the reciprocal space contribution.\\
 
 
 \subsection{PME}
-
 One way to improve this method is to compute the Fourier sum using the FFT (Fast Fourier Transform). This allows the algorithm to get a complexity of $\mathcal{O}(N\log N)$. There is different methods that are based on the Ewald summation, namely the \textbf{P3M} (Particle-Particle Particle-Mesh Method) or the \textbf{FFP} (Fast Fourier Poisson method). 
 
 In our case, we will focus on the \textbf{PME} as it is the method currently used in GROMACS. \\
@@ -355,7 +347,7 @@ We remind that the potential for the reciprocal space $V_{\text{reciprocal}}$ is
 
 
 \begin{equation*}
-    V_{\text{reciprocal}} =\frac{1}{2 \pi V} \sum\limits_{i,j}^{N} q_i q_j \sum\limits_{\textbf{n}^*} \frac{\exp{-(\pi \overrightarrow{m}/\alpha)^2} +2\pi i \overrightarrow{m} \cdot (r_i - r_j)}{m^2}    
+    V_{\text{reciprocal}} =\frac{1}{2 \pi V} \sum\limits_{i,j}^{N} q_i q_j \sum\limits_{\textbf{n}^*} \frac{\exp{(-(\pi \overrightarrow{m}/\alpha)^2} +2\pi i \overrightarrow{m} \cdot (r_i - r_j))}{m^2}    
 \end{equation*}
 
 
@@ -363,38 +355,39 @@ We remind that the potential for the reciprocal space $V_{\text{reciprocal}}$ is
 This equation can be rewritten as :
 
 \begin{equation*}
-    V_{\text{reciprocal}} =\frac{1}{2 \pi V} \sum\limits_{\textbf{n}^* \neq 0}^{N}  \frac{\exp{-(\pi \overrightarrow{m}/\alpha)^2}}{m^2}S(-\textbf{n}^* )S(\textbf{n}^* )
+    V_{\text{reciprocal}} =\frac{1}{2 \pi V} \sum\limits_{\textbf{n}^* \neq 0}^{N}  \frac{\exp{-(\pi \overrightarrow{m}/\alpha)^2}}{\overrightarrow{m}^2}S(-\overrightarrow{m} )S(\overrightarrow{m} )
 \end{equation*}
 
 where $S(\textbf{n}^* )$ is defined as the Structure factor:
 
 \begin{equation}
-    S(\textbf{n}^* ) = \sum\limits_{k=1}^{N} {q_k \exp(2 \pi i \textbf{n}^* \cdot \textbf{r}) }
+    S(\textbf{n}^* ) = \sum\limits_{k=1}^{N} {q_k \exp(2 \pi i \vec{m} \cdot \textbf{r}) }
 \end{equation}
 
 
-The idea of the method is the following : In order to apply a FFT to the system, it is needed to "map" the positions of the charges on a grid of size $ p \times p $ . We will define the size of the Grid as the \textit{Fourier Spacing}. Let also define $\mathcal{F}(Q)$ the 3D FFT of $Q$. The charges $q_i$ are mapped to the grid using interpolation. 
-Originally, Lagrange interpolation was used, but now a b-spline interpolation is used. The order of interpolation is called the \textit{PME Order}\\
+The idea of the PME is to approximate the structure factor $S(\vec{m})$ by the 3D Fourier Transform of the charge matrix,which is obtained by interpolating the charges to a discrete grid of size $ p \times p $. 
+	Let also define $\mathcal{F}(Q)$ the 3D FFT of $Q$. The charges $q_i$ are mapped to the grid using interpolation.Originally, Lagrange interpolation was used, but now a b-spline interpolation is used. The order of interpolation is called the \textit{PME Order}\\
 
 then the Structure factor can be approximated as its FFT :
 
 \begin{equation}
-   S(\textbf{m}) \approx \widetilde{S}(\textbf{m}) = \mathcal{F}(Q)(\textbf{m})
+   S(\overrightarrow{m}) \approx \widetilde{S}(\overrightarrow{m}) = \mathcal{F}(Q)(\overrightarrow{m})
 \end{equation}
 
 so the reciprocal energy can also be approximated by:
 
 \begin{equation}
-   V_{\text{reciprocal}} \approx \widetilde{V}_{\text{reciprocal}}   =\frac{1}{2 \pi V} \sum\limits_{\textbf{n}^* \neq 0}^{N}  \frac{\exp{-(\pi \overrightarrow{m}/\alpha)^2}}{m^2}\mathcal{F}(Q)(\textbf{m})\mathcal{F}(Q)(-\textbf{m})
+   V_{\text{reciprocal}} \approx \widetilde{V}_{\text{reciprocal}}   =\frac{1}{2 \pi V} \sum\limits_{\textbf{n}^* \neq 0}^{N}  \frac{\exp{(-(\pi \overrightarrow{m}/\alpha)^2)}}{m^2}\mathcal{F}(Q)(\textbf{m})\mathcal{F}(Q)(-\textbf{m})
 \end{equation} \\
 
-It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. However, one of its disadvantages is that it relies on a periodic sum, which is theoretically infinite. Furthermore, the algorithm doesn't scale well for large scale parallelism[REFERENCE ?], hence the need for a more scalable algorithm for the computations of electrostatic forces.
+It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. Then it also allows to handle infinite systems with periodic boundary conditions.\\ However, the algorithm doesn't scale well for large scale parallelism[REFERENCE ?], hence the need for a more scalable algorithm for the computations of electrostatic forces.
 
 
 
-\section{Fast Summation methods}
+\section{Tree-based methods}
 
-    In the previous section we showed a method which allows to improve the speed of the computation. In this section, another algorithm will be explained, which has a complexity of $\mathcal{O}(N)$.\\
+Now we will look at an algorithm that scales linearly with the number of charges $N$ and which does not have inherent parallel communication bottleneck as [ref].
+Furthermore, it can be applied to systems with periodic as well to systems with open boundaries. Since it approximates the actual charge distribution by a set of multipoles, it is called the "Fast Multipole method" (FMM)
     
 	\subsection{Mathematical preliminaries}
 	
@@ -404,14 +397,14 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 	V = \frac{1}{d}
 	\end{equation*}
 	
-	Let two particles $A(a,\alpha,\beta)$ and $B(r,\theta,\phi)$, separated by a certain distance $d$: The distance between the particles is $d = |a - r|$.
+	Let two particles $A(a,\alpha,\beta)$ and $R(r,\theta,\phi)$, separated by a distance $d$: The distance between the particles is $d = |a - r|$.
 	We would like to achieve is to "factorize the addition", having a product of one function depending only on $a$ and one depending only on $r$.
 	
 	
 \begin{figure}[H]
 \includegraphics[scale=0.4]{distance}
  \centering 
-\caption{Figure representing two particles $A(a,\alpha,\beta)$ and $B(r,\theta,\phi)$, separated by a certain distance $d$}
+\caption{Two particles $A(a,\alpha,\beta)$ and $R(r,\theta,\phi)$, separated by a distance $d$}
 \label{fig:poster}
 \end{figure}	
 	
@@ -419,28 +412,28 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 	The inverse distance can be written as :
 	
 	\begin{equation*}
-		\frac{1}{d} = \frac{1}{|a-r|} = \frac{1}{\sqrt{a^2 + r^2}}
+		\frac{1}{d} = \frac{1}{|a-r|} = \frac{1}{\sqrt{a^2 + r^2 - 2ar \cos(\gamma)}}
 	\end{equation*}
 
-	This distance can then written as a series :
+	This distance can then written as a series of Legendre polynomials  $P_l(u)$ of degree $l$ if $r \gg a$ :
 	
 	\begin{equation}
-		\frac{1}{d} = \frac{1}{\sqrt{a^2 + r^2}} = \sum\limits_{l=0}^{+\infty} P_l(u)\mu^l
+		\frac{1}{d} = \frac{1}{\sqrt{a^2 + r^2 - 2ar \cos(\gamma)}} = \sum\limits_{l=0}^{+\infty} P_l(u)\mu^l
 	\end{equation}
 	
 	
-	where $\mu = \frac{a}{r}$ and $u = \cos{\gamma}$ . The $P_l(u)$ are the Legendre polynomials of degree $l$.
+	where $\mu = \frac{a}{r}$ and $u = \cos{\gamma}$ .
 	
 	with some manipulation as explained [ADD REFERENCE], we obtain : 
 	
 	\begin{equation}
-	\frac{1}{|r - a|} = \sum\limits_{l=0}^{+\infty} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \alpha)}
+	\frac{1}{|r - a|} = \sum\limits_{l=0}^{+\infty} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \phi)}
 	\end{equation}
 	
-	in order to approximate the scheme, we can truncate the series to a certain order $p$, we call this order the \textbf{multipole order}
+	in order to approximate the scheme, we can truncate the infinite series to a certain order $p$, we call this order the \textbf{multipole order}
 	
 	\begin{equation}
-	\frac{1}{|r - a|} \simeq \sum\limits_{l=0}^{\textcolor{red}{p}} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \alpha)}
+	\frac{1}{|r - a|} \simeq \sum\limits_{l=0}^{\textcolor{red}{p}} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \phi)}
 	\end{equation}
 	
 	We can now rewrite the summation the following way :
@@ -460,12 +453,12 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 	\end{equation}
 	
 	
-	We have shown that it is possible to "factorize" the inverse of the the distance $\frac{1}{d}$ so we can obtain two independent terms for two independent particles ${O_{lm}(\textbf{a})}$ and ${M_{lm}(\textbf{r})}$ 
+	Thus it is possible to "factorize" the inverse of the the distance $\frac{1}{d}$ so we can obtain two independent terms ${O_{lm}(\textbf{a})}$ and ${M_{lm}(\textbf{r})}$  for two particles 
 
 
 	We can then define the multipole moment $\omega_{lm}(q,\textbf{a}) = q O_{lm}(\textbf{a})$ and the Taylor-like moment $\mu_{lm}(q,\textbf{r}) = q M_{lm}(\textbf{r})$
 	
-	Then, it is possible to show that it is possible to obtain the following "bipolar expansion" for two particles associated with two different origins :
+	One obtains the following "bipolar expansion" for two particles associated with two different origins :
 	
     \begin{equation}
     \frac{1}{|\textbf{a}_1 - \textbf{a}_2 + \textbf{R}|} = 
@@ -492,29 +485,32 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 	
 	\subsection{Workflow of the algorithm}
 	
-	Once some Mathematical preliminaries are set, it is possible to explain the workflow of the Algorithm.
+	Once some mathematical preliminaries are set, it is possible to explain the workflow of the algorithm.
 	
-	\subsubsection{Spliting the Space}
+	\subsubsection{Splitting the Space}
 	
-	The first step of the scheme is to split the space in order to generate different groups. The idea is to recursively split the space in eight octants, created the so-called structure of an \textit{octree}. So the number of boxes is $8^{D-1}$, where $D$ is the depth of the oct-tree.
+	One of the ideas of the FMM is to approximate far-away charges by multipoles expansions,whereas interactions between near charges are calculated directly without any approximation. So that's why we need to split the simulation box in sub-boxes, so that near field and far field contributions can be computed everywhere. 	
+	
+	So first step of the scheme is to split the space in order to generate different groups. The idea is to recursively split the space in eight octants, created the so-called structure of an \textit{octree}. So the number of boxes is $8^{D-1}$, where $D$ is the depth of the oct-tree.
 	
 		
 	
 	\begin{figure}[H]
+	    
     \includegraphics[scale=0.9]{BoxDepth}    
     \centering 
-    \caption{Example of a division of the space in boxes. The following example is in 2D so the structure of the space is a \textit{quadtree}.}    
-    \label{fig:depth}
+    \caption{Example of a division of the space in boxes. The  example is in 2D so the structure of the space is called a \textit{quadtree}.}
+    \label{fig:depth}       
      \end{figure}
 	
     
     The number of subdivisions is called the \textit{depth} $D$. For example, in figure \ref{fig:depth}, we can observe from left to right the depths $0,1,2$ and $3$.
     
-    It is then possible to assign each particle of the simulation to the boxes of lowest depth.
+    Then each particle is assigned  to the box of lowest depth it is found in.
     
 	\subsubsection{Defining a Separation Criterion}
 	
-	For the further Computations it is needed to define a separation criterion $ws$: It is the $ws^{th}$ next neighbors of a given box. Two boxes A and B are called \textit{next neighbors} is they are at the same level and box B is enclosed by a box of size $(2 ws + 1)^3$ around the center of A 
+	For the further computations it is needed to define a separation criterion $ws$: It is the $ws^{th}$ next neighbors of a given depth. Two boxes A and B are called \textit{next neighbors} is they are at the same level and box B is enclosed by a box of size $(2 ws + 1)^3$ around the center of A 
 	
 	
 	
@@ -523,29 +519,43 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
     \includegraphics[scale=0.7]{separation}    
     \centering 
     \caption{Example of the influence of the separation criterion $ws$ for a given box $A$, from left to right, $ws = 1,2,3$.}    
-    \label{fig:depth}
+    \label{fig:separation}
      \end{figure}
 	
-		This separation criterion divides the space into two parts. If two particles are close so they are in the same grey space as defined figure (\ref{fig:multipole}), then, they will interact via a direct $\mathcal{O}(N^2)$ coulombic interaction ; else they will interact via using the FMM Method.
+		This separation criterion divides the space into two parts. If two particles are close so they are in the same grey space as defined figure (\ref{fig:separation}), then, their interaction is computed directly, otherwise their interaction is approximated via multipoles.
 	
-	It is most of the time not possible to set the separation criterion $ws$ to 0, as the multipole expansion might overlap. Using a bigger ws means that the order of the multipole expansions need to be less important for the same precision, however this will increase the number of direct $\mathcal{O}(N^2)$ operation, which are  more computationally expensive.       
+	It is most of the time not possible to set the separation criterion $ws$ to 0, as the multipole expansion might overlap. Using a bigger $ws$ means that the order of the multipole expansions need to be less important for the same precision, however this will increase the number of direct $\mathcal{O}(N^2)$ operation, which are  more computationally expensive.       
+    
+    
+	The algorithm by itself will be done in separate phases we call "passes" : there will be 4 different passes:
+	
+	\begin{description}
+	\item[PASS 1] : Computing the Multipole moments
+	\item[PASS 2] : Transforming distant expansions into multipoles
+	\item[PASS 3] : Shift Taylor-Like expansions down the tree
+	\item[PASS 4] : Computing forces and Energies
+	
+	\end{description}
+		
+	
+	    
     
     
     \subsubsection{PASS 1 : Computing the Multipole moments}
     
-    Once every particle is assigned to its box, we will compute the multipole moment $\omega_{lm}^j$ of each box.
+    Once every particle is assigned to its box at the lowest level, we will compute the multipole moment $\omega_{lm}^j$ of each box.
     
     \begin{equation}
     \omega_{lm}^{j}(q,\textbf{a}) = q^j a_j^l \widetilde{P}_{lm}(\cos(\alpha_j))e^{-im\beta_j}
     \end{equation}
 %
-Then each multipole order can be moved to the Center of the box using the so-called $M2M$ (Multipole to Multipole) operator:    
+To construct the multipoles at the higher levels from the existing multipoles at the lowest level, each multipole order is moved to the Center of the parent box using the so-called $M2M$ (Multipole to Multipole) operator:    
     
     \begin{equation}
     \omega(\textbf{a} + \textbf{b}) = \sum\limits_{j=0}^{k} \sum\limits_{k=-j}^{j} \omega_{jk}(\textbf{a}) O_{l-j,m-k}(\textbf{b})
     \end{equation}
 
-   $O_{l-j,m-k}(\textbf{b})$ is called the $M2M$ operator
+   $O_{l-j,m-k}(\textbf{b})$ is called the $M2M$ operator.
    
    \begin{figure}[H]
    \includegraphics[scale=0.4]{ShiftMultipole}
@@ -557,7 +567,7 @@ Then each multipole order can be moved to the Center of the box using the so-cal
    
    	\subsubsection{PASS 2 : Transforming distant expansions into multipoles}
    	
-   	Now it is possible to transform distant expansions (above the separation criterion) $\omega_{lm}$ into a Taylor-like moment $\mu_{lm}$. This transformation is done over at most 189 boxes. This transformation is applied for each depth of the tree.  
+   PASS2 transforms distant expansions (beyond the separation criterion) $\omega_{lm}$ into a Taylor-like moment $\mu_{lm}$. This transformation is done over at most 189 boxes. This transformation is applied for each depth of the tree.  
    	
    	
  \begin{figure}[H]
@@ -570,12 +580,10 @@ Then each multipole order can be moved to the Center of the box using the so-cal
    
 	In order to compute this transformation, two different rules have to be applied:
 	
-	\begin{itemize}
-	
-	\item The first rule is to take the non-separated parent boxes, as showed sub-figure (a) below.
-	\item Then the children of the parent box are selected, taking into account the separation criterion for the child boxes.
-	
-	\end{itemize}	   
+	\begin{enumerate}	
+	\item Take the non-separated parent boxes, as shown sub-figure (a) below.
+	\item Then the children of the parent box are selected, taking into account the separation criterion for the child boxes.	
+	\end{enumerate}	   
    
 	 
  \begin{figure}[H]
@@ -586,7 +594,7 @@ Then each multipole order can be moved to the Center of the box using the so-cal
     \label{fig:multipole}
    \end{figure}   
    
-	  Mathematically speaking, the transformation from multipole expansions to multipole moments is given using the  M2L (Multipole to Local) Operator
+	  Mathematically, the transformation from multipole expansions to multipole moments is given using the  M2L (Multipole to Local) Operator
 	  
 	  \begin{equation}
 	  \mu_{lm}(\textbf{b} - \textbf{a}) = \sum\limits_{j = 0}^{+\infty} \sum\limits_{k=-j}^{j}
@@ -597,7 +605,7 @@ Then each multipole order can be moved to the Center of the box using the so-cal
 
 \subsubsection{PASS 3 : Shift Taylor-Like expansions down the tree}
 
-Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted to the lowest level of the tree using the L2L (Local to Local) operator.
+Once the local $\mu_{lm}$ expansions are computed, the expansion are shifted to the lowest level of the tree using the L2L (Local to Local) operator.
 
 	\begin{figure}[H]
 	\label{fig:L2L}
@@ -619,7 +627,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted
  \subsubsection{PASS 4 : Computing forces and Energies}
  
  
- After PASS 3, we have at the lowest level both the multipole expansion as well as the local expansion. 
+ After PASS 3, we have in every box at the lowest level both the multipole expansion as well as the local expansion, thus everything to compute the far-field contribution to the forces and the potential of the system. 
  
 \begin{figure}[H]
 	\label{fig:farfield}
@@ -629,21 +637,21 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted
     
    \end{figure} 
    
-   Then we have everything to compute the far-field contribution for the forces or the potentials of the system.\\
+
    
-   So we have for the Electric Field :
+   So we have for the electric field :
       
    \begin{equation}
    E_{FF} = \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \omega_{lm}(\textbf{a})
    \end{equation}
    
-   For the Potential :
+   For the potential :
  
  	\begin{equation}
    \Phi_{FF} = - \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \nabla_{\textbf{a}_i}[a_i^l \widetilde{P}_{lm}(\cos\alpha_i)e^{-im\beta_i}]
    \end{equation}
    
-   and for the Force :
+   and for the force :
    
    \begin{equation}
    \textbf{F}_{FF} = - \sum\limits_{l=0}^{p} \sum\limits_{m=-l}^{+l} \mu_{lm}(\textbf{r}) \nabla_{\textbf{a}_i}[a_i^l \widetilde{P}_{lm}(\cos\alpha_i)e^{-im\beta_i}]
@@ -655,14 +663,14 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion have to shifted
 
 \chapter{Comparing FMM and PME accuracy}
 
-    In this chapter I will more precfisely explain my work done in the Lab, which consisted in comparing the PME methods, which is for example used by gromacs, and the FMM mnethod, used by a solver made between the Julich Forschungszentrum and the Max Planck Institute for Biophysics in Göttingen.
+    In this chapter I will more precisely explain my work done in the Lab, which consisted in comparing the PME methods, which is for example used by gromacs, and the FMM method, used by a solver made between the Julich Forschungszentrum and the Max Planck Institute for Biophysics in Göttingen.
 
-    In will first explain for Gromacs work and then 
+  
 
 
 \section{Presentation of GROMACS}
 
-    GROMACS (GROningen MAchine for Chemical Simulations) is a simulation software used for Molecular dynamics. It was originally developed in the Biophysical Chemistry department of University of Groningen but it is now develloped arround the world. GROMACS is made to be as fast as possible using all possible techniques to improve its performance (MPI, GPU computing) 
+    GROMACS (GROningen MAchine for Chemical Simulations) is a simulation software used for Molecular dynamics. It was originally developed in the Biophysical Chemistry department of University of Groningen but it is now developed around the world. GROMACS is made to be as fast as possible using all possible techniques to improve its performance (MPI, GPU computing) 
     
    
 	\subsection{Structure of a File}
@@ -759,7 +767,7 @@ The environment variables are the following :
 
 \item[OPENBOUDARY] if OPENBOUNDARY = 0, periodic boundary conditions will be used, if OPENBOUNDARY=1, then openbondaries will be used.
 
-\item[UNITBOX] Gives the size of the simulation box (in nm.
+\item[UNITBOX] Gives the size of the simulation box (in nm).
 
 \end{description}
  	
@@ -815,14 +823,14 @@ The last preliminary thing to do is to make the GROMACS Simulation print the pos
 
 The first thing we did afterwards it to take a good precision for both methods and compare the forces.
 
-The model we are using is called the "Silicamelt" system which is a system composed of $SiO_2$ atoms : It is a system compased of about 100000 atoms, the silicon atoms (Si) have a $+2.4e$ charge and the Oxygen has a charge of $-1.2e$.
+The model we are using is called the "Silicamelt" system which is a system composed of $SiO_2$ atoms : It is a system compased of about 100000 atoms, the silicon atoms (Si) have a $+2.4e$ charge and the Oxygen has a charge of $-1.2e$, where $e$ is the elementary charge $e \approx 1.6\cdot10^{-19} \text{C}$.
 The size of the simulation box is $124.120$ nm.
 
 The parameters for the PME simulation are cutoff=1.2nm, PME order=12 and fourier spacing=0.015 nm. 
 
-The paramerters for the FMM are : Depth=4, Multipole Order=40, and WS(Separation Criterion) =4. The simulations is done with periodic boundaries \\
+The paramerters for the FMM are : Depth=4, Multipole Order=40, and WS(Separation Criterion) =4. The simulations is done with periodic boundaries 
 
-The relative error is computed the following way, assuming the PME is more accurate than the FMM:
+The relative error is computed the following way:
 
 \begin{equation}
 	error_{\text{relative}} = \frac{F_{FMM} * F_{PME}}{F_{PME}}
@@ -832,24 +840,27 @@ Then the following histogram can be plotted:
 
 \begin{figure}[H]
   \label{hist_correction} 
-   \includegraphics[scale=0.25]{hist_nocorrection.jpeg}
-   
+   \includegraphics[scale=0.35]{hist_nocorrection.jpeg}
+   \label{hist_correction} 
     \centering 
-    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed before any diple correction.}   
-  
+    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed before any dipole correction.}   
+  \label{hist_correction} 
    \end{figure}   
 
 
 	\begin{figure}[H]
-	   \includegraphics[scale=0.2]{magErr_noCorrection.jpeg}
-    \centering 
+	
+	\includegraphics[scale=0.23]{magErr_noCorrection.jpeg}
+	 \label{fig:mag_noCorr}  
+	\centering 
     \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. It is possible to see that the biggest errors are when the magnitude of the force is smaller.}    
-   \end{figure}  
+	 \label{fig:mag_noCorr}     
+      \end{figure}  
 
 
 	Some statistical information about the distribution gives us a maximum error of about 56.35\%, this maximum error is much bigger than expected and is therefore not acceptable.\\
 	
-	If we study the distribution of errors according to the magnitude of system we can see that the biggest errors are some smaller magnitudes.
+	As shown figure (\ref{fig:mag_noCorr}) we study the distribution of errors according to the magnitude of system we can see that the biggest errors are some smaller magnitudes.
 	
 
 	
@@ -973,7 +984,7 @@ Now we can relaunch the simulation with the same parameters as before, including
 We obtain now a maximum error of 3.52\%, which is a much bigger improvement compared to the 56.35\% of the former simulation.
 
 \begin{figure}[H]
- \includegraphics[scale=0.2]{hist_correction.eps}
+ \includegraphics[scale=0.32]{hist_correction.eps}
     \centering 
     \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed with the dipole correction. The scale in x-direction is the same as in figure (\ref{hist_correction})}    
    \end{figure}   
@@ -989,10 +1000,29 @@ We obtain now a maximum error of 3.52\%, which is a much bigger improvement comp
 
 One other thing we want to try is to see the convergence of the scheme. The idea is to know which set of parameters for the FMM has the same accuracy than a given set of parameters for the PME method. 
 
-In order to study that,
+In order to study that, we want to have a system which is analytically solvable with periodic boundary conditions : That is why we decided to use a cristal as a system. 
 
 \subsection{Generating the system}
+
+The system used is based on a NaCl cristal structure. As a cristal is a stable structure, the force acting on each atom has to be equal to 0. The potential felt by one atom can also be computed with a series ; this series converges to a value called the \textbf{Madelung Constant} which is equal for this cristal structure to approximnately 3.495 V.
+
+The generation is done with a python script writing the charges and the positions of the atoms in a *.qxyz file, then translated into a pdb file to obtain cristal structure necessary for GROMACS.
+
+\begin{figure}[H]
+	   \includegraphics[scale=0.4]{nacl}
+    \centering 
+    \caption{NaCl system generated with the script described above : The Blue atoms are Na atoms and the Green ones are Cl atoms. The Following image has been rendered using the visualization software VMD (Visual Molecular Dynamics)}    
+   \end{figure}  
+
+
 \subsection{Some explainaitions on the Owl system}
+
+Now I will quickly explain how to submit a certain program to the cluster of the lab, which is called \textit{owl}.
+
+Owl is the cluster of the lab used for the MD simulations : 
+
+The cluster is accessible via an ssh connection : 
+
 \subsection{Error plots}
 
 \begin{figure}[H]
@@ -1011,6 +1041,8 @@ In order to study that,
 \chapter{Glossary and Abbreviations}
 
 \begin{description}
+
+
 
 \item[GROMACS] GROningen MAchine for Chemical Simulations
 \item[PME] Particle Mesh Ewald
