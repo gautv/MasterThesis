@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.1.6)  18 AUG 2015 20:49
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.1.6)  19 AUG 2015 19:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -622,22 +622,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 62--63
 [2
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 71--76
+Underfull \hbox (badness 10000) in paragraph at lines 73--78
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--76
+Underfull \hbox (badness 10000) in paragraph at lines 73--78
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--76
+Underfull \hbox (badness 10000) in paragraph at lines 73--78
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--76
+Underfull \hbox (badness 10000) in paragraph at lines 73--78
 
  []
 
@@ -659,27 +659,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [5]
 Chapter 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 84--85
+Underfull \hbox (badness 10000) in paragraph at lines 86--87
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 89.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 91.
 (/usr/share/texmf/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 89.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
  [6
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 105--106
+Underfull \hbox (badness 10000) in paragraph at lines 107--108
 
  []
 
 [7]
 Chapter 2.
 
-Overfull \hbox (6.6477pt too wide) in paragraph at lines 120--122
+Overfull \hbox (6.6477pt too wide) in paragraph at lines 122--124
 \T1/cmr/m/n/12 cale com-put-ing) / GromEx" project funded by the DFG (Deutsche 
 Forschungs-
  []
@@ -687,7 +687,7 @@ Forschungs-
 <sppexa-poster.png, id=35, 144.54pt x 202.1151pt>
 File: sppexa-poster.png Graphic file (type png)
  <use sppexa-poster.png>
-Package pdftex.def Info: sppexa-poster.png used on input line 126.
+Package pdftex.def Info: sppexa-poster.png used on input line 128.
 (pdftex.def)             Requested size: 289.07925pt x 404.22919pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -695,7 +695,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [8
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 133--134
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
 
  []
 
@@ -704,49 +704,44 @@ Chapter 3.
 [11
 
 ]
-Overfull \hbox (24.25948pt too wide) in paragraph at lines 176--177
+Overfull \hbox (24.25948pt too wide) in paragraph at lines 178--179
 []\T1/cmr/m/n/12 where $\OML/cmm/m/it/12 f$ \T1/cmr/m/n/12 is called the \T1/cm
 r/bx/n/12 elec-tric con-ver-sion fac-tor \T1/cmr/m/n/12 and is equal to 138.935
 485(9)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--177
+Underfull \hbox (badness 10000) in paragraph at lines 178--179
 
  []
 
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 210.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 212.
 
 (/usr/share/texmf/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 210.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 212.
 
 
 (/usr/share/texmf/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 ) [12]
-Underfull \hbox (badness 10000) in paragraph at lines 234--235
+Underfull \hbox (badness 10000) in paragraph at lines 236--237
 
  []
 
 <artefact.jpeg, id=63, 419.63226pt x 292.88368pt>
 File: artefact.jpeg Graphic file (type jpg)
  <use artefact.jpeg>
-Package pdftex.def Info: artefact.jpeg used on input line 240.
+Package pdftex.def Info: artefact.jpeg used on input line 242.
 (pdftex.def)             Requested size: 335.70627pt x 234.30725pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 251--252
+Underfull \hbox (badness 10000) in paragraph at lines 253--254
 
  []
 
 [13 <./artefact.jpeg>]
-Underfull \hbox (badness 10000) in paragraph at lines 273--275
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 285--286
+Underfull \hbox (badness 10000) in paragraph at lines 275--277
 
  []
 
@@ -760,199 +755,227 @@ Underfull \hbox (badness 10000) in paragraph at lines 289--290
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--292
+
+ []
+
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 304--305
+Underfull \hbox (badness 10000) in paragraph at lines 306--307
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--318
+Underfull \hbox (badness 10000) in paragraph at lines 319--320
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 338--339
+Underfull \hbox (badness 10000) in paragraph at lines 340--341
 
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 346--347
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 368--370
+Underfull \hbox (badness 10000) in paragraph at lines 370--372
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 381--382
+Underfull \hbox (badness 10000) in paragraph at lines 383--384
 
  []
 
 [16]
-Overfull \hbox (23.44337pt too wide) in paragraph at lines 383--384
+Overfull \hbox (23.44337pt too wide) in paragraph at lines 385--386
 \T1/cmr/m/n/12 However, the al-go-rithm doesn't scale well for large scale par-
 al-lelism[REFERENCE
  []
 
+<scalingMUC.jpeg, id=80, 596.98032pt x 465.23813pt>
+File: scalingMUC.jpeg Graphic file (type jpg)
+ <use scalingMUC.jpeg>
+Package pdftex.def Info: scalingMUC.jpeg used on input line 388.
+(pdftex.def)             Requested size: 358.19095pt x 279.14502pt.
 
-LaTeX Warning: Reference `potential' on page 17 undefined on input line 394.
+[17 <./scalingMUC.jpeg>]
 
-<distance.jpeg, id=80, 812.84323pt x 270.82231pt>
+LaTeX Warning: Reference `potential' on page 18 undefined on input line 403.
+
+<distance.jpeg, id=84, 812.84323pt x 270.82231pt>
 File: distance.jpeg Graphic file (type jpg)
  <use distance.jpeg>
-Package pdftex.def Info: distance.jpeg used on input line 405.
+Package pdftex.def Info: distance.jpeg used on input line 414.
 (pdftex.def)             Requested size: 325.13153pt x 108.327pt.
- [17 <./distance.jpeg>] [18] <bipolar.jpeg, id=87, 599.14162pt x 335.48495pt>
+ [18 <./distance.jpeg>] <bipolar.jpeg, id=88, 599.14162pt x 335.48495pt>
 File: bipolar.jpeg Graphic file (type jpg)
 
 <use bipolar.jpeg>
-Package pdftex.def Info: bipolar.jpeg used on input line 476.
+Package pdftex.def Info: bipolar.jpeg used on input line 485.
 (pdftex.def)             Requested size: 419.39627pt x 234.83786pt.
 
-Overfull \hbox (29.39627pt too wide) in paragraph at lines 476--478
+Overfull \hbox (29.39627pt too wide) in paragraph at lines 485--487
  [][] 
  []
 
-<BoxDepth.jpeg, id=88, 428.95741pt x 116.39273pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [19]
+<BoxDepth.jpeg, id=93, 428.95741pt x 116.39273pt>
 File: BoxDepth.jpeg Graphic file (type jpg)
  <use BoxDepth.jpeg>
-Package pdftex.def Info: BoxDepth.jpeg used on input line 500.
+Package pdftex.def Info: BoxDepth.jpeg used on input line 509.
 (pdftex.def)             Requested size: 386.0581pt x 104.75247pt.
- [19 <./bipolar.jpeg>] <separation.jpeg, id=93, 500.45032pt x 157.47252pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20 <./bipolar.jpeg>] <separation.jpeg, id=97, 500.45032pt x 157.47252pt>
 File: separation.jpeg Graphic file (type jpg)
 
 <use separation.jpeg>
-Package pdftex.def Info: separation.jpeg used on input line 519.
+Package pdftex.def Info: separation.jpeg used on input line 528.
 (pdftex.def)             Requested size: 350.31282pt x 110.23pt.
- [20 <./BoxDepth.jpeg> <./separation.jpeg>]
-<ShiftMultipole.jpeg, id=97, 827.60806pt x 330.92053pt>
+ [21 <./BoxDepth.jpeg> <./separation.jpeg>]
+<ShiftMultipole.jpeg, id=101, 827.60806pt x 330.92053pt>
 File: ShiftMultipole.jpeg Graphic file (type jpg)
 
 <use ShiftMultipole.jpeg>
-Package pdftex.def Info: ShiftMultipole.jpeg used on input line 561.
+Package pdftex.def Info: ShiftMultipole.jpeg used on input line 570.
 (pdftex.def)             Requested size: 331.03735pt x 132.36586pt.
- [21 <./ShiftMultipole.jpeg>]
-<transformExpansions1.jpeg, id=101, 477.91452pt x 195.50937pt>
+ [22 <./ShiftMultipole.jpeg>]
+<transformExpansions1.jpeg, id=105, 477.91452pt x 195.50937pt>
 File: transformExpansions1.jpeg Graphic file (type jpg)
 
 <use transformExpansions1.jpeg>
-Package pdftex.def Info: transformExpansions1.jpeg used on input line 575.
+Package pdftex.def Info: transformExpansions1.jpeg used on input line 584.
 (pdftex.def)             Requested size: 382.33212pt x 156.4077pt.
 
-<transformExpansions2.jpeg, id=102, 408.7529pt x 160.51547pt>
+<transformExpansions2.jpeg, id=106, 408.7529pt x 160.51547pt>
 File: transformExpansions2.jpeg Graphic file (type jpg)
 
 <use transformExpansions2.jpeg>
-Package pdftex.def Info: transformExpansions2.jpeg used on input line 590.
+Package pdftex.def Info: transformExpansions2.jpeg used on input line 599.
 (pdftex.def)             Requested size: 245.25362pt x 96.31001pt.
 
-<transformExpansions3.jpeg, id=103, 390.10258pt x 168.12285pt>
+<transformExpansions3.jpeg, id=107, 390.10258pt x 168.12285pt>
 File: transformExpansions3.jpeg Graphic file (type jpg)
 
 <use transformExpansions3.jpeg>
-Package pdftex.def Info: transformExpansions3.jpeg used on input line 591.
+Package pdftex.def Info: transformExpansions3.jpeg used on input line 600.
 (pdftex.def)             Requested size: 234.06335pt x 100.87447pt.
 
-Overfull \hbox (93.23268pt too wide) in paragraph at lines 590--593
+Overfull \hbox (93.23268pt too wide) in paragraph at lines 599--602
  [][][] 
  []
 
-[22 <./transformExpansions1.jpeg> <./transformExpansions2.jpeg> <./transformExp
+[23 <./transformExpansions1.jpeg> <./transformExpansions2.jpeg> <./transformExp
 ansions3.jpeg>]
 
-Package caption Warning: \label without proper \caption on input line 574.
+Package caption Warning: \label without proper \caption on input line 583.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:M2L' on page 23 undefined on input line 604.
+LaTeX Warning: Reference `fig:M2L' on page 24 undefined on input line 613.
 
-<L2L_1.jpeg, id=107, 919.30548pt x 406.23347pt>
+<L2L_1.jpeg, id=111, 919.30548pt x 406.23347pt>
 File: L2L_1.jpeg Graphic file (type jpg)
  <use L2L_1.jpeg>
-Package pdftex.def Info: L2L_1.jpeg used on input line 612.
+Package pdftex.def Info: L2L_1.jpeg used on input line 621.
 (pdftex.def)             Requested size: 367.71568pt x 162.4905pt.
 
 
-Package caption Warning: \label without proper \caption on input line 574.
+Package caption Warning: \label without proper \caption on input line 583.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:M2L' on page 23 undefined on input line 625.
+LaTeX Warning: Reference `fig:M2L' on page 24 undefined on input line 634.
 
-<farfield.jpeg, id=108, 805.07227pt x 362.87148pt>
+<farfield.jpeg, id=112, 805.07227pt x 362.87148pt>
 File: farfield.jpeg Graphic file (type jpg)
  <use farfield.jpeg>
-Package pdftex.def Info: farfield.jpeg used on input line 634.
+Package pdftex.def Info: farfield.jpeg used on input line 643.
 (pdftex.def)             Requested size: 402.53514pt x 181.43529pt.
 
-Overfull \hbox (12.53514pt too wide) in paragraph at lines 634--636
+Overfull \hbox (12.53514pt too wide) in paragraph at lines 643--645
  [][] 
  []
 
-[23 <./L2L_1.jpeg>] [24 <./farfield.jpeg>]
+[24 <./L2L_1.jpeg>] [25 <./farfield.jpeg>]
 Chapter 4.
-[25
+[26
 
-] [26] [27] [28] [29]
-<hist_nocorrection.jpeg, id=132, 1213.82516pt x 737.154pt>
+] [27] [28] [29]
+Overfull \hbox (11.27701pt too wide) in paragraph at lines 812--812
+[]\T1/cmtt/m/n/12 type atnum         mass   charge ptype           sigma  epsil
+on\\[] 
+ []
+
+[30] <hist_nocorrection.jpeg, id=136, 1213.82516pt x 737.154pt>
 File: hist_nocorrection.jpeg Graphic file (type jpg)
 
 <use hist_nocorrection.jpeg>
-Package pdftex.def Info: hist_nocorrection.jpeg used on input line 843.
+Package pdftex.def Info: hist_nocorrection.jpeg used on input line 861.
 (pdftex.def)             Requested size: 424.84517pt x 258.00777pt.
 
-Overfull \hbox (34.84517pt too wide) in paragraph at lines 843--846
+Overfull \hbox (34.84517pt too wide) in paragraph at lines 861--864
  [][] 
  []
 
-<magErr_noCorrection.jpeg, id=133, 2409.0pt x 1375.1375pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [31]
+<magErr_noCorrection.jpeg, id=141, 2409.0pt x 1375.1375pt>
 File: magErr_noCorrection.jpeg Graphic file (type jpg)
 
 <use magErr_noCorrection.jpeg>
-Package pdftex.def Info: magErr_noCorrection.jpeg used on input line 853.
+Package pdftex.def Info: magErr_noCorrection.jpeg used on input line 871.
 (pdftex.def)             Requested size: 554.05835pt x 316.27498pt.
 
-Overfull \hbox (164.05835pt too wide) in paragraph at lines 853--856
+Overfull \hbox (164.05835pt too wide) in paragraph at lines 871--874
  [][] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [30 <./hist_nocorrection.jpeg>]
-Underfull \hbox (badness 10000) in paragraph at lines 861--862
+ [32 <./hist_nocorrection.jpeg>]
+Underfull \hbox (badness 10000) in paragraph at lines 879--880
 
  []
 
-[31 <./magErr_noCorrection.jpeg>]
-<dipoleCorrection.jpeg, id=141, 2409.0pt x 1375.1375pt>
+[33 <./magErr_noCorrection.jpeg>]
+<dipoleCorrection.jpeg, id=148, 2409.0pt x 1375.1375pt>
 File: dipoleCorrection.jpeg Graphic file (type jpg)
 
 <use dipoleCorrection.jpeg>
-Package pdftex.def Info: dipoleCorrection.jpeg used on input line 889.
+Package pdftex.def Info: dipoleCorrection.jpeg used on input line 907.
 (pdftex.def)             Requested size: 481.79147pt x 275.02263pt.
 
-Overfull \hbox (91.79147pt too wide) in paragraph at lines 889--892
+Overfull \hbox (91.79147pt too wide) in paragraph at lines 907--910
  [][] 
  []
 
-[32 <./dipoleCorrection.jpeg>]
-<triArray.jpeg, id=145, 226.91226pt x 213.76706pt>
+[34 <./dipoleCorrection.jpeg>]
+<triArray.jpeg, id=152, 226.91226pt x 213.76706pt>
 File: triArray.jpeg Graphic file (type jpg)
  <use triArray.jpeg>
-Package pdftex.def Info: triArray.jpeg used on input line 910.
+Package pdftex.def Info: triArray.jpeg used on input line 928.
 (pdftex.def)             Requested size: 226.9117pt x 213.76653pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 934--935
+Underfull \hbox (badness 10000) in paragraph at lines 952--953
 
  []
 
-[33 <./triArray.jpeg>]
+[35 <./triArray.jpeg>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [34]
+ [36]
 Package epstopdf Info: Source file: <hist_correction.eps>
 (epstopdf)                    date: 2015-08-13 13:57:23
 (epstopdf)                    size: 31700 bytes
@@ -961,46 +984,47 @@ Package epstopdf Info: Source file: <hist_correction.eps>
 (epstopdf)                    size: 14844 bytes
 (epstopdf)             Command: <repstopdf --outfile=hist_correction-eps-conver
 ted-to.pdf hist_correction.eps>
-(epstopdf)             \includegraphics on input line 987.
+(epstopdf)             \includegraphics on input line 1005.
 Package epstopdf Info: Output file is already uptodate.
 
-<hist_correction-eps-converted-to.pdf, id=153, 1734.48pt x 989.6975pt>
+<hist_correction-eps-converted-to.pdf, id=160, 1734.48pt x 989.6975pt>
 File: hist_correction-eps-converted-to.pdf Graphic file (type pdf)
 
 <use hist_correction-eps-converted-to.pdf>
 Package pdftex.def Info: hist_correction-eps-converted-to.pdf used on input lin
-e 987.
+e 1005.
 (pdftex.def)             Requested size: 555.04495pt x 316.70967pt.
 
-Overfull \hbox (165.04495pt too wide) in paragraph at lines 987--989
+Overfull \hbox (165.04495pt too wide) in paragraph at lines 1005--1007
  [][] 
  []
 
-<magErr_Correction.jpeg, id=154, 2409.0pt x 1375.1375pt>
+<magErr_Correction.jpeg, id=161, 2409.0pt x 1375.1375pt>
 File: magErr_Correction.jpeg Graphic file (type jpg)
 
 <use magErr_Correction.jpeg>
-Package pdftex.def Info: magErr_Correction.jpeg used on input line 994.
+Package pdftex.def Info: magErr_Correction.jpeg used on input line 1012.
 (pdftex.def)             Requested size: 481.79147pt x 275.02263pt.
 
-Overfull \hbox (91.79147pt too wide) in paragraph at lines 994--996
+Overfull \hbox (91.79147pt too wide) in paragraph at lines 1012--1014
  [][] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [35 <./hist_correction-eps-converted-to.pdf>]
-Overfull \hbox (1.53938pt too wide) in paragraph at lines 999--999
+ [37 <./hist_correction-eps-converted-to.pdf>]
+Overfull \hbox (1.53938pt too wide) in paragraph at lines 1017--1017
 []\T1/cmr/bx/n/17.28 Comparing with an an-a-lyt-i-cal so-lu-tion : the
  []
 
-[36 <./magErr_Correction.jpeg>] <nacl.jpeg, id=190, 671.50874pt x 837.1275pt>
+[38 <./magErr_Correction.jpeg>] <nacl.jpeg, id=198, 671.50874pt x 837.1275pt>
 File: nacl.jpeg Graphic file (type jpg)
 
 <use nacl.jpeg>
-Package pdftex.def Info: nacl.jpeg used on input line 1012.
+Package pdftex.def Info: nacl.jpeg used on input line 1030.
 (pdftex.def)             Requested size: 268.59874pt x 334.84506pt.
+ [39 <./nacl.jpeg>]
 Package epstopdf Info: Source file: <madelung_FMM.eps>
 (epstopdf)                    date: 2015-08-14 14:39:26
 (epstopdf)                    size: 9961734 bytes
@@ -1009,34 +1033,77 @@ Package epstopdf Info: Source file: <madelung_FMM.eps>
 (epstopdf)                    size: 249214 bytes
 (epstopdf)             Command: <repstopdf --outfile=madelung_FMM-eps-converted
 -to.pdf madelung_FMM.eps>
-(epstopdf)             \includegraphics on input line 1030.
+(epstopdf)             \includegraphics on input line 1085.
 Package epstopdf Info: Output file is already uptodate.
 
-<madelung_FMM-eps-converted-to.pdf, id=191, 1734.48pt x 989.6975pt>
+<madelung_FMM-eps-converted-to.pdf, id=202, 1734.48pt x 989.6975pt>
 File: madelung_FMM-eps-converted-to.pdf Graphic file (type pdf)
 
 <use madelung_FMM-eps-converted-to.pdf>
 Package pdftex.def Info: madelung_FMM-eps-converted-to.pdf used on input line 1
-030.
+085.
 (pdftex.def)             Requested size: 520.34802pt x 296.91154pt.
 
-Overfull \hbox (130.34802pt too wide) in paragraph at lines 1030--1031
+Overfull \hbox (130.34802pt too wide) in paragraph at lines 1085--1086
  [][] 
  []
 
-[37 <./nacl.jpeg>] (./masterThesis_Vaillant.bbl) [38 <./madelung_FMM-eps-conver
-ted-to.pdf>] [39
+[40] [41 <./madelung_FMM-eps-converted-to.pdf>] (./masterThesis_Vaillant.bbl
+[42
+
+]
+Underfull \hbox (badness 1466) in paragraph at lines 18--22
+[]\T1/cmr/m/n/12 H. Dachsel.  Cor-rected ar-ti-cle:^^Pan error-controlled fast 
+mul-ti-pole
+ []
+
+
+Underfull \hbox (badness 1783) in paragraph at lines 30--33
+[]\T1/cmr/m/n/12 L. Green-gard.  Fast al-go-rithms for clas-si-cal physics.  \T
+1/cmr/m/it/12 Sci-ence\T1/cmr/m/n/12 ,
+ []
+
+[43
+
+]) [44] [45
 
 
 ]
 Appendix A.
-[40
+[46
 
 ]
 Appendix B.
-[41
 
-] (./masterThesis_Vaillant.aux)
+Overfull \hbox (42.14447pt too wide) in paragraph at lines 1138--1138
+[]\T1/cmtt/m/n/12 CRYST1  100.000  100.000  100.000  90.00  90.00  90.00 P 1   
+        1[] 
+ []
+
+[47
+
+]
+Overfull \hbox (5.10352pt too wide) in paragraph at lines 1187--1187
+[]\T1/cmtt/m/n/12 ;type atnum         mass   charge ptype           sigma  epsi
+lon[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [48]
+Overfull \hbox (29.79749pt too wide) in paragraph at lines 1240--1240
+[]\T1/cmtt/m/n/12 ; Relative dielectric constant for the medium and the reactio
+n field[] 
+ []
+
+
+Overfull \hbox (11.27701pt too wide) in paragraph at lines 1240--1240
+[]\T1/cmtt/m/n/12 ; Apply long range dispersion corrections for Energy and Pres
+sure[] 
+ []
+
+[49] [50] (./masterThesis_Vaillant.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1045,10 +1112,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 8002 strings out of 493315
- 110183 string characters out of 6145894
+ 8019 strings out of 493315
+ 110487 string characters out of 6145894
  262715 words of memory out of 5000000
- 11280 multiletter control sequences out of 15000+600000
+ 11296 multiletter control sequences out of 15000+600000
  26448 words of font info for 69 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  44i,19n,58p,641b,1219s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1073,10 +1140,10 @@ per/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2074.pfb></u
 sr/share/texmf/fonts/type1/public/cm-super/sfss1200.pfb></usr/share/texmf/fonts
 /type1/public/cm-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-sup
 er/sftt1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on masterThesis_Vaillant.pdf (41 pages, 2419988 bytes).
+Output written on masterThesis_Vaillant.pdf (50 pages, 2481337 bytes).
 PDF statistics:
- 335 PDF objects out of 1000 (max. 8388607)
- 185 compressed objects within 2 object streams
+ 366 PDF objects out of 1000 (max. 8388607)
+ 205 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 106 words of extra memory for PDF output out of 10000 (max. 10000000)
 

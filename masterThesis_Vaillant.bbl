@@ -1,0 +1,67 @@
+\begin{thebibliography}{10}
+
+\bibitem{arnold2005efficient}
+A.~Arnold and C.~Holm.
+\newblock Efficient methods to compute long-range interactions for soft matter
+  systems.
+\newblock In {\em Advanced computer simulation approaches for soft matter
+  sciences II}, pages 59--109. Springer, 2005.
+
+\bibitem{boresch1997presumed}
+S.~Boresch and O.~Steinhauser.
+\newblock Presumed versus real artifacts of the ewald summation technique: The
+  importance of dielectric boundary conditions.
+\newblock {\em Berichte der Bunsengesellschaft f{\"u}r physikalische Chemie},
+  101(7):1019--1029, 1997.
+
+\bibitem{dachsel2010corrected}
+H.~Dachsel.
+\newblock Corrected article:“an error-controlled fast multipole method”[j.
+  chem. phys. 131, 244102 (2009)].
+\newblock {\em The Journal of chemical physics}, 132(11):119901, 2010.
+
+\bibitem{darden1993particle}
+T.~Darden, D.~York, and L.~Pedersen.
+\newblock Particle mesh ewald: An n log (n) method for ewald sums in large
+  systems.
+\newblock {\em The Journal of chemical physics}, 98(12):10089--10092, 1993.
+
+\bibitem{greengard1994fast}
+L.~Greengard.
+\newblock Fast algorithms for classical physics.
+\newblock {\em Science}, 265(5174):909--914, 1994.
+
+\bibitem{hess2010gromacs}
+B.~Hess, D.~van Der~Spoel, and E.~Lindahl.
+\newblock Gromacs user manual version 5.0.4.
+\newblock {\em University of Groningen, Netherland}.
+
+\bibitem{ihler2004overview}
+A.~T. Ihler.
+\newblock An overview of fast multipole methods.
+\newblock {\em Area Exam, April}, 2004.
+
+\bibitem{}
+I.~Kabadshow.
+\newblock {\em Periodic Boundary Conditions and the Error-Constrolled Fast
+  Multipole Method}.
+\newblock PhD thesis, Juelich Forschungszentrum, 2012.
+
+\bibitem{kutzner2013scaling}
+C.~Kutzner, R.~Apostolov, B.~Hess, and H.~Grubm{\"u}ller.
+\newblock Scaling of the gromacs 4.6 molecular dynamics code on supermuc.
+\newblock {\em Advances in Parallel Computing}, 25, 2013.
+
+\bibitem{pronk2013gromacs}
+S.~Pronk, S.~P{\'a}ll, R.~Schulz, P.~Larsson, P.~Bjelkmar, R.~Apostolov, M.~R.
+  Shirts, J.~C. Smith, P.~M. Kasson, D.~van~der Spoel, et~al.
+\newblock Gromacs 4.5: a high-throughput and highly parallel open source
+  molecular simulation toolkit.
+\newblock {\em Bioinformatics}, page btt055, 2013.
+
+\bibitem{toukmaji1996ewald}
+A.~Y. Toukmaji and J.~A. Board.
+\newblock Ewald summation techniques in perspective: a survey.
+\newblock {\em Computer physics communications}, 95(2):73--92, 1996.
+
+\end{thebibliography}
