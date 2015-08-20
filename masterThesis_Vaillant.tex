@@ -57,20 +57,19 @@
 
 \maketitle
 
-\chapter*{Acknoledgements}
+\chapter*{Acknowledgments}
 
-I would first like to gratefully thank Helmut Grubmüller and Bert De Groot for welcoming me in their lab. I also thank Carsten Kutzner who supervised my Internship. I also would like to Thank Bartosz Kohnke and Thomas Ullmann for providing me advice on my project.\\ 
+I would first like to gratefully thank Helmut Grubmüller and Bert de Groot for welcoming me in their lab. I also thank Carsten Kutzner who supervised my Internship. I also would like to Thank Bartosz Kohnke and Thomas Ullmann for providing me advice on my project.\\ 
 
 Finally I would also like to thank Ivo Kabadschow and Andreas Beckmann who welcomed me in the Jülich Forschungszentrum to teach me the details of the FMM method. 
 
 
 \chapter*{Abstract}
 
-Simulating large pairwise interactions is a very important issue for Scientific research. It plays an important role in Astrophysics to know the dynamics of galaxies, in plasma physics or in our case in biophysics. This kind of simulations is typically with a complexity of $\mathcal{O}(N^2)$ which scales badly with the size of the system.
+Simulating systems with long-range pairwise interactions is a frequently encountered challenge in scientific research.It plays an important role in Astrophysics to know the dynamics of galaxies, in plasma physics or in our case in biophysics.  A direct evaluation of these pairwise interactions leads to $\mathcal{O}(N^2)$, which obviously scaled badly with a system of size $N$. 
+Some other techniques, such as the PME (Particle Mesh Ewald) and the FMM (Fast Multipole Method) obtain a complexity of $\mathcal{O}(N\log(N))$ and $\mathcal{O}(N)$,  respectively these techniques also allow a greater scalability of the system for parallel computations.
 
-Some other techniques, such as the PME (Particle Mesh Ewald) and the FMM (Fast Multipole Method) are able to obtain a complexity of respectively $\mathcal{O}(N\log(N))$ qnd $\mathcal{O}(N)$. These techniques also allows a greter scalability of the system for parallel computations.
-
-The Aim of this internship is to study how the FMM compares to the PME, ie. which sets of parameters gives the same accuracy  for both methods. We developed some tools to compare the data from different softwares. 
+The aim of this internship is to study how the FMM compares to the PME, ie. which sets of parameters gives the same accuracy  for both methods. We developed some tools to compare the data from different softwares. 
 \\
 \\
 \\
@@ -83,7 +82,7 @@ The Aim of this internship is to study how the FMM compares to the PME, ie. whic
 \chapter{Presentation of the Lab}
 \section*{Max Planck Institute for Biophysical Chemistry}
 
-The Max-Planck Institute for Biophysical Chemistry is part of the Max-Planck Institues, which are an ensemble of research center throughout Germany (As the CNRS in France could be).\\
+The Max Planck Institute for Biophysical Chemistry is part of the Max-Planck Institutes, which are an ensemble of research center throughout Germany (As the CNRS in France could be).\\
 
 The Max-Planck Institute for Biophysical Chemistry, located in Göttingen, is one of the biggest research centers in the Biophysics field in Europe. Its research fields includes Molecular Dynamics Simulation, but also NMR or Biochemistry.\\
 The departments are : (from http://www.mpibpc.mpg.de/groups)
@@ -104,13 +103,12 @@ The departments are : (from http://www.mpibpc.mpg.de/groups)
 
 \section*{Department of Theoretical and Computational Biophysics}
 
-This deparments led by both Helmut grubmüller and Bert de Groot aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, complex computer simulations of the atomistic dynamics are carried out.\\
+This deparments is led by both Helmut grubmüller. It aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, dynamic complex atomisitic computer simulations are carried out.\\
 
-There is basically two main parts in the lab, one part is on really studying systems (Proteins, membranes) and molecular machines in order to know their dynamics (for example some people are studying the molecular mechanisms of the ribosome), and another part which is more focussing on the methods, regardless of the biological system:
-
+One area of research is on studying systems (Proteins, membranes) and molecular machines in order to better understand their dynamics (for example the molecular mechanisms of the ribosome), and another area is focusing on development.
 Concerning the part of the department dedicated to methods and theory, new statistical mechanics concepts, quantum hybrid methods, and efficient parallel simulation algorithms and codes are the methodological focus of the department.
 
-Both lines of questions phrased above are closely interlinked. Progress in the understanding of the physics of proteins, on the one hand, enables improved and more realistic simulation techniques, which allow to study a growing number of biochemical processes in great detail. Through analysis of well-understood mechanisms, on the other hand, one can learn to separate relevant aspects in protein dynamics from irrelevant ones — which is prerequisite for the construction of effective protein models. In short, we find a close interplay between theory development, algorithmic progress, and application.  
+Both lines of questions phrased above are closely interlinked. Progress in the understanding of the physics of proteins, on the one hand, enables improved and more realistic simulation techniques, which allow to study a growing number of biochemical processes in great detail. Through analysis of well-understood mechanisms, on the other hand, one can learn to separate relevant aspects in protein dynamics from irrelevant ones — which is prerequisite for the construction of effective protein models. In short, we find a close interplay between method development, algorithmic progress, and application.  
 
 
 
@@ -119,7 +117,7 @@ Both lines of questions phrased above are closely interlinked. Progress in the u
 
 \chapter{Context of the Internship}
 
-The Context of this Internship is driven by the "SPPEXA (Software for exascale computing) / GromEx" project funded by the DFG (Deutsche Forschungsgeimeinschaft).
+The context of this internship is driven by the "SPPEXA (Software for exascale computing) / GromEx" project funded by the DFG (Deutsche Forschungsgemeinschaft).
 The Idea of this project is to create a flexible and fast solver for computing forces and potentials, which is a preliminary for molecular simulations.
 
 A poster\footnote{from http://www.mpibpc.mpg.de/grubmueller/sppexa}   of the project can be found below :
@@ -132,10 +130,9 @@ A poster\footnote{from http://www.mpibpc.mpg.de/grubmueller/sppexa}   of the pro
 \end{figure}
 
 
-Currently the method used for computing electrostatic forces is called the PME (Particle Mesh Ewald). It works nicely but one of its problems is that the algorithms cannot be efficiently parallelised tasks as there is a lot of communication between the CPU or GPU cores. The idea would be to replace this method with a new method called the Fast-Multipole Method which is based on a tree Structure and may allow an greater parallelization of the system as wanted.\\
+The current method for computing electrostatic forces is called the PME (Particle Mesh Ewald). One of its problems is a communication bottleneck that prohibits efficient parallization across many (> 10000) CPU cores. The idea would be to replace this method with a new method called the Fast-Multipole Method which is based on a tree Structure and may allow an greater parallelization of the system as wanted.\\
 
-So the Idea of the Internship is first to know how to tune those systems to know how they relate to each other. Which parameters do I need to take for the FMM in order to have the same accurarcy as the PME ?
-
+So the Idea of the Internship is first to know how to tune those systems to know how they relate to each other. Both PME and FMM make approximations. For a fair comparison we want to compare the methods at equal accuracy of the forces (and energies) they compute. 
 
 \chapter{Methods for computing electrostatic forces}
 
@@ -145,7 +142,7 @@ The electrostatic potential of a group of $N$ of charge $q_i$ at position $r_i$ 
 V_C = \frac{1}{4\pi\epsilon_0} \sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{r_{ij}}
 \end{equation}
 
-Computing this potential is very important in different areas of physics, such as plasma physics, or in our case molecular dynamics where the forces between charged particles need to be computed in an efficient and scalable way, the being computed using
+Computing this potential is very important in different areas of physics, such as plasma physics, or in our case molecular dynamics where the forces between charged particles need to be computed in an efficient and scalable way, the force being computed using
 
 \begin{equation}
 	\vec{F}_i = - \vec{\nabla_i} V(\vec{r})
@@ -157,12 +154,12 @@ Computing this potential is very important in different areas of physics, such a
 
 In this section, we will explain the most basic method to compute pairwise interactions and explain why the method leads to long computation times and sometimes .
 
-\subsection{Naive $\mathcal{O}(N^2)$ Method}
+\subsection{"Naive" $\mathcal{O}(N^2)$ Method}
 
-The sum of all electrostatic forces $\vec{F}_i$ felt by once particle can be written the following way:
+The sum of all electrostatic forces $F_i$ exerted  on one particle can be written the following way:
 
 \begin{equation}
-	\vec{F}_i =  \sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{4\pi\epsilon_0 r_{ij^2}}
+	F_i =  \sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{4\pi\epsilon_0 r_{ij^2}}
 	\label{coulombComplete}
 \end{equation}
 
@@ -175,16 +172,15 @@ In the thesis we will simplify the equation ~\eqref{coulombComplete} by just wri
 	\label{coulombSimplified}
 \end{equation}
 
-where $f$ is called the \textbf{electric conversion factor} and is equal to 138.935485(9) kJ.mol$^-1$.nm.e$^-2$\\
+where $f=\frac{1}{4\pi\epsilon_0}$ is called the \textbf{electric conversion factor} and is equal to 138.935485(9) kJ.mol$^-1$.nm.e$^-2$\\
 
 
 The first, naive way to compute electrostatic forces is just to follow equation (\ref{coulombSimplified}):
 
-So if we consider a set of $N$ charged particles, $N-1$ interactions are needed to compute the force acting on one specific particle. So in order to know the forces of the set of particles, $N\cdot(N-1)$ operations are needed, hence an algorithmic complexity of $\mathcal{O}(N^2)$.
+So if we consider a set of $N$ charged particles, $N-1$ interactions are needed to compute the force acting on one specific particle. So in order to know the forces of the set of particles, $N\cdot(N-1)$ operations are needed, hence an algorithmic complexity of $\mathcal{O}(N^2)$. Indeed, in order to have to have a physically accurate simulation, it is need to surround the molecule we want to study into a solvent such as water : If the layer of water is finite, it can lead to some unexpected effects as shown [REF...]
+
 
 This gives the following algorithm:
-
-
 
 \IncMargin{1em}
 \begin{algorithm}[H]
@@ -235,7 +231,7 @@ So we have the following system :
 
 This technique is for example used for Lennard-Jones potentials ($V_{LJ} = 4\epsilon [(\frac{\sigma}{r})^12 - (\frac{\sigma}{r})^6] $), where the intensity of the force is quickly decreasing. It allows to limit the number of interactions to only the close neighbors.\\
 
-However, one of the problems of this cutoff technique, especially for long-range interactions such as coulombic interactions using a cut-off can lead to artefacts resulting from the sudden drop of the force to 0 at the cutoff. It was shown that this can lead to unphysical assemblies of particles at the cutoff distance as shown for instance in figure (\ref{fig:artefact}) .
+However, one of the problems of this cutoff technique, especially for long-range interactions such as coulombic interactions using a cut-off can lead to artifacts resulting from the sudden drop of the force to 0 at the cutoff. It was shown that this can lead to unphysical assemblies of particles at the cutoff distance as shown for instance in figure (\ref{fig:artefact}) .
 
 \begin{figure}[H]
 
@@ -278,7 +274,7 @@ where $n_x,n_y,n_z$ are the box index vector.\\
 The equation (\ref{periodicSum}) is conditionally convergent and slow to converge. One technique discovered by Ewald is to split the potential in two absolutely convergent terms and one constant term:
 
 
-If the system is neutral, ie. $\sum_{i=1}^N q_i = 0$, the $\frac{1}{r}$ can be written in the following way :
+$\frac{1}{r}$ can be written in the following way :
 
 \begin{equation}
    \frac{1}{r} = \frac{f(x)}{r} + \frac{1 - f(x)}{r}
@@ -309,10 +305,11 @@ where $\vec{m}$ are the vectors in the reciprocal space, and $L$ is the volume o
 \hspace{10 mm}
 \left\lbrace
 \begin{array}{ccc}
-\vec{m}_x = & 2\pi \frac{\vec{n_y}\times\vec{n_z}}   {\vec{n_x}\cdot(\vec{n_y}\times\vec{n_z})}         \\
-\vec{m}_y = &  2\pi \frac{\vec{n_z}\times\vec{n_x}}   {\vec{n_y}\cdot(\vec{n_z}\times\vec{n_x})} \\
-\vec{m}_z = & 2\pi \frac{\vec{n_x}\times\vec{n_y}}   {\vec{n_x}\cdot(\vec{n_z}\times\vec{n_y})} 
+\vec{m}_x = & 2\pi \frac{\vec{n_y}\times\vec{n_z}}   {\vec{n_x}\cdot(\vec{n_y}\times\vec{n_z})} + n\cdot L_x        \\
+\vec{m}_y = &  2\pi \frac{\vec{n_z}\times\vec{n_x}}   {\vec{n_y}\cdot(\vec{n_z}\times\vec{n_x})} + n\cdot L_y \\
+\vec{m}_z = & 2\pi \frac{\vec{n_x}\times\vec{n_y}}   {\vec{n_x}\cdot(\vec{n_z}\times\vec{n_y})} + n\cdot L_z  
 \end{array}\right.
+, n \in \mathbb{Z}
 \end{equation*}
 
 
@@ -367,7 +364,7 @@ where $S(\textbf{n}^* )$ is defined as the Structure factor:
 \end{equation}
 
 
-The idea of the PME is to approximate the structure factor $S(\vec{m})$ by the 3D Fourier Transform of the charge matrix,which is obtained by interpolating the charges to a discrete grid of size $ p \times p $. 
+The idea of the PME is to approximate the structure factor $S(\vec{m})$ by the 3D Fourier Transform of the charge matrix,which is obtained by interpolating the charges to a discrete grid of size $ p_x \times p_y \times p_z $. 
 	Let also define $\mathcal{F}(Q)$ the 3D FFT of $Q$. The charges $q_i$ are mapped to the grid using interpolation.Originally, Lagrange interpolation was used, but now a b-spline interpolation is used. The order of interpolation is called the \textit{PME Order}\\
 
 then the Structure factor can be approximated as its FFT :
@@ -382,16 +379,16 @@ so the reciprocal energy can also be approximated by:
    V_{\text{reciprocal}} \approx \widetilde{V}_{\text{reciprocal}}   =\frac{1}{2 \pi V} \sum\limits_{\textbf{n}^* \neq 0}^{N}  \frac{\exp{(-(\pi \overrightarrow{m}/\alpha)^2)}}{m^2}\mathcal{F}(Q)(\textbf{m})\mathcal{F}(Q)(-\textbf{m})
 \end{equation} \\
 
-It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. Then it also allows to handle infinite systems with periodic boundary conditions.\\ However, the algorithm doesn't scale well for large scale parallelism[REFERENCE ?], hence the need for a more scalable algorithm for the computations of electrostatic forces.
+It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. Then it also allows to handle infinite systems with periodic boundary conditions.\\ However, the algorithm doesn't scale well for large scale parallelism (above 10000 CPU cores)[REFERENCE ?. The bottleneck is located in the computation of the FFT, where an all-to-all communication is required, hence the need for a more scalable algorithm for the computations of electrostatic forces.
 
 \begin{figure}[H]
 \includegraphics[scale=0.6]{scalingMUC}
  \centering 
-\caption{ Parallel rfficiency of three "real-world" simluations using Intel's MPI. Horizontal grey line indicates perfect scaling.}
+\caption{ Parallel efficiency of three "real-world" simulations using Intel's MPI. Horizontal grey line indicates perfect scaling.}
 \label{fig:scaling}
 \end{figure}
 
-As shown figure \ref{fig:scaling},
+
 
 \section{Tree-based methods}
 
@@ -692,7 +689,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion are shifted to 
 
 	\item The *.top files (namelt \textit{topoloy} files) are the file where the properites of the atoms are defined. These properties are for example the charge, the Van-der-Waals parameters or the binding forces of the system. This configuration is often done with force field files such as AMBER or CHARMM
 		 
-	\item The *.mdp files are defining the physical and computational parameters of the simulation. It is defining the methods used for the simulation. In our case we are mostly interested in the electrostatics part of the computation ; it is then possible to select the method (PME or Cut-Off methods) and the parameters for the PME
+	\item The *.mdp (MD parameter file) files are defining the physical and computational parameters of the simulation. It is defining the methods used for the simulation. In our case we are mostly interested in the electrostatics part of the computation ; it is then possible to select the method (PME or Cut-Off methods) and the parameters for the PME
 	
 	\end{itemize}
 		
@@ -707,7 +704,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion are shifted to 
 	
 	\item[\textbf{Fourier Spacing}] The other important parameter is the fourier spacing. I remind that in the PME method a 3D FFT is done in order to compute the energies and the forces of the system. The FFT is so computed on a grid : The dimension of the grid is given by the \textit{Fourier Spacing} parameter.
 	
-	\item[\textbf{PME Order}] The PME order gives the order of the interpolation. For instance, PMEorder$= 4$ corresponds to a cubic interpolation. 		
+	\item[\textbf{PME Order}] The PME order gives the order of the charge interpolation on the grid. For instance, PMEorder$= 4$ corresponds to a cubic interpolation. 		
 	
 	\end{enumerate}
 	
@@ -727,7 +724,7 @@ First generate a .tpr binary file conaining all the information about the simula
  }}
 
 \vspace{5mm}
-where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the opsition of the At and contains arroundoms). The *.tpr file ris the output file.
+where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the position of the Atoms). The *.tpr file ris the output file.
 
 It is then possible to run the simulation using the program mdrun, which as its name stands, runs the md simulation. A possible example is :
 
