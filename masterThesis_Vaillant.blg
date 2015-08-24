@@ -6,7 +6,7 @@ Database file #1: biblio.bib
 Warning--empty year in hess2010gromacs
 You've used 11 entries,
             2118 wiz_defined-function locations,
-            570 strings with 5719 characters,
+            572 strings with 5731 characters,
 and the built_in function-call counts, 3739 in all, are:
 = -- 371
 > -- 184

@@ -1,4 +1,4 @@
-\documentclass[12pt,twoside,a4paper]{report}
+\documentclass[11pt,twoside,a4paper]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -57,11 +57,6 @@
 
 \maketitle
 
-\chapter*{Acknowledgments}
-
-I would first like to gratefully thank Helmut Grubmüller and Bert de Groot for welcoming me in their lab. I also thank Carsten Kutzner who supervised my Internship. I also would like to Thank Bartosz Kohnke and Thomas Ullmann for providing me advice on my project.\\ 
-
-Finally I would also like to thank Ivo Kabadschow and Andreas Beckmann who welcomed me in the Jülich Forschungszentrum to teach me the details of the FMM method. 
 
 
 \chapter*{Abstract}
@@ -69,20 +64,29 @@ Finally I would also like to thank Ivo Kabadschow and Andreas Beckmann who welco
 Simulating systems with long-range pairwise interactions is a frequently encountered challenge in scientific research.It plays an important role in Astrophysics to know the dynamics of galaxies, in plasma physics or in our case in biophysics.  A direct evaluation of these pairwise interactions leads to $\mathcal{O}(N^2)$, which obviously scaled badly with a system of size $N$. 
 Some other techniques, such as the PME (Particle Mesh Ewald) and the FMM (Fast Multipole Method) obtain a complexity of $\mathcal{O}(N\log(N))$ and $\mathcal{O}(N)$,  respectively these techniques also allow a greater scalability of the system for parallel computations.
 
-The aim of this internship is to study how the FMM compares to the PME, ie. which sets of parameters gives the same accuracy  for both methods. We developed some tools to compare the data from different softwares. 
-\\
+The aim of this internship is to study how the FMM compares to the PME, ie. which sets of parameters gives the same accuracy  for both methods. We developed some tools to compare the data from softwares simulating systems for both methods and study their accuracy. 
 \\
 \\
 \\
 
-	La simulation de larges systemes de particules en interaction est tres importante pour le calcul scientifique. Elles jouent un role important en Astrophysique pour connaitre la dynamique des galaxies, en physique des plasmas ainsi que, dans notre cas, en Biophysique pour l'etude de machines moleculaires complexes.
+La simulation de systèmes avec des interactions a longues distances est un problème très fréquemment rencontre dans la recherche scientifique. Elles jouent un rôle important en physique pour connaître la dynamique des galaxies, en physique des plasmas ou encore dans notre cas en biophysique. L'évaluation directe de ces interactions nous amène a une complexité en $\mathcal{O}(N^2)$, qui supporte difficilement la mise a l'échelle : De plus il est impossible avec cette méthode de pouvoir simuler un système infini.
+	Certaines techniques, telles que la PME (Particle Mesh Ewald) et la FMM (Fast Multipole Method) ont une complexité respectivement de $\mathcal{O}(N\log(N))$ et $\mathcal{O}(N)$ . Elles permettent de pouvoir gérer des systèmes avec conditions aux limites périodiques ; elles supportent aussi bien mieux la mise a l'échelle pour le calcul parallèle.
 	
+	Le but de ce stage est d'etudier comment la FMM peut ete comparee a la PME, c'est a dire quels ensemble de parameteres nous donne la meme precision four les deux methodes.
+
+
+\chapter*{Acknowledgments}
+
+I would first like to gratefully thank Helmut Grubmüller and Bert de Groot for welcoming me in their lab. I also thank Carsten Kutzner who supervised my Internship. I also would like to Thank Bartosz Kohnke and Thomas Ullmann for providing me advice on my project.\\ 
+
+Finally I would also like to thank Ivo Kabadschow and Andreas Beckmann who welcomed me in the Jülich Forschungszentrum to teach me the details of the FMM method. 
+
 \tableofcontents
 
 \chapter{Presentation of the Lab}
 \section*{Max Planck Institute for Biophysical Chemistry}
 
-The Max Planck Institute for Biophysical Chemistry is part of the Max-Planck Institutes, which are an ensemble of research center throughout Germany (As the CNRS in France could be).\\
+The Max Planck Institute for Biophysical Chemistry is part of the Max Planck Institutes, which are an ensemble of research center throughout Germany (As the CNRS in France could be).\\
 
 The Max-Planck Institute for Biophysical Chemistry, located in Göttingen, is one of the biggest research centers in the Biophysics field in Europe. Its research fields includes Molecular Dynamics Simulation, but also NMR or Biochemistry.\\
 The departments are : (from http://www.mpibpc.mpg.de/groups)
@@ -101,9 +105,9 @@ The departments are : (from http://www.mpibpc.mpg.de/groups)
 \item Alec M. Wodtke – Dynamics at Surfaces
 \end{itemize}
 
-\section*{Department of Theoretical and Computational Biophysics}
+\section*{Department of Theoretical and Computational Biophys3ics}
 
-This deparments is led by both Helmut grubmüller. It aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, dynamic complex atomisitic computer simulations are carried out.\\
+This department is led by both Helmut Grubmüller. It aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, dynamic complex atomisitic computer simulations are carried out.\\
 
 One area of research is on studying systems (Proteins, membranes) and molecular machines in order to better understand their dynamics (for example the molecular mechanisms of the ribosome), and another area is focusing on development.
 Concerning the part of the department dedicated to methods and theory, new statistical mechanics concepts, quantum hybrid methods, and efficient parallel simulation algorithms and codes are the methodological focus of the department.
@@ -168,7 +172,7 @@ where $q$ is the charge of one particle, and $R_{ij}$ is the distance between pa
 In the thesis we will simplify the equation ~\eqref{coulombComplete} by just writing:
 
 \begin{equation}
-	\vec{F}_i =  f\cdot\sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{r_{ij^2}}
+	\vec{F}_i =  f\cdot\sum\limits_{i=1}^{N}\sum\limits_{j>i} \frac{q_i q_j}{r_{ij^2}} \frac{\vec{r_{ij}}}{|r_{ij}|}
 	\label{coulombSimplified}
 \end{equation}
 
@@ -177,8 +181,7 @@ where $f=\frac{1}{4\pi\epsilon_0}$ is called the \textbf{electric conversion fac
 
 The first, naive way to compute electrostatic forces is just to follow equation (\ref{coulombSimplified}):
 
-So if we consider a set of $N$ charged particles, $N-1$ interactions are needed to compute the force acting on one specific particle. So in order to know the forces of the set of particles, $N\cdot(N-1)$ operations are needed, hence an algorithmic complexity of $\mathcal{O}(N^2)$. Indeed, in order to have to have a physically accurate simulation, it is need to surround the molecule we want to study into a solvent such as water : If the layer of water is finite, it can lead to some unexpected effects as shown [REF...]
-
+So if we consider a set of $N$ charged particles, $N-1$ interactions are needed to compute the force acting on one specific particle. So in order to know the forces of the set of particles, $N\cdot(N-1)$ operations are needed, hence an algorithmic complexity of $\mathcal{O}(N^2)$. Indeed, in order to have to have a physically accurate simulation, it is need to surround the molecule we want to study into a solvent (often water) : If the layer of water is finite, it can lead to some unexpected effects as shown [REF...]\\
 
 This gives the following algorithm:
 
@@ -211,7 +214,7 @@ for each particle}
 
 
 The complexity of such a computation limits its use to rather small systems and is not really usable for bigger systems such as proteins or astrophysical systems.
- Moreover it is also important to say that if we want to add periodic boundary conditions the $\mathcal{O}(N^2)$ method is not sufficient as the system is infinite.
+ Moreover it is also important to say that if we want to add periodic boundary conditions the $\mathcal{O}(N^2)$ method is not usable as the system is infinite.
 
 
 \subsection{Possible improvements}
@@ -224,7 +227,7 @@ So we have the following system :
 \begin{equation}
   \overrightarrow{F}_{A \rightarrow B}  =
 	\begin{cases}
-	  \frac{q_A q_B \hat{r}_{AB} }{|R_{AB}|^2}  & \text{if } R_{AB} < R_0 \\
+	  \frac{q_A q_B \vec{r}_{AB} }{|R_{AB}|^2}  & \text{if } R_{AB} < R_0 \\
 	  \overrightarrow{0} & \text{otherwise}
 	\end{cases}
 \end{equation}
@@ -338,7 +341,7 @@ Equations \ref{ewaldDirect} and \ref{ewaldReciprocal} can then be used to comput
 
 
 \subsection{PME}
-One way to improve this method is to compute the Fourier sum using the FFT (Fast Fourier Transform). This allows the algorithm to get a complexity of $\mathcal{O}(N\log N)$. There is different methods that are based on the Ewald summation, namely the \textbf{P3M} (Particle-Particle Particle-Mesh Method) or the \textbf{FFP} (Fast Fourier Poisson method). 
+One way to improve this method is to compute the Fourier sum using the FFT (Fast Fourier Transform). This allows the algorithm to get a complexity of $\mathcal{O}(N\log N)$. There is different methods that are based on the Ewald summation, namely the \textbf{P3M} (Particle-Particle Particle-Mesh Method) or the \textbf{FFP} (Fast Fourier Poisson method). Descriptions of these methods can be found \cite{toukmaji1996ewald}. 
 
 In our case, we will focus on the \textbf{PME} as it is the method currently used in GROMACS. \\
 
@@ -379,7 +382,7 @@ so the reciprocal energy can also be approximated by:
    V_{\text{reciprocal}} \approx \widetilde{V}_{\text{reciprocal}}   =\frac{1}{2 \pi V} \sum\limits_{\textbf{n}^* \neq 0}^{N}  \frac{\exp{(-(\pi \overrightarrow{m}/\alpha)^2)}}{m^2}\mathcal{F}(Q)(\textbf{m})\mathcal{F}(Q)(-\textbf{m})
 \end{equation} \\
 
-It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. Then it also allows to handle infinite systems with periodic boundary conditions.\\ However, the algorithm doesn't scale well for large scale parallelism (above 10000 CPU cores)[REFERENCE ?. The bottleneck is located in the computation of the FFT, where an all-to-all communication is required, hence the need for a more scalable algorithm for the computations of electrostatic forces.
+It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$ which is a much bigger improvement compared to the $\mathcal{O}(N^2)$ complexity of the direct algorithm. Then it also allows to handle infinite systems with periodic boundary conditions.\\ However, the algorithm doesn't scale well for large scale parallelism (above 10000 CPU cores)\cite{kutzner2013scaling}. The bottleneck is located in the computation of the FFT, where an all-to-all communication is required, hence the need for a more scalable algorithm for the computations of electrostatic forces as shown \cite{kutzner2013scaling}.
 
 \begin{figure}[H]
 \includegraphics[scale=0.6]{scalingMUC}
@@ -392,8 +395,8 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 
 \section{Tree-based methods}
 
-Now we will look at an algorithm that scales linearly with the number of charges $N$ and which does not have inherent parallel communication bottleneck as [ref].
-Furthermore, it can be applied to systems with periodic as well to systems with open boundaries. Since it approximates the actual charge distribution by a set of multipoles, it is called the "Fast Multipole method" (FMM)
+Now we will look at an algorithm that scales linearly with the number of charges $N$ and which does not have inherent parallel communication bottleneck as \cite{kutzner2013scaling}.
+Furthermore, it can be applied to systems with periodic as well to systems with open boundaries. Since it approximates the actual charge distribution by a set of multipoles, it is called the "Fast Multipole method" (FMM). It is also interesting to say that the FMM method has an error bound estimator which allows the error of the FMM to be controlled as shown \cite{dachsel2010corrected}
     
 	\subsection{Mathematical preliminaries}
 	
@@ -430,7 +433,7 @@ Furthermore, it can be applied to systems with periodic as well to systems with 
 	
 	where $\mu = \frac{a}{r}$ and $u = \cos{\gamma}$ .
 	
-	with some manipulation as explained [ADD REFERENCE], we obtain : 
+	with some manipulation as explained \cite{phdIvo} , we obtain : 
 	
 	\begin{equation}
 	\frac{1}{|r - a|} = \sum\limits_{l=0}^{+\infty} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \phi)}
@@ -438,8 +441,9 @@ Furthermore, it can be applied to systems with periodic as well to systems with 
 	
 	in order to approximate the scheme, we can truncate the infinite series to a certain order $p$, we call this order the \textbf{multipole order}
 	
-	\begin{equation}
+	\begin{equation}	
 	\frac{1}{|r - a|} \simeq \sum\limits_{l=0}^{\textcolor{red}{p}} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \phi)}
+	\label{eq:order}
 	\end{equation}
 	
 	We can now rewrite the summation the following way :
@@ -481,7 +485,7 @@ Furthermore, it can be applied to systems with periodic as well to systems with 
 
     \includegraphics[scale=0.7]{bipolar}
     \centering 
-    \caption{Scheme of two particles expanded according to two different origins [from ADD REFERENCE]}
+    \caption{Scheme of two particles expanded according to two different origins}
     \label{fig:bipolar}
     \end{figure}
 
@@ -524,7 +528,7 @@ Furthermore, it can be applied to systems with periodic as well to systems with 
 	\begin{figure}[H]
     \includegraphics[scale=0.7]{separation}    
     \centering 
-    \caption{Example of the influence of the separation criterion $ws$ for a given box $A$, from left to right, $ws = 1,2,3$.}    
+    \caption{Example of the influence of the separation criterion $ws$ for a given box $A$, from left to right, $ws = 1,2,3$. (from \cite{phdIvo})}    
     \label{fig:separation}
      \end{figure}
 	
@@ -566,7 +570,7 @@ To construct the multipoles at the higher levels from the existing multipoles at
    \begin{figure}[H]
    \includegraphics[scale=0.4]{ShiftMultipole}
     \centering 
-    \caption{Example in 1-D showing the shifting of the multipole moments using the M2M operator. }
+    \caption{Example in 1-D showing the shifting of the multipole moments using the M2M operator. (from \cite{phdIvo}) }
     \label{fig:multipole}
    \end{figure}
    
@@ -580,7 +584,7 @@ To construct the multipoles at the higher levels from the existing multipoles at
  	\label{fig:M2L}
    \includegraphics[scale=0.8]{transformExpansions1}
     \centering 
-    \caption{Example in 1-D showing the transformation of distant expansions into multipoles}
+    \caption{Example in 1-D showing the transformation of distant expansions into multipoles (from \cite{phdIvo})}
     
    \end{figure}
    
@@ -596,7 +600,7 @@ To construct the multipoles at the higher levels from the existing multipoles at
    \subfloat[First, the parents of the box are chosen] {\label{fig:parentBox} \includegraphics[scale=0.6]{transformExpansions2}}   
    \subfloat[Then, then children of the parents are chosen. Then the separation criterion can apply] {\includegraphics[scale=0.6]{transformExpansions3}}
     \centering 
-    \caption{Interation Rules for the transformation of the multipole expansions}
+    \caption{Interation Rules for the transformation of the multipole expansions (from \cite{phdIvo})}
     \label{fig:multipole}
    \end{figure}   
    
@@ -617,7 +621,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion are shifted to 
 	\label{fig:L2L}
    \includegraphics[scale=0.4]{L2L_1}
     \centering 
-    \caption{Example in 1-D showing the shifting of the local moments using the L2L operator. }
+    \caption{Example in 1-D showing the shifting of the local moments using the L2L operator. (from \cite{phdIvo}) }
     
    \end{figure}
     
@@ -669,7 +673,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion are shifted to 
 
 \chapter{Comparing FMM and PME accuracy}
 
-    In this chapter I will more precisely explain my work done in the Lab, which consisted in comparing the PME methods, which is for example used by gromacs, and the FMM method, used by a solver made between the Julich Forschungszentrum and the Max Planck Institute for Biophysics in Göttingen.
+    In this chapter I will more precisely explain my work done in the Lab, which consisted in comparing the PME methods, which is for example used by GROMACS, and the FMM method, used by a solver made between the Julich Forschungszentrum and the Max Planck Institute for Biophysics in Göttingen.
 
   
 
@@ -687,7 +691,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion are shifted to 
 	
 	\item The *.pdb file are the \textit{Protein DataBank} file : In this file is denoted the position and the type of the particles of the system. It also gives the size of the simulation box
 
-	\item The *.top files (namelt \textit{topoloy} files) are the file where the properites of the atoms are defined. These properties are for example the charge, the Van-der-Waals parameters or the binding forces of the system. This configuration is often done with force field files such as AMBER or CHARMM
+	\item The *.top files (namely \textit{topology} files) are the file where the properties of the atoms are defined. These properties are for example the charge, the Van-der-Waals parameters or the binding forces of the system. This configuration is often done with force field files such as AMBER or CHARMM
 		 
 	\item The *.mdp (MD parameter file) files are defining the physical and computational parameters of the simulation. It is defining the methods used for the simulation. In our case we are mostly interested in the electrostatics part of the computation ; it is then possible to select the method (PME or Cut-Off methods) and the parameters for the PME
 	
@@ -714,24 +718,24 @@ The workflow to laumch a GROMACS Simulation is the following :
 
 
 
-First generate a .tpr binary file conaining all the information about the simulation. The file is processed using the \textit{grompp} (Gromacs Preprocessor). The command is :
+First generate a .tpr binary file containing all the information about the simulation. The file is processed using the \textit{grompp} (Gromacs Preprocessor). The command is :
 
 
-{\centering\tt {grompp -f mdpfile \\
+{\centering\tt {grompp -f mdpfile.mdp \\
 	 -p topFile.top \\
 	 -c pdbFile.pdb \\
 	 -o tprFile.tpr \\ 
  }}
 
 \vspace{5mm}
-where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the position of the Atoms). The *.tpr file ris the output file.
+where the input files are the *.mdp , *.top and *.pdb (Respectively properties of the Simulation, of the atom, and the position of the Atoms). The *.tpr file is the output file.
 
 It is then possible to run the simulation using the program mdrun, which as its name stands, runs the md simulation. A possible example is :
 
 {\centering\tt { mdrun -s tprfile.tpr \\
-				 -ntomp = 4  			\\		
-				 -ntmpi = 4				 \\
-				 -nsteps= 0     		  \\  
+				 -ntomp    4  			\\		
+				 -ntmpi    4				 \\
+				 -nsteps 0     		  \\  
  }}
  
 \vspace{5mm}
@@ -740,10 +744,10 @@ Where the .tpr File is now the input file, containing everything about the simul
 
 \section{Presentation of fmsolvr}	
 
-	The software used to compute the electrostatic forces with the FMM is not gromacs (at least not for the moment). It is develloped by both the Max-Planck Institut for Biophysical Chemistry and the Jülich Forschungszentrum . In the following chapters, we will call this code \textit{fmsolvr}. 
+	The software used to compute the electrostatic forces with the FMM is not GROMACS (at least not for the moment). It is developed by both the Max-Planck Institut for Biophysical Chemistry and the Jülich Forschungszentrum . In the following chapters, we will call this code \textit{fmsolvr}. 
 	
 	The codebase is mostly written in C++.  There exists several git branches for the program, allowing different versions of the system.	
-The First version is a sequential version, which is the "basic" version of the FMM code . There also exists a version which allows periodic boundary conditions : We will use this version a lot as we need to campare it to the PME, which, by construction, uses periodic boundary conditions.	
+The First version is a sequential version, which is the "basic" version of the FMM code . There also exists a version which allows periodic boundary conditions : We will use this version a lot as we need to compare it to the PME, which, by construction, uses periodic boundary conditions.	
 
 The input file, is a *.hpp file containing 4 arrays of size $N$, where $N$ is the number of atoms in the simulation : one charge array $q$ , and three array $x,y,z$ for the positions of the atoms.
 
@@ -768,10 +772,7 @@ The environment variables are the following :
 \begin{description}
 \item[DEPTH] The maximal subdivision of the space : if DEPTH=n the space will be divided in $8^{n}$ boxes.
 
-\item[MULTIPOLEORDER] The Order of truncation in a the series, for instance :
-\begin{equation*}
-	\frac{1}{|r - a|} \simeq \sum\limits_{l=0}^{\textcolor{red}{p}} \sum\limits_{m = -l}^{+l} \frac{(l-m)!}{(l+m)!} \frac{a^l}{r^{l+1}} P_{lm}\cos{(\alpha)}P_{lm}\cos{(\theta)}e^{-im(\beta - \alpha)}
-	\end{equation*}15:20 - 16:00 - Gautier VAILLANT
+\item[MULTIPOLEORDER] The Order of truncation in a the series as shown \ref{eq:order}
 	
 	where the multipole order is the red \textcolor{red}{p} in the first summation.
 	
@@ -784,7 +785,7 @@ The environment variables are the following :
 
 \end{description}
  	
-\section{Making GROMACS and fmsolvr comparable}	
+\section{Comparing GROMACS(PME) and fmsolvr(FMM) }	
 
 The first part, if we want to make the PME and the FMM comparable, is to use the same simulation for both programs, hence requiring coding some tools transforming a GROMACS-compatible file to fmsolvr-compatible one. Then, we saw that the results we obtained weren't good enough as one system was using some dipole correction, so we needed to implements the dipole correction to the FMM system.
 
@@ -832,55 +833,34 @@ So it is now possible to move the positions of the atoms one software to another
 The last preliminary thing to do is to make the GROMACS Simulation print the positions and the forces in an easy and detailled way. We decided to modify the Gromacs code to add after the so-called {\tt{do\_force(...)}} function, which computes the forces for the system, a routine that prints the force as well as the positions in order to be
  easily used afterwards. 
 
-\section{First Comparisions and Dipole Correction}
+\section{Dipole Correction}
 
-\subsection{Silicamelt Simulation}
+\subsection{Silicamelt computation}
 
 The first thing we did afterwards it to take a good precision for both methods and compare the forces.
 
-The model we are using is called the "Silicamelt" system which is a system composed of $SiO_2$ atoms : It is a system compased of about 100000 atoms, the silicon atoms (Si) have a $+2.4e$ charge and the Oxygen has a charge of $-1.2e$, where $e$ is the elementary charge $e \approx 1.6\cdot10^{-19} \text{C}$.
-The size of the simulation box is $124.120$ nm.
 
-The parameters for the PME simulation are cutoff=1.2nm, PME order=12 and fourier spacing=0.015 nm. 
+The model we are using is called the "Silicamelt" system which is a system composed of $SiO_2$ atoms : It is a system compased of about 100000 atoms, the silicon atoms (Si) have a $+2.4e$ charge and the Oxygen has a charge of $-1.2e$, where $e$ is the elementary charge $e \approx 1.6\cdot10^{-19} \text{C}$.
+The size of the simulation box is $124.120$ nm in each dimension.
+
+The parameters for the PME simulation are cutoff=1.2nm, PME order=12 and fourier spacing=0.015 nm. These parameters are the best obtainable for my workstation and are good enough to give a good approximation of the solution.
 
 The paramerters for the FMM are : Depth=4, Multipole Order=40, and WS(Separation Criterion) =4. The simulations is done with periodic boundaries 
 
 The relative error is computed the following way:
 
 \begin{equation}
-	error_{\text{relative}} = \frac{F_{FMM} * F_{PME}}{F_{PME}}
+	error_{\text{relative}} = \frac{||F_{FMM} - F_{PME||}}{||F_{PME||}}
 \end{equation}
 
-Then the following histogram can be plotted:
-
-\begin{figure}[H]
-  \label{hist_correction} 
-   \includegraphics[scale=0.35]{hist_nocorrection.jpeg}
-   \label{hist_correction} 
-    \centering 
-    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed before any dipole correction.}   
-  \label{hist_correction} 
-   \end{figure}   
+The histograms are shown figure 4.3 and 4.4
 
 
-	\begin{figure}[H]
+	Some statistical information about the distribution gives us a maximum error of around 56\%, this maximum error is much bigger than the few percents expected and is therefore not acceptable.\\
 	
-	\includegraphics[scale=0.23]{magErr_noCorrection.jpeg}
-	 \label{fig:mag_noCorr}  
-	\centering 
-    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. It is possible to see that the biggest errors are when the magnitude of the force is smaller.}    
-	 \label{fig:mag_noCorr}     
-      \end{figure}  
+	As shown figure (\ref{fig:magnitude}) we study the distribution of errors according to the magnitude of system we can see that the biggest errors are some smaller magnitudes.
 
-
-	Some statistical information about the distribution gives us a maximum error of about 56.35\%, this maximum error is much bigger than expected and is therefore not acceptable.\\
-	
-	As shown figure (\ref{fig:mag_noCorr}) we study the distribution of errors according to the magnitude of system we can see that the biggest errors are some smaller magnitudes.
-	
-
-	
-\subsection{Dipole correction}
-\subsubsection{Study of a two-particle system}
+\subsection{Study of a two-particle system and dipole correction}
 	In order to understand these big errors, we first decided to study how 2 particles behave. Then if the errors are small enough, it is possible to move to bigger systems.
 	
 We also observed that if we set 4 particles in a square in a quadrupole, so there is no dipole here, the value of the FMM system and the PME system are matching
@@ -895,25 +875,23 @@ The hypothesis is that the dipole moment may be corrected in one system and not 
 \begin{equation}
 	\vec{p} = q \vec{d}
 \end{equation}	
+	
 	where $\vec{d}$ is the displacement vector pointing from the negative charge to the positive charge. 
 	
-	Then we can vary the distance between the two particles, compute the force using both the FMM method and the PME method and compare the force.
-	
-	
+	Then we can vary the distance between the two particles, compute the force using both the FMM method and the PME method and compare the force.	
 	\begin{figure}[H]
 	   \includegraphics[scale=0.2]{dipoleCorrection}
     \centering 
-    \caption{Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the  Magnitude of the force for PME (Blue Square), FMM without correction (Black point) and with correction(red star).
+    \caption{Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the  Magnitude of the force for PME (Blue Square), FMM without correction (black) and with correction(red).
      It is possible to see that the dipole correction makes the FMM magnitude much closer to the PME.}    
-   \end{figure}  	
-	
+   \end{figure}	
 The dipole correction is done the following way :
 
 It is possible to modify the potential in the FMM code using the following equation:
 
 \begin{equation}
 \label{eq:dipoleCorrection}
-\nabla_iE_{\text{after correction}} = \nabla_iE_{text{before correction}} - \frac{4\pi}{3 \cdot V} q_i \textbf{d}
+\nabla_iE_{\text{after correction}} = \nabla_iE_{\text{before correction}} - \frac{4\pi}{3 \cdot V} q_i \textbf{d}
 \end{equation}	
 	
 	where V is the volume of the simulation box, $q_i$ the charge of the particle and $\textbf{d}$ is the dipole moment.
@@ -935,6 +913,7 @@ As showed in figure (\ref{fig:triArray}), it is possible to obtain the dipole mo
 %\vec{d}_y =  2 * \Im(\omega_{1,1})\\
 %\vec{d}_z = -\Re(\omega_{1,0})
 
+where $\Re()$ is the real part of the number and $\Im()$ is the imaginary part.
 
 \begin{equation}
 \hspace{10 mm}
@@ -955,7 +934,7 @@ The code used for this correction, in C++11, is the following :
 
 for (size_t i = 0; i < n; ++i) {
 
-	 auto cell_volume = (abc.a).x * (abc.b).y * (abc.c).z; // Only works with square Cell Unit
+	 auto cell_volume = (abc.a).x * (abc.b).y * (abc.c). z; // Only works with square Cell Unit
 	std::cout << "Periodic Vector = " <<  (abc.a).x << std::endl;
 	std::cout << "Volume " <<  cell_volume << std::endl;
 
@@ -999,23 +978,34 @@ Now we can relaunch the simulation with the same parameters as before, including
 We obtain now a maximum error of 3.52\%, which is a much bigger improvement compared to the 56.35\% of the former simulation.
 
 \begin{figure}[H]
- \includegraphics[scale=0.32]{hist_correction.eps}
-    \centering 
-    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed with the dipole correction. The scale in x-direction is the same as in figure (\ref{hist_correction})}    
+  \label{fig:histogram}
+    \centering  
+ \subfloat[Histogram without correction] { \centering   \includegraphics[scale=0.27]{hist_nocorrection}}\\    
+  \subfloat[Histogram with correction] { \centering  \includegraphics[scale=0.21]{hist_correction}}    
+  
+    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed with the dipole correction. The scale in x-direction is the same)}    
    \end{figure}   
+
+
+
+
+
 
 
 \begin{figure}[H]
 	   \includegraphics[scale=0.2]{magErr_Correction}
+	    \label{fig:magnitude}
     \centering 
     \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction}    
+    
+    \label{fig:magnitude}
    \end{figure}  
    
 \section{Comparing with an analytical solution : the NaCl system}
 
-One other thing we want to try is to see the convergence of the scheme. The idea is to know which set of parameters for the FMM has the same accuracy than a given set of parameters for the PME method. 
+One other thing we want to try is to see the convergence of the scheme. The idea is to find out which set of parameters for the FMM has the same accuracy than a given set of parameters for the PME method. 
 
-In order to study that, we want to have a system which is analytically solvable with periodic boundary conditions : That is why we decided to use a cristal as a system. 
+In order to study that, we want to have a system which is analytically solvable with periodic boundary conditions : That is why we decided to use a crystal as a system. 
 
 \subsection{Generating the system}
 
@@ -1025,6 +1015,7 @@ The generation is done with a python script writing the charges and the position
 
 \begin{figure}[H]
 	   \includegraphics[scale=0.4]{nacl}
+	   \label{fig:nacl_system}
     \centering 
     \caption{NaCl system generated with the script described above : The Blue atoms are Na atoms and the Green ones are Cl atoms. The Following image has been rendered using the visualization software VMD (Visual Molecular Dynamics)}    
    \end{figure}  
@@ -1076,17 +1067,37 @@ One way to measure the accuracy is to compare the force obtained experimentally 
 \end{equation}
 
  
-
-\begin{figure}[H]
-\centering
-	\includegraphics[scale=0.3]{madelung_FMM}
-     
-    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction}    
+	This computation is done for both the PME and the FMM methods.\\
+	
+	    \begin{figure}[H]
+  \label{fig:FMM_contour}
+    \centering  
+ \subfloat[Error plot for $WS=1$] { \centering   \includegraphics[scale=0.2]{madelung_FMM_WS1}}\\    
+  \subfloat[Error plot for $WS=2$] { \centering  \includegraphics[scale=0.2]{madelung_FMM_WS2}}\\   
+\subfloat[Error plot for $WS=3$] { \centering  \includegraphics[scale=0.2]{madelung_FMM_WS3}}\\    
+  
+  
+    \caption{Error plots for different set of parameters for the FMM. The error is computed as stated above. The plot are computed for $WS = 1,2,3$}    
    \end{figure}  
 
-\chapter*{Conclusion}
+	The FMM parameters are the following : Depth ranges from 1 to 5 and the multipole order range is from 1 to 40. The separation criterion WS ranges from 1 to 3.
+	What we can observe is what we can expect from the system : the system is converging to $0$ for higher multipole order values. However, we can see that the depth of the system has not that much influence on the system : The role of the depth will play a role when the algorithm will be parallelized. It can also be shown that the separation criterion WS plays a role in this system because of the periodicity of the system.
+	
+	
+	\begin{figure}[H]
+	   \includegraphics[scale=0.25]{madelung_PME}
+	    \centering 
+    \caption{Error plots for different set of parameters for the PME.}    
+   \end{figure}  
 
 
+\section{Conclusion}
+
+
+	
+	
+	
+	
 
 \nocite{*}
 \bibliographystyle{abbrv}
@@ -1105,7 +1116,9 @@ One way to measure the accuracy is to compare the force obtained experimentally 
 \item[Owl] MPI-BPC Cluster Used to make the Simulations
 
 \item[MPI] Message Passing Interface
-\item[Omp] OpenMP
+\item[OMP] OpenMP
+\item[VMD] Visual Molecular dynamics
+
 
 \end{description}
 
