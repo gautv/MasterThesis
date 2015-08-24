@@ -16,13 +16,12 @@ S.~Boresch and O.~Steinhauser.
 
 \bibitem{dachsel2010corrected}
 H.~Dachsel.
-\newblock Corrected article:“an error-controlled fast multipole method”[j.
-  chem. phys. 131, 244102 (2009)].
+\newblock Corrected article:“an error-controlled fast multipole method”.
 \newblock {\em The Journal of chemical physics}, 132(11):119901, 2010.
 
 \bibitem{darden1993particle}
 T.~Darden, D.~York, and L.~Pedersen.
-\newblock Particle mesh ewald: An n log (n) method for ewald sums in large
+\newblock Particle mesh {E}wald: An n log (n) method for ewald sums in large
   systems.
 \newblock {\em The Journal of chemical physics}, 98(12):10089--10092, 1993.
 
@@ -49,13 +48,20 @@ I.~Kabadshow.
 
 \bibitem{kutzner2013scaling}
 C.~Kutzner, R.~Apostolov, B.~Hess, and H.~Grubm{\"u}ller.
-\newblock Scaling of the gromacs 4.6 molecular dynamics code on supermuc.
+\newblock Scaling of the gromacs 4.6 molecular dynamics code on {SuperMUC}.
 \newblock {\em Advances in Parallel Computing}, 25, 2013.
+
+\bibitem{patra2003molecular}
+M.~Patra, M.~Karttunen, M.~T. Hyv{\"o}nen, E.~Falck, P.~Lindqvist, and
+  I.~Vattulainen.
+\newblock Molecular dynamics simulations of lipid bilayers: major artifacts due
+  to truncating electrostatic interactions.
+\newblock {\em Biophysical journal}, 84(6):3636--3645, 2003.
 
 \bibitem{pronk2013gromacs}
 S.~Pronk, S.~P{\'a}ll, R.~Schulz, P.~Larsson, P.~Bjelkmar, R.~Apostolov, M.~R.
   Shirts, J.~C. Smith, P.~M. Kasson, D.~van~der Spoel, et~al.
-\newblock Gromacs 4.5: a high-throughput and highly parallel open source
+\newblock {GROMACS} 4.5: a high-throughput and highly parallel open source
   molecular simulation toolkit.
 \newblock {\em Bioinformatics}, page btt055, 2013.
 

@@ -105,11 +105,11 @@ The departments are : (from http://www.mpibpc.mpg.de/groups)
 \item Alec M. Wodtke – Dynamics at Surfaces
 \end{itemize}
 
-\section*{Department of Theoretical and Computational Biophys3ics}
+\section*{Department of Theoretical and Computational Biophysics}
 
-This department is led by both Helmut Grubmüller. It aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, dynamic complex atomisitic computer simulations are carried out.\\
+This department is led by Helmut Grubmüller. It aims at understanding of the physics and function of proteins, protein complexes, and other biomolecular structures at the atomic level. For this purpose, dynamic complex atomisitic computer simulations are carried out.\\
 
-One area of research is on studying systems (Proteins, membranes) and molecular machines in order to better understand their dynamics (for example the molecular mechanisms of the ribosome), and another area is focusing on development.
+One area of research is on studying systems (Proteins, membranes) and molecular machines in order to better understand their dynamics (for example the molecular mechanisms of the ribosome), and another area is focusing on method development.
 Concerning the part of the department dedicated to methods and theory, new statistical mechanics concepts, quantum hybrid methods, and efficient parallel simulation algorithms and codes are the methodological focus of the department.
 
 Both lines of questions phrased above are closely interlinked. Progress in the understanding of the physics of proteins, on the one hand, enables improved and more realistic simulation techniques, which allow to study a growing number of biochemical processes in great detail. Through analysis of well-understood mechanisms, on the other hand, one can learn to separate relevant aspects in protein dynamics from irrelevant ones — which is prerequisite for the construction of effective protein models. In short, we find a close interplay between method development, algorithmic progress, and application.  
@@ -134,9 +134,9 @@ A poster\footnote{from http://www.mpibpc.mpg.de/grubmueller/sppexa}   of the pro
 \end{figure}
 
 
-The current method for computing electrostatic forces is called the PME (Particle Mesh Ewald). One of its problems is a communication bottleneck that prohibits efficient parallization across many (> 10000) CPU cores. The idea would be to replace this method with a new method called the Fast-Multipole Method which is based on a tree Structure and may allow an greater parallelization of the system as wanted.\\
+The current method for computing electrostatic forces is the PME (Particle Mesh Ewald) \cite{darden1993particle}. One of its problems is a communication bottleneck that prohibits efficient parallization across many (> 10000) CPU cores. The idea would be to replace this method with a new method called the Fast-Multipole (FMM) Method which is based on a tree Structure and may allow an greater parallelization of the system as wanted.\\
 
-So the Idea of the Internship is first to know how to tune those systems to know how they relate to each other. Both PME and FMM make approximations. For a fair comparison we want to compare the methods at equal accuracy of the forces (and energies) they compute. 
+So the idea of the internship is first to know how to tune those systems to know how they relate to each other. Both PME and FMM make approximations. For a fair comparison we want to compare the methods at equal accuracy of the forces (and energies) they compute. 
 
 \chapter{Methods for computing electrostatic forces}
 
@@ -167,7 +167,7 @@ The sum of all electrostatic forces $F_i$ exerted  on one particle can be writte
 	\label{coulombComplete}
 \end{equation}
 
-where $q$ is the charge of one particle, and $R_{ij}$ is the distance between particle $i$ and particle $j$.
+where $q$ is the charge of one particle, and $r_{ij}$ is the distance between particle $i$ and particle $j$.
 
 In the thesis we will simplify the equation ~\eqref{coulombComplete} by just writing:
 
@@ -176,7 +176,7 @@ In the thesis we will simplify the equation ~\eqref{coulombComplete} by just wri
 	\label{coulombSimplified}
 \end{equation}
 
-where $f=\frac{1}{4\pi\epsilon_0}$ is called the \textbf{electric conversion factor} and is equal to 138.935485(9) kJ.mol$^-1$.nm.e$^-2$\\
+where $f=\frac{1}{4\pi\epsilon_0}$ is called the \textbf{electric conversion factor} and is equal to 138.935485(9) kJ.mol$^-1$.nm.e$^{-2}$\\
 
 
 The first, naive way to compute electrostatic forces is just to follow equation (\ref{coulombSimplified}):
@@ -242,7 +242,7 @@ However, one of the problems of this cutoff technique, especially for long-range
  \centering
  
 \caption{Radial distribution function (RDF) $g(r)$ between the two
-central atoms in the head-group of lipids: Cutoff distances are indicated by arrows. from [ADD REFERENCE]}
+central atoms in the head-group of lipids: Cutoff distances are indicated by arrows. From \cite{patra2003molecular}  }
 
 \label{fig:artefact}
 
@@ -1091,9 +1091,9 @@ One way to measure the accuracy is to compare the force obtained experimentally 
    \end{figure}  
 
 
-\section{Conclusion}
+\chapter{Conclusion}
 
-
+Here I conclude and finish my thesis ....
 	
 	
 	
