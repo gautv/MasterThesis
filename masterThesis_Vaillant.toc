@@ -1,45 +1,46 @@
-\contentsline {chapter}{\numberline {1}Presentation of the Lab}{6}
-\contentsline {chapter}{\numberline {2}Context of the Internship}{8}
-\contentsline {chapter}{\numberline {3}Methods for computing electrostatic forces}{10}
-\contentsline {section}{\numberline {3.1}Direct summation method }{10}
-\contentsline {subsection}{\numberline {3.1.1}"Naive" $\mathcal {O}(N^2)$ Method}{10}
-\contentsline {subsection}{\numberline {3.1.2}Possible improvements}{11}
-\contentsline {section}{\numberline {3.2}Fourier Transform-Based methods}{13}
-\contentsline {subsection}{\numberline {3.2.1}Ewald Summation}{13}
-\contentsline {subsection}{\numberline {3.2.2}PME}{14}
-\contentsline {section}{\numberline {3.3}Tree-based methods}{16}
-\contentsline {subsection}{\numberline {3.3.1}Mathematical preliminaries}{16}
-\contentsline {subsection}{\numberline {3.3.2}Workflow of the algorithm}{18}
-\contentsline {subsubsection}{Splitting the Space}{19}
-\contentsline {subsubsection}{Defining a Separation Criterion}{19}
-\contentsline {subsubsection}{PASS 1 : Computing the Multipole moments}{20}
-\contentsline {subsubsection}{PASS 2 : Transforming distant expansions into multipoles}{21}
-\contentsline {subsubsection}{PASS 3 : Shift Taylor-Like expansions down the tree}{22}
-\contentsline {subsubsection}{PASS 4 : Computing forces and Energies}{23}
-\contentsline {chapter}{\numberline {4}Comparing FMM and PME accuracy}{24}
-\contentsline {section}{\numberline {4.1}Presentation of GROMACS}{24}
-\contentsline {subsection}{\numberline {4.1.1}Structure of a File}{24}
-\contentsline {subsection}{\numberline {4.1.2}PME parameters}{25}
-\contentsline {subsection}{\numberline {4.1.3}Command to launch a GROMACS simulation }{25}
-\contentsline {section}{\numberline {4.2}Presentation of fmsolvr}{26}
-\contentsline {subsection}{\numberline {4.2.1}FMM Parameters}{26}
-\contentsline {section}{\numberline {4.3}Comparing GROMACS(PME) and fmsolvr(FMM) }{27}
-\contentsline {subsection}{\numberline {4.3.1}File manipulation}{27}
-\contentsline {subsubsection}{Making GROMACS only compute electrostatics forces}{27}
-\contentsline {subsubsection}{Assure compatibility between *.qxyz and *.pdb files}{27}
-\contentsline {subsubsection}{Output positions and forces to a Text file for GROMACS}{28}
-\contentsline {section}{\numberline {4.4}Dipole Correction}{28}
-\contentsline {subsection}{\numberline {4.4.1}Silicamelt computation}{28}
-\contentsline {subsection}{\numberline {4.4.2}Study of a two-particle system and dipole correction}{29}
-\contentsline {subsubsection}{Back to the silicamelt simulation with dipole correction}{32}
-\contentsline {section}{\numberline {4.5}Comparing with an analytical solution : the NaCl system}{34}
-\contentsline {subsection}{\numberline {4.5.1}Generating the system}{34}
-\contentsline {subsection}{\numberline {4.5.2}Some explanations on the Owl cluster}{35}
-\contentsline {subsection}{\numberline {4.5.3}Error plots}{36}
-\contentsline {chapter}{\numberline {5}Conclusion}{39}
-\contentsline {chapter}{Appendices}{42}
-\contentsline {chapter}{\numberline {A}Glossary and Abbreviations}{43}
-\contentsline {chapter}{\numberline {B}Structure of Gromacs files}{44}
-\contentsline {section}{\numberline {B.1}pdb file}{44}
-\contentsline {section}{\numberline {B.2}top file}{44}
-\contentsline {section}{\numberline {B.3}mdp file (longe-range electrostatics part)}{45}
+\contentsline {chapter}{\numberline {1}Presentation of the Lab}{8}
+\contentsline {chapter}{\numberline {2}Context of the Internship}{10}
+\contentsline {chapter}{\numberline {3}Methods for computing electrostatic forces}{12}
+\contentsline {section}{\numberline {3.1}Direct summation method }{12}
+\contentsline {subsection}{\numberline {3.1.1}"Naive" $\mathcal {O}(N^2)$ Method}{12}
+\contentsline {subsection}{\numberline {3.1.2}Possible improvements}{13}
+\contentsline {section}{\numberline {3.2}Fourier Transform-Based methods}{15}
+\contentsline {subsection}{\numberline {3.2.1}Ewald Summation}{15}
+\contentsline {subsection}{\numberline {3.2.2}PME}{16}
+\contentsline {section}{\numberline {3.3}Tree-based methods}{18}
+\contentsline {subsection}{\numberline {3.3.1}Mathematical preliminaries}{18}
+\contentsline {subsection}{\numberline {3.3.2}Workflow of the algorithm}{21}
+\contentsline {subsubsection}{Splitting the Space}{21}
+\contentsline {subsubsection}{Defining a Separation Criterion}{21}
+\contentsline {subsubsection}{PASS 1 : Computing the Multipole moments}{22}
+\contentsline {subsubsection}{PASS 2 : Transforming distant expansions into multipoles}{23}
+\contentsline {subsubsection}{PASS 3 : Shift Taylor-Like expansions down the tree}{24}
+\contentsline {subsubsection}{PASS 4 : Computing forces and Energies}{25}
+\contentsline {chapter}{\numberline {4}Comparing FMM and PME accuracy}{26}
+\contentsline {section}{\numberline {4.1}Presentation of GROMACS}{26}
+\contentsline {subsection}{\numberline {4.1.1}Structure of a File}{26}
+\contentsline {subsection}{\numberline {4.1.2}PME parameters}{27}
+\contentsline {subsection}{\numberline {4.1.3}Command to launch a GROMACS simulation }{27}
+\contentsline {section}{\numberline {4.2}Presentation of fmsolvr}{28}
+\contentsline {subsection}{\numberline {4.2.1}FMM Parameters}{28}
+\contentsline {section}{\numberline {4.3}Comparing GROMACS(PME) and fmsolvr(FMM) }{29}
+\contentsline {subsection}{\numberline {4.3.1}File manipulation}{29}
+\contentsline {subsubsection}{Making GROMACS only compute electrostatics forces}{29}
+\contentsline {subsubsection}{Assure compatibility between *.qxyz and *.pdb files}{29}
+\contentsline {subsubsection}{Output positions and forces to a Text file for GROMACS}{30}
+\contentsline {section}{\numberline {4.4}Dipole Correction}{30}
+\contentsline {subsection}{\numberline {4.4.1}Silicamelt computation}{30}
+\contentsline {subsection}{\numberline {4.4.2}Study of a two-particle system and dipole correction}{31}
+\contentsline {subsubsection}{Back to the silicamelt simulation with dipole correction}{34}
+\contentsline {section}{\numberline {4.5}Comparing with an analytical solution : the NaCl system}{36}
+\contentsline {subsection}{\numberline {4.5.1}Generating the system}{36}
+\contentsline {subsection}{\numberline {4.5.2}Some explanations on the Owl cluster}{37}
+\contentsline {subsection}{\numberline {4.5.3}Error plots}{38}
+\contentsline {section}{\numberline {4.6}Comparing with a random system}{41}
+\contentsline {chapter}{\numberline {5}Conclusion}{45}
+\contentsline {chapter}{Appendices}{48}
+\contentsline {chapter}{\numberline {A}Glossary and Abbreviations}{49}
+\contentsline {chapter}{\numberline {B}Structure of Gromacs files}{50}
+\contentsline {section}{\numberline {B.1}pdb file}{50}
+\contentsline {section}{\numberline {B.2}top file}{50}
+\contentsline {section}{\numberline {B.3}mdp file (longe-range electrostatics part)}{51}

@@ -1,0 +1,39 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Poster for the SPEXXA project\relax }}{11}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Radial distribution function (RDF) $g(r)$ between the two central atoms in the head-group of lipids: Cutoff distances are indicated by arrows. From \cite {patra2003molecular} \relax }}{14}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Parallel efficiency of three GROMACS MD simulations of different size (81k - 12M particles). The parallel efficiency on N nodes is the execution time $t_1$ divided by N times the execution time on N nodes. $E_N = t_1 / (N\cdot t_N)$. Horizontal grey line indicates perfect scaling.\relax }}{18}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Two particles $A(a,\alpha ,\beta )$ and $R(r,\theta ,\phi )$, separated by a distance $d$\relax }}{19}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Scheme of two particles expanded according to two different origins\relax }}{20}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Example of a division of the space in boxes. The example is in 2D so the structure of the space is called a \textit {quadtree}.\relax }}{21}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of the influence of the separation criterion $ws$ for a given box $A$, from left to right, $ws = 1,2,3$. (from \cite {phdIvo})\relax }}{22}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Example in 1-D showing the shifting of the multipole moments using the M2M operator. (from \cite {phdIvo}) \relax }}{23}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Example in 1-D showing the transformation of distant expansions into multipoles (from \cite {phdIvo})\relax }}{23}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Interation Rules for the transformation of the multipole expansions (from \cite {phdIvo})\relax }}{24}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {First, the parents of the box are chosen}}}{24}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Then, then children of the parents are chosen. Then the separation criterion can apply}}}{24}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Example in 1-D showing the shifting of the local moments using the L2L operator. (from \cite {phdIvo}) \relax }}{24}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Situation after PASS 3 \relax }}{25}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the euclidean norm of the force for PME (Blue Square), FMM without correction (black) and with correction(red). It is possible to see that the dipole correction makes the FMM magnitude much closer to the PME.\relax }}{32}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Structure of the array containing the multipoles $\omega _{lm}\textbf {a})$ : the 'm' values are on the y-axis and the 'l'-values are on the x-axis. The dipole moment is contained in the boxes (1,1), (1,0) and (1,-1) \relax }}{33}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Histogram representing the relative error for a silicamelt simulation : Top (a) histogram without dipole correction, bottom (b) with dipole correction.\relax }}{35}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Histogram without correction}}}{35}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Histogram with correction}}}{35}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Figure representing the Magnitude of the force on the x-axis and the relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction.\relax }}{36}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces NaCl system generated with the script described above : The Blue atoms are Na atoms and the Green ones are Cl atoms. The Following image has been rendered using the visualization software VMD (Visual Molecular Dynamics)\relax }}{37}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Error plots for different set of parameters for the FMM. The error is computed as stated in equation (4.5\hbox {}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)\relax }}{39}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Error plot for $WS=1$}}}{39}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Error plot for $WS=2$}}}{39}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Error plot for $WS=3$}}}{39}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Error plots for different set of parameters for the PME. The error is also computed as shown (4.5\hbox {})\relax }}{40}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Error plots for different set of parameters for the PME.\relax }}{41}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Error plots for different set of parameters for the FMM. The error is computed as stated in equation (4.5\hbox {}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)\relax }}{43}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Error plot for $WS=1$}}}{43}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Error plot for $WS=2$}}}{43}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Error plot for $WS=3$}}}{43}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Error plots for different set of parameters for the PME.\relax }}{44}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

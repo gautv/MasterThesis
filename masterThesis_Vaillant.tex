@@ -82,6 +82,7 @@ I would first like to gratefully thank Helmut Grubmüller and Bert de Groot for 
 Finally I would also like to thank Ivo Kabadschow and Andreas Beckmann who welcomed me in the Jülich Forschungszentrum to teach me the details of the FMM method. 
 
 \tableofcontents
+\listoffigures
 
 \chapter{Presentation of the Lab}
 \section*{Max Planck Institute for Biophysical Chemistry}
@@ -134,7 +135,7 @@ A poster\footnote{from http://www.mpibpc.mpg.de/grubmueller/sppexa}   of the pro
 \end{figure}
 
 
-The current method for computing electrostatic forces is the PME (Particle Mesh Ewald) \cite{darden1993particle}. One of its problems is a communication bottleneck that prohibits efficient parallization across many (> 10000) CPU cores. The idea would be to replace this method with a new method called the Fast-Multipole (FMM) Method which is based on a tree Structure and may allow an greater parallelization of the system as wanted.\\
+The currently established method for computing electrostatic forces is the PME (Particle Mesh Ewald) \cite{darden1993particle}. One of its problems is a communication bottleneck that prohibits efficient parallelization across many (> 10000) CPU cores. The idea would be to replace this method with a new method called the Fast-Multipole (FMM) Method which is based on a tree structure and may allow an greater parallelization of the system as wanted.\\
 
 So the idea of the internship is first to know how to tune those systems to know how they relate to each other. Both PME and FMM make approximations. For a fair comparison we want to compare the methods at equal accuracy of the forces (and energies) they compute. 
 
@@ -343,7 +344,7 @@ Equations \ref{ewaldDirect} and \ref{ewaldReciprocal} can then be used to comput
 \subsection{PME}
 One way to improve this method is to compute the Fourier sum using the FFT (Fast Fourier Transform). This allows the algorithm to get a complexity of $\mathcal{O}(N\log N)$. There is different methods that are based on the Ewald summation, namely the \textbf{P3M} (Particle-Particle Particle-Mesh Method) or the \textbf{FFP} (Fast Fourier Poisson method). Descriptions of these methods can be found \cite{toukmaji1996ewald}. 
 
-In our case, we will focus on the \textbf{PME} as it is the method currently used in GROMACS. \\
+In our case, we will focus on the \textbf{PME} method as it is the method currently used in GROMACS. \\
 
 We remind that the potential for the reciprocal space $V_{\text{reciprocal}}$ is written in equation (\ref{Vrecip}):
 
@@ -387,7 +388,7 @@ It can be shown that the complexity of such a system is $\mathcal{O}(N \log(N))$
 \begin{figure}[H]
 \includegraphics[scale=0.6]{scalingMUC}
  \centering 
-\caption{ Parallel efficiency of three "real-world" simulations using Intel's MPI. Horizontal grey line indicates perfect scaling.}
+\caption{ Parallel efficiency of three GROMACS MD simulations of different size (81k - 12M particles). The parallel efficiency on N nodes is the execution time $t_1$ divided by N times the execution time on N nodes. $E_N = t_1 / (N\cdot t_N)$. Horizontal grey line indicates perfect scaling.}
 \label{fig:scaling}
 \end{figure}
 
@@ -400,7 +401,7 @@ Furthermore, it can be applied to systems with periodic as well to systems with 
     
 	\subsection{Mathematical preliminaries}
 	
-	Let's move back to the potential created by a charged particle as in (\ref{potential}),
+	Let's move back to the potential created by a charged particle :
 	
 	\begin{equation*}
 	V = \frac{1}{d}
@@ -673,7 +674,7 @@ Once the local $\mu_{lm}$ expansions are computed, the expansion are shifted to 
 
 \chapter{Comparing FMM and PME accuracy}
 
-    In this chapter I will more precisely explain my work done in the Lab, which consisted in comparing the PME methods, which is for example used by GROMACS, and the FMM method, used by a solver made between the Julich Forschungszentrum and the Max Planck Institute for Biophysics in Göttingen.
+    In this chapter I will more precisely explain my work done in the Lab, which consisted in comparing the PME methods, which is for example used by GROMACS, and the FMM method, used by a solver made between the Jülich Forschungszentrum and the Max Planck Institute for Biophysical Chemistry in Göttingen.
 
   
 
@@ -830,7 +831,7 @@ So it is now possible to move the positions of the atoms one software to another
 
 \subsubsection{Output positions and forces to a Text file for GROMACS}
 
-The last preliminary thing to do is to make the GROMACS Simulation print the positions and the forces in an easy and detailled way. We decided to modify the Gromacs code to add after the so-called {\tt{do\_force(...)}} function, which computes the forces for the system, a routine that prints the force as well as the positions in order to be
+The last preliminary thing to do is to make the GROMACS Simulation print the positions and the forces in an easy and detailed way. We decided to modify the Gromacs code after the so-called {\tt{do\_force(...)}} function, which computes the forces for the system, a routine that prints the force as well as the positions in order to be
  easily used afterwards. 
 
 \section{Dipole Correction}
@@ -840,7 +841,7 @@ The last preliminary thing to do is to make the GROMACS Simulation print the pos
 The first thing we did afterwards it to take a good precision for both methods and compare the forces.
 
 
-The model we are using is called the "Silicamelt" system which is a system composed of $SiO_2$ atoms : It is a system compased of about 100000 atoms, the silicon atoms (Si) have a $+2.4e$ charge and the Oxygen has a charge of $-1.2e$, where $e$ is the elementary charge $e \approx 1.6\cdot10^{-19} \text{C}$.
+The model we are using is called the "Silicamelt" system which is a system composed of $SiO_2$ atoms : It is a system comprised of about 100000 atoms. The silicon atoms (Si) have a $+2.4e$ charge and the Oxygen has a charge of $-1.2e$, where $e$ is the elementary charge $e \approx 1.6\cdot10^{-19} \text{C}$.
 The size of the simulation box is $124.120$ nm in each dimension.
 
 The parameters for the PME simulation are cutoff=1.2nm, PME order=12 and fourier spacing=0.015 nm. These parameters are the best obtainable for my workstation and are good enough to give a good approximation of the solution.
@@ -858,10 +859,10 @@ The histograms are shown figure 4.3 and 4.4
 
 	Some statistical information about the distribution gives us a maximum error of around 56\%, this maximum error is much bigger than the few percents expected and is therefore not acceptable.\\
 	
-	As shown figure (\ref{fig:magnitude}) we study the distribution of errors according to the magnitude of system we can see that the biggest errors are some smaller magnitudes.
+	As shown figure (\ref{fig:magnitude}) we see the distribution of errors relative to the magnitude of the forces. Not unexpectedly, the biggest errors are recorded for smaller forces.
 
 \subsection{Study of a two-particle system and dipole correction}
-	In order to understand these big errors, we first decided to study how 2 particles behave. Then if the errors are small enough, it is possible to move to bigger systems.
+	In order to understand these big errors, we first decided to study how two particles behave. Then if the errors are small enough, it is possible to move to bigger systems.
 	
 We also observed that if we set 4 particles in a square in a quadrupole, so there is no dipole here, the value of the FMM system and the PME system are matching
 
@@ -870,7 +871,7 @@ We also observed that if we set 4 particles in a square in a quadrupole, so ther
 
  	
 	
-The hypothesis is that the dipole moment may be corrected in one system and not in another system. So the idea is to take two particles, one positively charged and the other negatively charged ; the two particles will form a dipole, namely : 
+The hypothesis is that the dipole moment may be corrected in one system and not in another system. So the idea is to take two particles, one positively charged and the other negatively charged ; the two particles will form a dipole, with dipole moment $\vec{p}$ : 
 
 \begin{equation}
 	\vec{p} = q \vec{d}
@@ -879,10 +880,10 @@ The hypothesis is that the dipole moment may be corrected in one system and not 
 	where $\vec{d}$ is the displacement vector pointing from the negative charge to the positive charge. 
 	
 	Then we can vary the distance between the two particles, compute the force using both the FMM method and the PME method and compare the force.	
-	\begin{figure}[H]
+	\begin{figure}
 	   \includegraphics[scale=0.2]{dipoleCorrection}
     \centering 
-    \caption{Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the  Magnitude of the force for PME (Blue Square), FMM without correction (black) and with correction(red).
+    \caption{Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the  euclidean norm of the force for PME (Blue Square), FMM without correction (black) and with correction(red).
      It is possible to see that the dipole correction makes the FMM magnitude much closer to the PME.}    
    \end{figure}	
 The dipole correction is done the following way :
@@ -928,7 +929,7 @@ where $\Re()$ is the real part of the number and $\Im()$ is the imaginary part.
 Then the correction can be applied using equation (\ref{eq:dipoleCorrection})\\
 
 
-The code used for this correction, in C++11, is the following :
+The C++11 code used for this correction, is the following :
 	
 	\begin{lstlisting}
 
@@ -980,10 +981,10 @@ We obtain now a maximum error of 3.52\%, which is a much bigger improvement comp
 \begin{figure}[H]
   \label{fig:histogram}
     \centering  
- \subfloat[Histogram without correction] { \centering   \includegraphics[scale=0.27]{hist_nocorrection}}\\    
-  \subfloat[Histogram with correction] { \centering  \includegraphics[scale=0.21]{hist_correction}}    
+ \subfloat[Histogram without correction] { \centering   \includegraphics[scale=0.235]{hist_nocorrection}}\\    
+  \subfloat[Histogram with correction] { \centering  \includegraphics[scale=0.20]{hist_correction}}    
   
-    \caption{Histogram representing the relative error for a silicamelt simulation : The histogram is computed with the dipole correction. The scale in x-direction is the same)}    
+    \caption{Histogram representing the relative error for a silicamelt simulation : Top (a) histogram without dipole correction, bottom (b) with dipole correction.}    
    \end{figure}   
 
 
@@ -996,20 +997,20 @@ We obtain now a maximum error of 3.52\%, which is a much bigger improvement comp
 	   \includegraphics[scale=0.2]{magErr_Correction}
 	    \label{fig:magnitude}
     \centering 
-    \caption{Figure representing the Magnitude of the force in the x-axis and the  error in relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction}    
+    \caption{Figure representing the Magnitude of the force on the x-axis and the relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction.}    
     
     \label{fig:magnitude}
    \end{figure}  
    
 \section{Comparing with an analytical solution : the NaCl system}
 
-One other thing we want to try is to see the convergence of the scheme. The idea is to find out which set of parameters for the FMM has the same accuracy than a given set of parameters for the PME method. 
+One other thing we want to try is to see the convergence of the scheme. The idea is to find out which set of parameters for the FMM has the same accuracy as a given set of parameters for the PME method. 
 
 In order to study that, we want to have a system which is analytically solvable with periodic boundary conditions : That is why we decided to use a crystal as a system. 
 
 \subsection{Generating the system}
 
-The system used is based on a NaCl cristal structure. As a cristal is a stable structure, the force acting on each atom has to be equal to 0. The potential felt by one atom can also be computed with a series ; this series converges to a value called the \textbf{Madelung Constant} which is equal for this cristal structure to approximnately 3.495 V.
+The system used is based on a NaCl cristal structure. As a crystal is a stable structure, the total force acting on each atom has to be equal to 0. The potential felt by one atom can also be computed with a series ; this series converges to a value called the \textbf{Madelung Constant} which is equal for this crystal structure to approximately 3.495.
 
 The generation is done with a python script writing the charges and the positions of the atoms in a *.qxyz file, then translated into a pdb file to obtain cristal structure necessary for GROMACS.
 
@@ -1025,7 +1026,7 @@ The generation is done with a python script writing the charges and the position
 
 Now I will quickly explain how to submit a certain program to the cluster of the lab, which is called \textit{owl}.
 
-Owl is the cluster of the lab used for the MD simulations : It contains about 12500 processor cores and 70 GPUs. The subnit system is done using sge.  
+Owl is the cluster of the lab used for the MD simulations : It contains about 12500 processor cores and 70 GPUs. The submit system is done using SGE (Sun Grid Engine).  
 
 The cluster is accessible via an ssh connection : then it is possible to submit to the cluster using the following script:
 
@@ -1060,9 +1061,10 @@ this allows the script to choose the version of gromacs compiled with double pre
 
 \subsection{Error plots}
 
-One way to measure the accuracy is to compare the force obtained experimentally with the analytitic solution. In order to test the accuracy of one set of parameters, we will compute the sum of the euclidian norm for each atom :
+One way to measure the accuracy is to compare the force obtained experimentally with the analytic solution. In order to test the accuracy of one set of parameters, we will compute the sum of the euclidean norm for each atom :
 
 \begin{equation}
+	\label{eq:errorNaCl}
 	\text{error} = \sum\limits_{i=0}^N ||\vec{F_i} - \vec{0}|| = \sum\limits_{i=0}^N ||\vec{F_i} - \vec{0}||
 \end{equation}
 
@@ -1070,26 +1072,68 @@ One way to measure the accuracy is to compare the force obtained experimentally 
 	This computation is done for both the PME and the FMM methods.\\
 	
 	    \begin{figure}[H]
-  \label{fig:FMM_contour}
+ 
     \centering  
  \subfloat[Error plot for $WS=1$] { \centering   \includegraphics[scale=0.2]{madelung_FMM_WS1}}\\    
   \subfloat[Error plot for $WS=2$] { \centering  \includegraphics[scale=0.2]{madelung_FMM_WS2}}\\   
 \subfloat[Error plot for $WS=3$] { \centering  \includegraphics[scale=0.2]{madelung_FMM_WS3}}\\    
-  
-  
-    \caption{Error plots for different set of parameters for the FMM. The error is computed as stated above. The plot are computed for $WS = 1,2,3$}    
+     \caption{Error plots for different set of parameters for the FMM. The error is computed as stated in equation (\ref{eq:errorNaCl}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)} 
+      
    \end{figure}  
-
+   
 	The FMM parameters are the following : Depth ranges from 1 to 5 and the multipole order range is from 1 to 40. The separation criterion WS ranges from 1 to 3.
 	What we can observe is what we can expect from the system : the system is converging to $0$ for higher multipole order values. However, we can see that the depth of the system has not that much influence on the system : The role of the depth will play a role when the algorithm will be parallelized. It can also be shown that the separation criterion WS plays a role in this system because of the periodicity of the system.
 	
 	
+	In figure 4.6 we can see the sum of the forces for the FMM method : The first thing we can see is that the depth parameter has not a very important influence on the accuracy of the system : It may have a bigger influence on the performance. Then, the system has a better accuracy when the separation criterion is higher : We can explain that by mentioning that is the separation criterion $WS$ is bigger, there is more direct space computations, hence a greater accuracy.
+
 	\begin{figure}[H]
-	   \includegraphics[scale=0.25]{madelung_PME}
+	   \includegraphics[scale=0.3]{madelung_PME}
+	    \centering 
+    \caption{Error plots for different set of parameters for the PME.  The error is also computed as shown (\ref{eq:errorNaCl})}    
+   \end{figure}  	
+	
+	Figure 4.7 shows the error plot for the PME method.	In this plot we can unexpectedly see some striped zones when the error is equal to zero. This may arise because of the strong periodicity of the system. In this simulation, there is one atom every 0.1 nm in each direction. If the interpolation grid for the PME method matches the atoms, it may lead to exact results.
+		
+	\begin{figure}[H]
+	   \includegraphics[scale=0.3]{gridPoints}
 	    \centering 
     \caption{Error plots for different set of parameters for the PME.}    
+		\label{fig:grid}   
+   \end{figure}  
+   
+   This hypothesis has been tested in Figure (\ref{fig:grid}) : The number of grid points used for each simulation has been plotted according to the corresponding error. It can be seen that the error is very small for a number of grid points of $20,40,60,80,120,160,240,280,300,320$ which are all multiple of 20. This would explain the striped pattern seen on the error plot figure 4.7.
+
+
+\section{Comparing with a random system}
+
+	Because of artifacts seen figure 4.10. We decided to simulated a system composed of $N=1000$ randomly generated particles within a box size of 100 nm. The parameter ranges are the same as section 4.5.
+
+	In this case we can't compare to an analytical solution, so the results have to be compared with a reference solution. In this case, I took the FMM forces with Depth=5, Multipole Order = 40 and WS = 2 as it is the FMM solution with the highest accuracy available. For each set parameters is computed the average relative error of the force compared to a reference solution.
+	
+	\begin{equation}
+	 \langle \epsilon_r \rangle	= \frac{1}{N}| \vec{F}_{PME} - \vec{F}_{\text{reference}} |
+	\end{equation}		
+	
+	where $|\cdot|$ is the Euclidean norm in $\mathbb{R^N}$
+
+		    \begin{figure}[H]
+  \label{fig:FMM_contour}
+    \centering  
+ \subfloat[Error plot for $WS=1$] { \centering   \includegraphics[scale=0.18]{random_FMM_WS1}}\\    
+  \subfloat[Error plot for $WS=2$] { \centering  \includegraphics[scale=0.18]{random_FMM_WS2}}\\   
+\subfloat[Error plot for $WS=3$] { \centering  \includegraphics[scale=0.18]{random_FMM_WS3}}\\    
+  
+  
+    \caption{Error plots for different set of parameters for the FMM. The error is computed as stated in equation (\ref{eq:errorNaCl}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)}    
    \end{figure}  
 
+
+\begin{figure}[H]
+	   \includegraphics[scale=0.3]{PME_error}
+	    \centering 
+    \caption{Error plots for different set of parameters for the PME.}    
+   \end{figure}
 
 \chapter{Conclusion}
 
