@@ -1,4 +1,4 @@
-\documentclass[11pt,twoside,a4paper]{report}
+\documentclass[10pt,twoside,a4paper]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -1061,11 +1061,11 @@ this allows the script to choose the version of gromacs compiled with double pre
 
 \subsection{Error plots}
 
-One way to measure the accuracy is to compare the force obtained experimentally with the analytic solution. In order to test the accuracy of one set of parameters, we will compute the sum of the euclidean norm for each atom :
+One way to measure the accuracy is to compare the force obtained in the numerical simulation with the analytic solution. In order to test the accuracy of one set of parameters, we will compute the sum of the Euclidean norm for each atom :
 
 \begin{equation}
 	\label{eq:errorNaCl}
-	\text{error} = \sum\limits_{i=0}^N ||\vec{F_i} - \vec{0}|| = \sum\limits_{i=0}^N ||\vec{F_i} - \vec{0}||
+	\text{error} = \sum\limits_{i=1}^N ||\vec{F_i} - \vec{0}|| = \sum\limits_{i=1}^N ||\vec{F_i} - \vec{0}||
 \end{equation}
 
  
@@ -1082,42 +1082,47 @@ One way to measure the accuracy is to compare the force obtained experimentally 
    \end{figure}  
    
 	The FMM parameters are the following : Depth ranges from 1 to 5 and the multipole order range is from 1 to 40. The separation criterion WS ranges from 1 to 3.
-	What we can observe is what we can expect from the system : the system is converging to $0$ for higher multipole order values. However, we can see that the depth of the system has not that much influence on the system : The role of the depth will play a role when the algorithm will be parallelized. It can also be shown that the separation criterion WS plays a role in this system because of the periodicity of the system.
+	What we can observe is what we expect from the system : it is converging to $0$ for higher multipole orders values. However, we can see that the depth of the FMM tree has not that much influence on the error : The role of the depth will play a role when the algorithm will be parallelized. It can also be shown that the separation criterion WS plays a role in this system because of the periodicity of the system.
 	
 	
-	In figure 4.6 we can see the sum of the forces for the FMM method : The first thing we can see is that the depth parameter has not a very important influence on the accuracy of the system : It may have a bigger influence on the performance. Then, the system has a better accuracy when the separation criterion is higher : We can explain that by mentioning that is the separation criterion $WS$ is bigger, there is more direct space computations, hence a greater accuracy.
+	Figure 4.6 shows the sum of the forces for the FMM method according to equation 4.5 : The first thing we can see is that the depth parameter has not a very important influence on the accuracy of the system : It may have a bigger influence on the performance. Then, the system has a better accuracy when the separation criterion is higher : We can explain that by mentioning that is the separation criterion $WS$ is bigger, there is more direct space computations, hence a greater accuracy.
 
 	\begin{figure}[H]
 	   \includegraphics[scale=0.3]{madelung_PME}
 	    \centering 
-    \caption{Error plots for different set of parameters for the PME.  The error is also computed as shown (\ref{eq:errorNaCl})}    
+    \caption{Error plots for different set of parameters for the PME.  The error is also computed as shown in equation (\ref{eq:errorNaCl})}    
    \end{figure}  	
 	
-	Figure 4.7 shows the error plot for the PME method.	In this plot we can unexpectedly see some striped zones when the error is equal to zero. This may arise because of the strong periodicity of the system. In this simulation, there is one atom every 0.1 nm in each direction. If the interpolation grid for the PME method matches the atoms, it may lead to exact results.
+	Figure 4.7 shows the accumulated force error for the PME method.	In this plot we can unexpectedly see some striped zones where the error is nearly zero. This may arise because of the crystal structure of the system. In this simulation, there is one atom every 0.1 nm in each direction. If the interpolation grid for the PME method matches the atoms, it may lead to exact results or exact cancellation of errors.
 		
 	\begin{figure}[H]
 	   \includegraphics[scale=0.3]{gridPoints}
 	    \centering 
-    \caption{Error plots for different set of parameters for the PME.}    
+    \caption{Pme force error according to equation 4.5 for different number of grid points along the x,y and z axis.}    
 		\label{fig:grid}   
    \end{figure}  
    
-   This hypothesis has been tested in Figure (\ref{fig:grid}) : The number of grid points used for each simulation has been plotted according to the corresponding error. It can be seen that the error is very small for a number of grid points of $20,40,60,80,120,160,240,280,300,320$ which are all multiple of 20. This would explain the striped pattern seen on the error plot figure 4.7.
+   This hypothesis has been tested in Figure (\ref{fig:grid}) : The number of grid points used for each simulation has been plotted according to the corresponding error. It can be seen that the error is very small for a number of grid points of $20,40,60,80,120,160,240,280,300,320$ which are all multiple of 20 and is two times the number of atoms (Na or Cl) in each dimension. This would explain the striped pattern seen on the error plot figure 4.7.
 
 
 \section{Comparing with a random system}
 
-	Because of artifacts seen figure 4.10. We decided to simulated a system composed of $N=1000$ randomly generated particles within a box size of 100 nm. The parameter ranges are the same as section 4.5.
+	Because of artifacts seen figure 4.10. We decided to switch to a system composed of $N=1000$ randomly generated particles within a box size of 100 nm. The parameter ranges are the same as section 4.5.
 
-	In this case we can't compare to an analytical solution, so the results have to be compared with a reference solution. In this case, I took the FMM forces with Depth=5, Multipole Order = 40 and WS = 2 as it is the FMM solution with the highest accuracy available. For each set parameters is computed the average relative error of the force compared to a reference solution.
+	In this case we cannot compare to an analytical solution, so the results have to be compared with a reference solution. In this case, I took the FMM forces with Depth=5, Multipole Order = 40 and WS = 2 as the reference as it is the FMM solution with the highest accuracy available. For each set of parameters is computed the average relative error of the force compared to a reference solution.
 	
 	\begin{equation}
-	 \langle \epsilon_r \rangle	= \frac{1}{N}| \vec{F}_{PME} - \vec{F}_{\text{reference}} |
-	\end{equation}		
+	 \langle \epsilon_r \rangle	= \frac{1}{N} \sum\limits_{i=1}^N|| \vec{F} - \vec{F}_{\text{reference}} ||
+	\label{eq:errorRandom}	
+	\end{equation}
 	
-	where $|\cdot|$ is the Euclidean norm in $\mathbb{R^N}$
+
+	where $||\cdot||$ is the Euclidean norm in $\mathbb{R^N}$
 
 		    \begin{figure}[H]
+		    
+We can observe in figure 4.9 a similar behavior as in figure 4.6 . The accuracy does not depend much on the tree depth but a lot more on the multipole order.		    
+		    
   \label{fig:FMM_contour}
     \centering  
  \subfloat[Error plot for $WS=1$] { \centering   \includegraphics[scale=0.18]{random_FMM_WS1}}\\    
@@ -1125,19 +1130,29 @@ One way to measure the accuracy is to compare the force obtained experimentally 
 \subfloat[Error plot for $WS=3$] { \centering  \includegraphics[scale=0.18]{random_FMM_WS3}}\\    
   
   
-    \caption{Error plots for different set of parameters for the FMM. The error is computed as stated in equation (\ref{eq:errorNaCl}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)}    
+    \caption{Error plots for different set of parameters for the FMM. The accumulated force error is computed as stated in equation (\ref{eq:errorRandom}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)}    
    \end{figure}  
 
+The same sort of plot is used to measure the average error between a simulation with the PME method and the FMM reference solution. 
 
 \begin{figure}[H]
 	   \includegraphics[scale=0.3]{PME_error}
 	    \centering 
-    \caption{Error plots for different set of parameters for the PME.}    
+    \caption{Force Error plots for different set of PME parameters.}    
    \end{figure}
 
-\chapter{Conclusion}
+We can see that the solution depends on both the the CutOff and the Fourier spacing. So in order to achieve a greater accuracy, it is possible to increase the cutoff as well as the grid spacing.\\
 
-Here I conclude and finish my thesis ....
+In our case, figure 4.10 shows how the simulation with the PME method compares with a system simulated with the following parameters : Depth=5 and MultipoleOrder=38.
+	Typical parameters of the PME are CutOff=1nm and Fourier Spacing=0.12. We can see that on the plot it gives an average relative error of the order of -2, that is to say of 1$\%$ . These results are consistent with the data obtained figure 4.3\\
+
+However, we didn't achieve to obtain a much better accuracy for these comparisons. It is still possible that there is still a difference in one of the two codes.
+
+\chapter{Conclusion and outlook}
+
+This Internship allows to get an idea on how the FMM and the PME methods compare. A set of scripts has been written to evaluate and compare both methods. The dipole correction was added to the FMM calculation so both systems rely on the same basis. Finally we managed to set simulation in order get a rule of thumb about the tuning of the parameters.\\
+
+We next things that would be needed to do in order to continue the project are to also take into account the computational time needed to achieve such a computation in order to choose between sets of parameters that have the same accuracy but not necessarily the same computation time
 	
 	
 	

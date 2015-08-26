@@ -1,0 +1,77 @@
+\documentclass[10pt,twoside,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{fancyhdr}
+\usepackage[toc,page]{appendix}
+\usepackage{subfig}
+
+
+\title{A super cool scientific Title ...}
+\author{Gautier VAILLANT}
+
+\fancypagestyle{newstyle}{
+\fancyhf{} % clear all header and footer fields
+\fancyhead[l]{\bfseries \nouppercase \rightmark} % except the center
+\fancyfoot[R]{\thepage} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\pagestyle{newstyle}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\setcounter{tocdepth}{4}
+
+\begin{document}
+
+\chapter*{Abstract}
+
+\pagenumbering{gobble}% Remove page numbers (and reset to 1)
+
+Simulating systems with long-range pairwise interactions is a frequently encountered challenge in scientific research.It plays an important role in Astrophysics to know the dynamics of galaxies, in plasma physics or in our case in biophysics.  A direct evaluation of these pairwise interactions leads to $\mathcal{O}(N^2)$, which obviously scaled badly with a system of size $N$. 
+Some other techniques, such as the PME (Particle Mesh Ewald) and the FMM (Fast Multipole Method) obtain a complexity of $\mathcal{O}(N\log(N))$ and $\mathcal{O}(N)$,  respectively these techniques also allow a greater scalability of the system for parallel computations.
+
+The aim of this internship is to study how the FMM compares to the PME, ie. which sets of parameters gives the same accuracy  for both methods. We developed some tools to compare the data from softwares simulating systems for both methods and study their accuracy. 
+\\
+\\
+\\
+
+La simulation de systèmes avec des interactions a longues distances est un problème très fréquemment rencontre dans la recherche scientifique. Elles jouent un rôle important en physique pour connaître la dynamique des galaxies, en physique des plasmas ou encore dans notre cas en biophysique. L'évaluation directe de ces interactions nous amène a une complexité en $\mathcal{O}(N^2)$, qui supporte difficilement la mise a l'échelle : De plus il est impossible avec cette méthode de pouvoir simuler un système infini.
+	Certaines techniques, telles que la PME (Particle Mesh Ewald) et la FMM (Fast Multipole Method) ont une complexité respectivement de $\mathcal{O}(N\log(N))$ et $\mathcal{O}(N)$ . Elles permettent de pouvoir gérer des systèmes avec conditions aux limites périodiques ; elles supportent aussi bien mieux la mise a l'échelle pour le calcul parallèle.
+	
+	Le but de ce stage est d'etudier comment la FMM peut ete comparee a la PME, c'est a dire quels ensemble de parameteres nous donne la meme precision four les deux methodes.
+
+
+
+\end{document}

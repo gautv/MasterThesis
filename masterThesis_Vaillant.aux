@@ -32,11 +32,11 @@
 \citation{patra2003molecular}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Radial distribution function (RDF) $g(r)$ between the two central atoms in the head-group of lipids: Cutoff distances are indicated by arrows. From \cite  {patra2003molecular} \relax }}{14}}
 \newlabel{fig:artefact}{{3.1}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Fourier Transform-Based methods}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Ewald Summation}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Fourier Transform-Based methods}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Ewald Summation}{14}}
 \newlabel{periodicSum}{{3.6}{15}}
+\newlabel{Vrecip}{{3.9}{15}}
 \citation{toukmaji1996ewald}
-\newlabel{Vrecip}{{3.9}{16}}
 \newlabel{ewaldDirect}{{3.11}{16}}
 \newlabel{ewaldReciprocal}{{3.12}{16}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}PME}{16}}
@@ -44,49 +44,49 @@
 \citation{kutzner2013scaling}
 \citation{kutzner2013scaling}
 \citation{dachsel2010corrected}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces  Parallel efficiency of three GROMACS MD simulations of different size (81k - 12M particles). The parallel efficiency on N nodes is the execution time $t_1$ divided by N times the execution time on N nodes. $E_N = t_1 / (N\cdot t_N)$. Horizontal grey line indicates perfect scaling.\relax }}{18}}
-\newlabel{fig:scaling}{{3.2}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces  Parallel efficiency of three GROMACS MD simulations of different size (81k - 12M particles). The parallel efficiency on N nodes is the execution time $t_1$ divided by N times the execution time on N nodes. $E_N = t_1 / (N\cdot t_N)$. Horizontal grey line indicates perfect scaling.\relax }}{17}}
+\newlabel{fig:scaling}{{3.2}{17}}
+\citation{phdIvo}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Tree-based methods}{18}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Mathematical preliminaries}{18}}
-\citation{phdIvo}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Two particles $A(a,\alpha ,\beta )$ and $R(r,\theta ,\phi )$, separated by a distance $d$\relax }}{19}}
-\newlabel{fig:poster}{{3.3}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Two particles $A(a,\alpha ,\beta )$ and $R(r,\theta ,\phi )$, separated by a distance $d$\relax }}{18}}
+\newlabel{fig:poster}{{3.3}{18}}
 \newlabel{eq:order}{{3.18}{19}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Scheme of two particles expanded according to two different origins\relax }}{20}}
 \newlabel{fig:bipolar}{{3.4}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Workflow of the algorithm}{20}}
+\@writefile{toc}{\contentsline {subsubsection}{Splitting the Space}{20}}
 \citation{phdIvo}
 \citation{phdIvo}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Workflow of the algorithm}{21}}
-\@writefile{toc}{\contentsline {subsubsection}{Splitting the Space}{21}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Example of a division of the space in boxes. The example is in 2D so the structure of the space is called a \textit  {quadtree}.\relax }}{21}}
 \newlabel{fig:depth}{{3.5}{21}}
 \@writefile{toc}{\contentsline {subsubsection}{Defining a Separation Criterion}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of the influence of the separation criterion $ws$ for a given box $A$, from left to right, $ws = 1,2,3$. (from \cite  {phdIvo})\relax }}{21}}
+\newlabel{fig:separation}{{3.6}{21}}
 \citation{phdIvo}
 \citation{phdIvo}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of the influence of the separation criterion $ws$ for a given box $A$, from left to right, $ws = 1,2,3$. (from \cite  {phdIvo})\relax }}{22}}
-\newlabel{fig:separation}{{3.6}{22}}
+\citation{phdIvo}
+\citation{phdIvo}
 \@writefile{toc}{\contentsline {subsubsection}{PASS 1 : Computing the Multipole moments}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example in 1-D showing the shifting of the multipole moments using the M2M operator. (from \cite  {phdIvo}) \relax }}{22}}
+\newlabel{fig:multipole}{{3.7}{22}}
+\@writefile{toc}{\contentsline {subsubsection}{PASS 2 : Transforming distant expansions into multipoles}{22}}
 \citation{phdIvo}
 \citation{phdIvo}
 \citation{phdIvo}
 \citation{phdIvo}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Example in 1-D showing the shifting of the multipole moments using the M2M operator. (from \cite  {phdIvo}) \relax }}{23}}
-\newlabel{fig:multipole}{{3.7}{23}}
-\@writefile{toc}{\contentsline {subsubsection}{PASS 2 : Transforming distant expansions into multipoles}{23}}
 \newlabel{fig:M2L}{{\caption@xref {fig:M2L}{ on input line 585}}{23}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Example in 1-D showing the transformation of distant expansions into multipoles (from \cite  {phdIvo})\relax }}{23}}
-\citation{phdIvo}
-\citation{phdIvo}
-\newlabel{fig:parentBox}{{3.9a}{24}}
+\newlabel{fig:parentBox}{{3.9a}{23}}
 \newlabel{sub@fig:parentBox}{{(a)}{a}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Interation Rules for the transformation of the multipole expansions (from \cite  {phdIvo})\relax }}{24}}
-\newlabel{fig:multipole}{{3.9}{24}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {First, the parents of the box are chosen}}}{24}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Then, then children of the parents are chosen. Then the separation criterion can apply}}}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Interation Rules for the transformation of the multipole expansions (from \cite  {phdIvo})\relax }}{23}}
+\newlabel{fig:multipole}{{3.9}{23}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {First, the parents of the box are chosen}}}{23}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Then, then children of the parents are chosen. Then the separation criterion can apply}}}{23}}
 \@writefile{toc}{\contentsline {subsubsection}{PASS 3 : Shift Taylor-Like expansions down the tree}{24}}
 \newlabel{fig:L2L}{{\caption@xref {fig:L2L}{ on input line 622}}{24}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces Example in 1-D showing the shifting of the local moments using the L2L operator. (from \cite  {phdIvo}) \relax }}{24}}
-\@writefile{toc}{\contentsline {subsubsection}{PASS 4 : Computing forces and Energies}{25}}
+\@writefile{toc}{\contentsline {subsubsection}{PASS 4 : Computing forces and Energies}{24}}
 \newlabel{fig:farfield}{{\caption@xref {fig:farfield}{ on input line 644}}{25}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Situation after PASS 3 \relax }}{25}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Comparing FMM and PME accuracy}{26}}
@@ -97,54 +97,55 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Structure of a File}{26}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}PME parameters}{27}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Command to launch a GROMACS simulation }{27}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Presentation of fmsolvr}{28}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Presentation of fmsolvr}{27}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}FMM Parameters}{28}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Comparing GROMACS(PME) and fmsolvr(FMM) }{29}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Comparing GROMACS(PME) and fmsolvr(FMM) }{28}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}File manipulation}{29}}
 \@writefile{toc}{\contentsline {subsubsection}{Making GROMACS only compute electrostatics forces}{29}}
 \@writefile{toc}{\contentsline {subsubsection}{Assure compatibility between *.qxyz and *.pdb files}{29}}
-\@writefile{toc}{\contentsline {subsubsection}{Output positions and forces to a Text file for GROMACS}{30}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Dipole Correction}{30}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Silicamelt computation}{30}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Study of a two-particle system and dipole correction}{31}}
-\newlabel{eq:dipoleCorrection}{{4.3}{31}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the euclidean norm of the force for PME (Blue Square), FMM without correction (black) and with correction(red). It is possible to see that the dipole correction makes the FMM magnitude much closer to the PME.\relax }}{32}}
-\newlabel{fig:triArray}{{\caption@xref {fig:triArray}{ on input line 903}}{33}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Structure of the array containing the multipoles $\omega _{lm}\textbf  {a})$ : the 'm' values are on the y-axis and the 'l'-values are on the x-axis. The dipole moment is contained in the boxes (1,1), (1,0) and (1,-1) \relax }}{33}}
-\newlabel{fig:triArray}{{4.2}{33}}
-\@writefile{toc}{\contentsline {subsubsection}{Back to the silicamelt simulation with dipole correction}{34}}
-\newlabel{fig:histogram}{{\caption@xref {fig:histogram}{ on input line 982}}{35}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Histogram representing the relative error for a silicamelt simulation : Top (a) histogram without dipole correction, bottom (b) with dipole correction.\relax }}{35}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Histogram without correction}}}{35}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Histogram with correction}}}{35}}
-\newlabel{fig:magnitude}{{\caption@xref {fig:magnitude}{ on input line 998}}{36}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Figure representing the Magnitude of the force on the x-axis and the relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction.\relax }}{36}}
-\newlabel{fig:magnitude}{{4.4}{36}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Comparing with an analytical solution : the NaCl system}{36}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Generating the system}{36}}
-\newlabel{fig:nacl_system}{{\caption@xref {fig:nacl_system}{ on input line 1019}}{37}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces NaCl system generated with the script described above : The Blue atoms are Na atoms and the Green ones are Cl atoms. The Following image has been rendered using the visualization software VMD (Visual Molecular Dynamics)\relax }}{37}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Some explanations on the Owl cluster}{37}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Error plots}{38}}
-\newlabel{eq:errorNaCl}{{4.5}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Error plots for different set of parameters for the FMM. The error is computed as stated in equation (4.5\hbox {}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)\relax }}{39}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Error plot for $WS=1$}}}{39}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Error plot for $WS=2$}}}{39}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Error plot for $WS=3$}}}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Error plots for different set of parameters for the PME. The error is also computed as shown (4.5\hbox {})\relax }}{40}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Error plots for different set of parameters for the PME.\relax }}{41}}
-\newlabel{fig:grid}{{4.8}{41}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Comparing with a random system}{41}}
-\newlabel{fig:FMM_contour}{{\caption@xref {fig:FMM_contour}{ on input line 1121}}{43}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Error plots for different set of parameters for the FMM. The error is computed as stated in equation (4.5\hbox {}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)\relax }}{43}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Error plot for $WS=1$}}}{43}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Error plot for $WS=2$}}}{43}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Error plot for $WS=3$}}}{43}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Error plots for different set of parameters for the PME.\relax }}{44}}
+\@writefile{toc}{\contentsline {subsubsection}{Output positions and forces to a Text file for GROMACS}{29}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Dipole Correction}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Silicamelt computation}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Study of a two-particle system and dipole correction}{30}}
+\newlabel{eq:dipoleCorrection}{{4.3}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Figure representing the distance between two particles the x-axis (here 55,60,65,70 nm) and the euclidean norm of the force for PME (Blue Square), FMM without correction (black) and with correction(red). It is possible to see that the dipole correction makes the FMM magnitude much closer to the PME.\relax }}{31}}
+\newlabel{fig:triArray}{{\caption@xref {fig:triArray}{ on input line 903}}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Structure of the array containing the multipoles $\omega _{lm}\textbf  {a})$ : the 'm' values are on the y-axis and the 'l'-values are on the x-axis. The dipole moment is contained in the boxes (1,1), (1,0) and (1,-1) \relax }}{32}}
+\newlabel{fig:triArray}{{4.2}{32}}
+\@writefile{toc}{\contentsline {subsubsection}{Back to the silicamelt simulation with dipole correction}{33}}
+\newlabel{fig:histogram}{{\caption@xref {fig:histogram}{ on input line 982}}{34}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Histogram representing the relative error for a silicamelt simulation : Top (a) histogram without dipole correction, bottom (b) with dipole correction.\relax }}{34}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Histogram without correction}}}{34}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Histogram with correction}}}{34}}
+\newlabel{fig:magnitude}{{\caption@xref {fig:magnitude}{ on input line 998}}{35}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Figure representing the Magnitude of the force on the x-axis and the relative error in the y-axis. The blue points represent the force before the dipole correction,then red points after the dipole correction.\relax }}{35}}
+\newlabel{fig:magnitude}{{4.4}{35}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Comparing with an analytical solution : the NaCl system}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Generating the system}{35}}
+\newlabel{fig:nacl_system}{{\caption@xref {fig:nacl_system}{ on input line 1019}}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces NaCl system generated with the script described above : The Blue atoms are Na atoms and the Green ones are Cl atoms. The Following image has been rendered using the visualization software VMD (Visual Molecular Dynamics)\relax }}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Some explanations on the Owl cluster}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Error plots}{37}}
+\newlabel{eq:errorNaCl}{{4.5}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Error plots for different set of parameters for the FMM. The error is computed as stated in equation (4.5\hbox {}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)\relax }}{38}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Error plot for $WS=1$}}}{38}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Error plot for $WS=2$}}}{38}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Error plot for $WS=3$}}}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Error plots for different set of parameters for the PME. The error is also computed as shown in equation (4.5\hbox {})\relax }}{39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Pme force error according to equation 4.5 for different number of grid points along the x,y and z axis.\relax }}{40}}
+\newlabel{fig:grid}{{4.8}{40}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Comparing with a random system}{40}}
+\newlabel{eq:errorRandom}{{4.6}{40}}
+\newlabel{fig:FMM_contour}{{\caption@xref {fig:FMM_contour}{ on input line 1126}}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Error plots for different set of parameters for the FMM. The accumulated force error is computed as stated in equation (4.6\hbox {}). The plot are computed for $WS =$ 1(top), 2(middle), 3(bottom)\relax }}{42}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Error plot for $WS=1$}}}{42}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Error plot for $WS=2$}}}{42}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Error plot for $WS=3$}}}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Force Error plots for different set of PME parameters.\relax }}{43}}
 \citation{*}
 \bibstyle{abbrv}
 \bibdata{biblio}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusion}{45}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusion and outlook}{44}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
@@ -160,15 +161,15 @@
 \bibcite{patra2003molecular}{10}
 \bibcite{pronk2013gromacs}{11}
 \bibcite{toukmaji1996ewald}{12}
-\@writefile{toc}{\contentsline {chapter}{Appendices}{48}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Glossary and Abbreviations}{49}}
+\@writefile{toc}{\contentsline {chapter}{Appendices}{47}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Glossary and Abbreviations}{48}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Structure of Gromacs files}{50}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Structure of Gromacs files}{49}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {B.1}pdb file}{50}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.2}top file}{50}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.3}mdp file (longe-range electrostatics part)}{51}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}pdb file}{49}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}top file}{49}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.3}mdp file (longe-range electrostatics part)}{50}}
